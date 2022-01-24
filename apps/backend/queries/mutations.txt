@@ -1,0 +1,38 @@
+mutation{
+  AddToCart(productdetails:{productId:"5fba26a7d8e2a87552571bd9",
+  variationId:"5fba26a7d8e2a87552571bd8"}){
+    cart{
+      cartLength
+      totalPrice
+      products{
+        product {
+          id
+        }
+        price
+        variation {
+          available
+          discountPercent
+          quantity
+          sku
+          typeVariation
+          typeVariationName
+        }
+        quantity
+        totalPrice
+        }
+      }
+    }
+}
+
+#create order
+mutation{
+  createOrder(input:{addressId:"gg"}){
+    order{
+      id
+      paid
+      }
+    orderItems {
+      id
+    }
+    }}
+
