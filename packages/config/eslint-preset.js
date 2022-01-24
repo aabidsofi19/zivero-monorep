@@ -10,6 +10,7 @@ module.exports = {
     node: true,
   },
   extends: ["prettier",'eslint:recommended', 'plugin:vue/recommended', '@vue/airbnb'],
+  plugins: ["prettier"],
   parserOptions: {
     parser: 'babel-eslint',
   },
