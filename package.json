@@ -32,7 +32,10 @@
         "outputs": []
       },
       "dev": {
-        "cache": false
+        
+      },
+      "format":{
+        "outputs":[]
       }
     }
   },
