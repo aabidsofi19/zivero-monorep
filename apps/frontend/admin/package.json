@@ -8,11 +8,16 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "graphql-config": "*",
     "router": "^2.0.0-beta.1",
     "utils": "*",
     "vue": "^3.2.25",
-    "vue-awesome": "^4.5.0",
+    
+    "vue-chart-3": "^3.0.9",
+    "chart.js":"^3.0.0",
     "vue-router": "4",
     "vuex": "4"
   },

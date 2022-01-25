@@ -3,6 +3,15 @@ module.exports = {
   plugins: [],
 
   theme: {
+    // screens: {
+    //   sm: { min: '639px' },
+
+    //   md: { max: '767px' },
+
+    //   lg: { max: '1023px' },
+
+    //   xl: { max: '1279px' },
+    // },
     extend: {
       colors: {
         primary: '#DEB992',

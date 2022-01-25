@@ -1,23 +1,26 @@
-<script setup></script>
+<script setup>
+import useNavdrawer from '../composables/useNavdrawer'
+import { FontAwesomeIcon as fIcon } from '@fortawesome/vue-fontawesome'
+const { toggleDrawer } = useNavdrawer()
+</script>
 
 <template>
-  <nav
-    class="w-full shadow-sm bg-background border-b-2 border-gray-300 fixed p-3 z-50 flex justify-between px-4 items-center"
+  <!-- start navbar -->
+  <div
+    class="fixed w-screen z-10 md:relative flex flex-row flex-wrap items-center justify-between bg-white p-3 border-b border-gray-300"
   >
-    <p class="text-white uppercase text-lg">Zivero Admin</p>
-
-    <div class="w-1/3">
-      <input
-        id="rounded-email"
-        type="text"
-        class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-        placeholder="search"
-      />
+    <!-- logo -->
+    <div class="w-56 flex flex-row items-center">
+      <button @click="toggleDrawer()" class="mr-4 text-right text-gray-900 md:hidden">
+        <f-icon icon="bars"></f-icon>
+      </button>
+      <!-- <img src="img/logo.png" class="w-10 flex-none" /> -->
+      <strong class="capitalize ml-1 flex-1">zivero</strong>
     </div>
-
-    <div class="text-lg hover:rounded-md hp">
-      <span class="bg-accent rounded-full py-1 px-2">A</span>
-      <span class="mx-2 text-white">Aabid</span>
-    </div>
-  </nav>
+  </div>
 </template>
+
+<style scoped lang="sass">
+.nav-icon-link
+  @apply mr-2 transition duration-500 ease-in-out hover:text-gray-900
+</style>
