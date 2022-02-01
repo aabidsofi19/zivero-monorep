@@ -1,0 +1,13 @@
+{
+  "name": "graphql-client",
+  "version": "0.0.0",
+  "main": "index.js",
+  
+  "dependencies": {
+    "config":"*",
+    "@apollo/client": "^3.5.8",
+    "utils":"*",
+    "graphql": "^16.3.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

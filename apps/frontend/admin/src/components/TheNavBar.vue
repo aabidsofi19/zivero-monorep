@@ -1,6 +1,7 @@
 <script setup>
-import useNavdrawer from '../composables/useNavdrawer'
 import { FontAwesomeIcon as fIcon } from '@fortawesome/vue-fontawesome'
+import useNavdrawer from '../composables/useNavdrawer'
+
 const { toggleDrawer } = useNavdrawer()
 </script>
 
@@ -11,7 +12,10 @@ const { toggleDrawer } = useNavdrawer()
   >
     <!-- logo -->
     <div class="w-56 flex flex-row items-center">
-      <button @click="toggleDrawer()" class="mr-4 text-right text-gray-900 md:hidden">
+      <button
+        class="mr-4 text-right text-gray-900 md:hidden"
+        @click="toggleDrawer()"
+      >
         <f-icon icon="bars"></f-icon>
       </button>
       <!-- <img src="img/logo.png" class="w-10 flex-none" /> -->

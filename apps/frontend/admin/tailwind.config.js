@@ -1,17 +1,9 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  plugins: [],
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  plugins: [require('@tailwindcss/forms')],
 
   theme: {
-    // screens: {
-    //   sm: { min: '639px' },
-
-    //   md: { max: '767px' },
-
-    //   lg: { max: '1023px' },
-
-    //   xl: { max: '1279px' },
-    // },
     extend: {
       colors: {
         primary: '#DEB992',

@@ -5,21 +5,25 @@ import useNavdrawer from '../composables/useNavdrawer'
 const menuItems = {
   home: {
     icon: 'home',
-    link: '/',
+    to: { name: 'dashboard' },
   },
   products: {
     icon: 'tag',
+    to: { name: 'products-all' },
     submenu: {
       'All products': {
         icon: null,
+        to: { name: 'products-all' },
       },
     },
   },
   orders: {
+    to: { name: 'products' },
     icon: 'box',
     submenu: true,
   },
   customers: {
+    to: { name: 'products' },
     icon: 'user',
     submenu: true,
   },
@@ -34,23 +38,42 @@ function clickMenuLink(key) {
 </script>
 
 <template>
-  <transition name="slide-fade" :duration="1000">
+  <transition
+    name="fade"
+    :duration="1000"
+  >
     <nav
-      class="drawer fixed top-0 bottom-0 w-2/3 bg-gray-100 h-auto z-50 md:top-16 md:my-8 md:z-0 p-5 md:w-60"
       v-if="isDrawerOpen"
+      class="drawer fixed top-0 bottom-0 w-2/3 bg-white h-auto z-50 md:pt-16 md:z-0 p-5 md:w-60 border-r-2 shadow-sm md:shadow-none"
     >
       <div class="text-right px-4 text-xl md:hidden w-full">
-        <font-awesome-icon icon="times" @click="toggleDrawer"></font-awesome-icon>
+        <font-awesome-icon
+          icon="times"
+          @click="toggleDrawer"
+        ></font-awesome-icon>
       </div>
 
-      <div v-for="(item, key) in menuItems" :key="key">
-        <a href="#" class="nav-link" :class="{ 'bg-blue-100 text-green-900': active == key }">
+      <div
+        v-for="(item, key) in menuItems"
+        :key="key"
+      >
+        <router-link
+          :to="item.to"
+          :class="active == key ? 'nav-link-active' : 'nav-link'"
+        >
           <font-awesome-icon :icon="item.icon" />
-          <span class="mx-4 text-lg font-bold" @click="clickMenuLink(key)"> {{ key }} </span>
-        </a>
+          <span
+            class="mx-4 text-lg font-bold"
+            @click="clickMenuLink(key)"
+          > {{ key }} </span>
+        </router-link>
 
         <div v-show="active == key">
-          <a v-for="(submenu, key_) in item.submenu" :key="key_" class="nav-link">
+          <a
+            v-for="(submenu, key_) in item.submenu"
+            :key="key_"
+            class="nav-link"
+          >
             <font-awesome-icon :icon="submenu.icon" />
             <span class="pl-8 text-lg font-normal"> {{ key_ }} </span>
             <span class="flex-grow text-right"> </span>
@@ -62,17 +85,17 @@ function clickMenuLink(key) {
 </template>
 
 <style>
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.3s ease-in;
 }
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateX(-100%);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
-}
+
+/* .fade-enter-to {
+  transform: translateX(100%);
+} */
 </style>

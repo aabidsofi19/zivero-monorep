@@ -18,6 +18,11 @@ import {
   faBell,
   faBars,
   faTimes,
+  faSearch,
+  faArrowLeft,
+  faPlus,
+  faCheck,
+  faSort,
 } from '@fortawesome/free-solid-svg-icons'
 
 export default [
@@ -40,4 +45,9 @@ export default [
   faUserTimes,
   faBell,
   faBars,
+  faSearch,
+  faArrowLeft,
+  faPlus,
+  faCheck,
+  faSort,
 ]

@@ -8,20 +8,27 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
-    "graphql-config": "*",
+    "@headlessui/vue": "^1.4.3",
+    "@tinymce/tinymce-vue": "^4",
+    "@vue/apollo-composable": "^4.0.0-alpha.16",
+    "chart.js": "^3.0.0",
+    "graphql": "^16.3.0",
+    "graphql-tag": "^2.12.6",
     "router": "^2.0.0-beta.1",
     "utils": "*",
+    "graphql-client": "*",
+   
     "vue": "^3.2.25",
-    
     "vue-chart-3": "^3.0.9",
-    "chart.js":"^3.0.0",
     "vue-router": "4",
     "vuex": "4"
   },
-  "devDependencies": {
+  "devDependencies": {  
+    "@tailwindcss/forms": "^0.4.0",
     "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.2",
     "config": "*",
