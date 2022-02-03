@@ -1,9 +1,9 @@
 import graphene
 from graphene_django.types import ObjectType
 
-from .models import Product, Category
+from .models import Product, Category, Variant
 from filters.schema import FilterInput
-from .types import *
+from .types import ProductsType, VariantType, ProductType, CategoryType
 
 
 class Query(ObjectType):
@@ -15,6 +15,7 @@ class Query(ObjectType):
     )
     product = graphene.Field(ProductType, id=graphene.String())
     categories = graphene.List(CategoryType)
+    variants = graphene.List(VariantType)
 
     def resolve_product(self, info, id, **kwargs):
         product = Product.objects(id=id).first()
@@ -25,7 +26,7 @@ class Query(ObjectType):
         # print("fetching products")
         # print("pagenb :- ",pageNb)
         limit = 30
-        offset = (pageNb - 1) * limit
+        offset = (pageNb - 1) * limitBrandType, VariationType, SubCategoryType
         if filter:
             products_set = Product().filterby(filter)
             Products = products_set[offset : (offset + limit)]
@@ -46,6 +47,9 @@ class Query(ObjectType):
         categories = Category.objects.all()
         # print(categories)
         return categories
+
+    def resolve_variants(self, info, **kwargs):
+        return Variant.objects.all()
 
 
 """
@@ -77,7 +81,7 @@ class VariationInput(graphene.InputObjectType):
     price = graphene.Int()
     discount_percent = graphene.Int()
     images = graphene.List(graphene.String)
-    sku  = graphene.UUID()
+    sku = graphene.UUID()
     variant = graphene.List(graphene.ID)
 
 
@@ -87,12 +91,15 @@ class ProductInput(graphene.InputObjectType):
     gender = graphene.String()
     brand = graphene.String()
     category = graphene.String()
-    desscription = graphene.String()
+    description = graphene.String()
     variations = graphene.List(VariationInput)
     tags = graphene.List(graphene.String)
     images = graphene.List(graphene.String)
-    available = graphene.Boolean()
+    # available = graphene.Boolean()
     status = graphene.String()
+    price = graphene.Int()
+    quantity = graphene.Int()
+    discount_percent = graphene.Int()
 
 
 class createProduct(graphene.Mutation):
