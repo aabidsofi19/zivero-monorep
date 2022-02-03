@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-card-heading> Variants </v-card-heading>
+
     <!-- {{ variantMap }} -->
     <!-- {{ variationCombinations }} -->
     <v-card-body class="'p-0">
@@ -41,43 +42,15 @@
             </thead>
 
             <tbody>
-              <tr v-for="variantCombination in variationCombinations" :key="variantLabel(variantCombination)">
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <div class="flex items-center">
-                    <!-- <div class="flex-shrink-0">
-                      <a href="#" class="block relative">
-                        <img
-                          alt="profil"
-                          src="/images/person/8.jpg"
-                          class="mx-auto object-cover rounded-full h-10 w-10"
-                        />
-                      </a>
-                    </div> -->
-                    <div class="ml-3">
-                      <p class="text-gray-900 whitespace-no-wrap">
-                        {{ variantLabel(variantCombination) }}
-                        <!-- {{ variantCombination }} -->
-                        <!-- {{ variantCombination.reduce((x, y) => x + ' / ' + y) }} -->
-                      </p>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <v-input placeholder="$ 100"></v-input>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <v-input :value="0"></v-input>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <v-input></v-input>
-                </td>
-                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <div class="flex border border-gray-400 rounded-md text-gray-600">
-                    <button class="py-2 border-r px-5 border-gray-400 hover:bg-gray-200">Edit</button>
-                    <button class="py-2 px-5 hover:bg-gray-200">Delete</button>
-                  </div>
-                </td>
-              </tr>
+              <variants-table-row
+                v-for="variantCombination in variationCombinations"
+                :key="rowKey(variantCombination)"
+                v-model="variations[rowKey(variantCombination)]"
+                :variant-ids="getVariantIds(variantCombination)"
+                :variants="variantCombination"
+                @remove:model-value="removeVariation(rowKey(variantCombination))"
+              >
+              </variants-table-row>
             </tbody>
           </table>
         </div>
@@ -88,37 +61,55 @@
 
 <script>
 import { VCard, VCardBody, VCardHeading } from './AppCard.vue'
-import VInput from './BaseInput.vue'
+import VariantsTableRow from './ProductCreateVariantsTableRow.vue'
 
 export default {
   components: {
     VCard,
     VCardBody,
     VCardHeading,
-    VInput,
+    VariantsTableRow,
   },
   props: {
-    variants: {
+    selectedVariants: {
       type: Object,
-      default: {},
+      required: true,
+    },
+    allVariants: {
+      type: Array,
+      required: true,
+    },
+    modelValue: {
+      type: Array,
+      required: true,
     },
   },
+  emits: ['update:modelValue'],
+  data() {
+    return {
+      variations: {},
+    }
+  },
+
   computed: {
+    // returns cartesian products of the diferent types of variants
+    // [[{color:red},{size:xl},[...]],[...]]
     variationCombinations() {
       const cartesian = (...a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat())))
-      if (Object.keys(this.variants).length === 0) {
+      if (Object.keys(this.selectedVariants).length === 0) {
         return []
       }
-      // const combinations = cartesian(...Object.values(this.variants))
-      // return combinations
+
       return cartesian(...this.variantMap)
     },
+
+    // returns the variantsList in the form [[{color:red},{color:green}],[...]]
     variantMap() {
-      let map = []
-      Object.keys(this.variants).forEach(key => {
-        let temp = []
-        this.variants[key].forEach(value => {
-          let variant = {}
+      const map = []
+      Object.keys(this.selectedVariants).forEach(key => {
+        const temp = []
+        this.selectedVariants[key].forEach(value => {
+          const variant = {}
           variant[key] = value
           temp.push(variant)
         })
@@ -128,19 +119,50 @@ export default {
       return map
     },
   },
+  watch: {
+    variations: {
+      deep: true,
+      handler(variations) {
+        this.$emit('update:modelValue', Object.values(variations))
+      },
+    },
+  },
   methods: {
-    variantLabel(variantCombination) {
-      if (variantCombination instanceof Array) {
-        console.log(variantCombination)
-        let label = variantCombination.map(variant => {
-          // console.log(variant)
-          return Object.values(variant)[0]
+    getVariantId(variant) {
+      const key = Object.keys(variant)[0]
+      const val = variant[key]
+      let id = ''
+
+      this.allVariants.forEach(el => {
+        if (el.name === key && el.value === val) {
+          id = el.id
+        }
+      })
+
+      return id
+    },
+
+    getVariantIds(variants) {
+      const ids = []
+
+      if (variants instanceof Array) {
+        variants.forEach(variant => {
+          ids.push(this.getVariantId(variant))
         })
-        console.log(label)
-        label = label.reduce((x, y) => x + ' / ' + y)
-        return label
+      } else {
+        ids.push(this.getVariantId(variants))
       }
-      return Object.values(variantCombination)[0]
+
+      return ids
+    },
+
+    rowKey(variantCombination) {
+      const ids = this.getVariantIds(variantCombination)
+
+      return ids.join()
+    },
+    removeVariation(key) {
+      delete this.variations[key]
     },
   },
 }

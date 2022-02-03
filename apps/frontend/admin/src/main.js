@@ -24,7 +24,7 @@ const app = createApp({
 
   render: () => h(App),
 })
-app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.use(store)
 app.use(router)
 app.mount('#app')

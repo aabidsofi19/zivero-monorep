@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, ref } from 'vue'
+
 const props = defineProps(['title'])
 const active = ref(false)
 </script>

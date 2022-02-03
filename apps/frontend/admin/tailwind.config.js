@@ -5,6 +5,12 @@ module.exports = {
 
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Poppins', 'Roboto', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+        body: ['Poppins', 'sans-serif'],
+        display: ['Playfair Display', 'serif'],
+      },
       colors: {
         primary: '#DEB992',
         secondary: '#e98074',

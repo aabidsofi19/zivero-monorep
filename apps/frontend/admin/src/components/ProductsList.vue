@@ -39,7 +39,7 @@
       </div>
     </div>
     <v-card-footer>
-      <v-pagination @goToPage="loadPage" :totalPages="totalPages" :currentPage="currentPage"></v-pagination>
+      <v-pagination :total-pages="totalPages" :current-page="currentPage" @goToPage="loadPage"></v-pagination>
     </v-card-footer>
   </v-card>
 </template>

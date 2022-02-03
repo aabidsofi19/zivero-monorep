@@ -1,9 +1,18 @@
 <script setup>
+import { reactive, ref, watch, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { required, alphaNum } from '@vuelidate/validators'
+
 import { VCard, VCardBody, VCardHeading, VCardFooter } from './AppCard.vue'
 import VInput from './BaseInput.vue'
-import { reactive, ref, watch, computed } from 'vue'
 
 import ProductOptionForm from './ProductOptionForm.vue'
+
+const listNotEmpty = value => {
+  console.log('listNotEmpty', value.length)
+
+  return value.length > 0
+}
 
 const props = defineProps({
   modelValue: {
@@ -17,13 +26,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
-
-// const options = {
-//   color: ['red', 'green'],
-//   size: ['small', 'medium', 'large'],
-// }
-
-// const selectedOptions = ref({})
 
 const selectedOptions = computed({
   get: () => props.modelValue,
@@ -48,13 +50,22 @@ const cleanOptions = computed(() => {
 
 const addOptionData = reactive({
   option: Object.keys(cleanOptions.value)[0],
+  // option: null,
   variants: [],
 })
 
 const editOptionData = reactive({
   option: '',
-  variants: '',
+  variants: [],
 })
+
+const rules = {
+  option: { required, alphaNum },
+  variants: { listNotEmpty, required },
+}
+
+const addValidator = useVuelidate(rules, addOptionData)
+// const editValidator = useVuelidate(rules, editOptionData)
 
 const showEditForm = option => {
   editing.value = option
@@ -76,13 +87,16 @@ const editableOptions = computed(() => {
   return optionsCopy
 })
 
-const saveOption = () => {
-  console.log('onDone')
-
-  selectedOptions.value[addOptionData.option] = addOptionData.variants
-  addOptionData.option = Object.keys(cleanOptions.value)[0]
-  addOptionData.variants = []
-  addFormShown.value = false
+const saveOption = async () => {
+  const valid = await addValidator.value.$validate()
+  console.log(valid)
+  if (valid) {
+    console.log('onDone')
+    selectedOptions.value[addOptionData.option] = addOptionData.variants
+    addOptionData.option = Object.keys(cleanOptions.value)[0]
+    addOptionData.variants = []
+    addFormShown.value = false
+  }
 }
 </script>
 
@@ -90,13 +104,13 @@ const saveOption = () => {
   <v-card outlined>
     <v-card-heading>Options</v-card-heading>
 
-    <div class="border-b p-3 py-6" v-for="(values, option) in selectedOptions" :key="option">
+    <div v-for="(values, option) in selectedOptions" :key="option" class="border-b p-3 py-6">
       <!-- selected Options -->
 
       <div v-if="editing != option">
         <div class="flex justify-between">
           <span class="text-black font-bold">{{ option }}</span>
-          <button @click="showEditForm(option)" class="px-3 py-1 rounded font-thin text-black border hover:bg-gray-100">
+          <button class="px-3 py-1 rounded font-thin text-black border hover:bg-gray-100" @click="showEditForm(option)">
             Edit
           </button>
         </div>
@@ -116,7 +130,11 @@ const saveOption = () => {
     </div>
 
     <v-card-body v-if="addFormShown">
-      <product-option-form v-model="addOptionData" :options="cleanOptions"></product-option-form>
+      <product-option-form
+        v-model="addOptionData"
+        :options="cleanOptions"
+        :validator="addValidator"
+      ></product-option-form>
       <button class="px-3 py-1 rounded font-thin text-black border hover:bg-gray-100" @click="saveOption">Done</button>
     </v-card-body>
     <v-card-footer>

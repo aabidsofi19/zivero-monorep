@@ -25,9 +25,10 @@ const selectItem = () => {
 const selected = computed(() => {
   if (selectedValue.value instanceof Array) {
     return props.value in selectedValue.value
-  } else {
-    return selectedValue.value == props.value
-  }
+  } 
+    
+return selectedValue.value == props.value
+  
 })
 
 const checkbox = ref(true)
@@ -35,7 +36,7 @@ const checkbox = ref(true)
 
 <template>
   <li class="flex justify-start items-center">
-    <input type="checkbox" :checked="selected" @input="selectItem" class="mr-5" />
+    <input type="checkbox" :checked="selected" class="mr-5" @input="selectItem" />
     <div><slot /></div>
   </li>
 </template>

@@ -27,6 +27,7 @@ export default () => {
 
     return data.Products.totalPages
   })
+
   // implementing total pages this way breaks rectivity of variables
 
   const loadPage = page => {

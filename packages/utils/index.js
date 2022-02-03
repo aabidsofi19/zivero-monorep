@@ -1,3 +1,3 @@
 import { navigationGaurd } from "./router";
-
-export { navigationGaurd };
+import { includeScript } from "./helpers";
+export { navigationGaurd, includeScript };

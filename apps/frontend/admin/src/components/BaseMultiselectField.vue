@@ -6,11 +6,15 @@ const active = ref(false)
 const props = defineProps({
   modelValue: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   options: {
     type: Array,
-    default: [],
+    default: () => [],
+  },
+  errors: {
+    type: Array,
+    default: () => [],
   },
 })
 
@@ -19,7 +23,7 @@ const emit = defineEmits(['update:modelValue'])
 const selectOption = option => {
   if (props.modelValue.includes(option)) {
     // modelValue.value = modelValue.value.filter(item => item !== option)
-    let filtered = props.modelValue.filter(item => item !== option)
+    const filtered = props.modelValue.filter(item => item !== option)
     emit('update:modelValue', filtered)
   } else {
     emit('update:modelValue', [...props.modelValue, option])
@@ -32,10 +36,14 @@ const selectOption = option => {
     <div class="w-full">
       <div class="flex flex-col items-center relative">
         <div class="w-full">
-          <div class="my-2 p-1 flex border border-gray-200 bg-white rounded">
+          <div
+            class="my-2 p-1 flex border border-gray-200 bg-white rounded"
+            :class="[$props.errors.length > 0 ? 'border-red-500' : 'border-gray-400']"
+          >
             <div class="flex flex-auto items-center flex-wrap">
               <div
                 v-for="selectedOption in modelValue"
+                :key="selectedOption"
                 class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-teal-700 bg-teal-100 border border-teal-300"
               >
                 <p class="text-xs font-normal leading-none max-w-full flex-initial mr-2">
@@ -60,7 +68,10 @@ const selectOption = option => {
             </div>
           </div>
         </div>
-
+        <!--errors-->
+        <div v-for="error of $props.errors" :key="error.$uid" class="mt-1">
+          <div class="text-red-600 italic text-sm">{{ error.$message }}</div>
+        </div>
         <div
           v-if="active"
           class="shadow top-100 bg-white w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj"
@@ -72,11 +83,11 @@ const selectOption = option => {
               class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100"
             >
               <div
-                @click="selectOption(option)"
                 class="flex w-full items-center p-2 pl-2 relative"
                 :class="{
                   'border-l-8 border-blue-500': modelValue.includes(option),
                 }"
+                @click="selectOption(option)"
               >
                 <div class="w-full items-center flex border-3">
                   <div class="mx-2 leading-6">{{ option }}</div>

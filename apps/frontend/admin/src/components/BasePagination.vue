@@ -1,9 +1,9 @@
 <template>
   <div class="p-3 flex flex-wrap justify-center" v-bind="$attrs">
     <button
-      class="mx-3 px-2 py-1 rounded"
       v-for="(page, i) in pagesList"
       :key="i"
+      class="mx-3 px-2 py-1 rounded"
       :disabled="page === currentPage"
       :class="{ 'bg-blue-600 text-white ': page === currentPage, 'bg-gray-50 text-gray-500': page === '...' }"
       @click="$emit('goToPage', page)"

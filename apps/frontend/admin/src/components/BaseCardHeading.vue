@@ -2,7 +2,7 @@
   <Component
     :is="$props.tag"
     id="input"
-    class="p-3 font-bold text-black text-lg"
+    class="p-3 font-bold font-sans text-gray-900 text-xl"
     :class="[$props.outlinedBottom ? 'border-b' : 'border-b-none', `shadow-${$props.elevation}`]"
     v-bind="$attrs"
   >

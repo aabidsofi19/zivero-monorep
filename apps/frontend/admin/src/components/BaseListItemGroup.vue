@@ -12,6 +12,7 @@
 <script>
 import { computed, provide } from 'vue'
 import BaseExpandableItem from './BaseExpandableItem'
+
 export { default as BaseListItem } from './BaseListItem.vue'
 export const BaseList = {
   inheritAttrs: false,

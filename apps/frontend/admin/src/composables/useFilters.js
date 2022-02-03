@@ -36,7 +36,7 @@ const filterState = ref({
 })
 
 const useFilters = () => {
-  const getFilters = () => useQuery(fetchFilters, filterState.filterInput)
+  const getFilters = () => useQuery(fetchFilters, filterState.value.filterInput)
 
   // const setInputFilter = (type, value) => {
   //   filterState.filterInput[type] = value
@@ -48,7 +48,7 @@ const useFilters = () => {
 
   return {
     fetchFilters: getFilters,
-    filterState: filterState,
+    filterState,
     setInputFilter,
   }
 }

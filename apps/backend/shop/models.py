@@ -1,4 +1,5 @@
 # from typing_extensions import Required
+from datetime import datetime
 import uuid
 from bson.objectid import ObjectId
 
@@ -62,6 +63,7 @@ class Product(Document):
         "strict": False,
     }
 
+    created_at = DateTimeField(default=datetime.now)
     name = StringField(max_length=100, required=False)
     brand = ReferenceField(Brand)
     category = ReferenceField(Category)
@@ -71,6 +73,9 @@ class Product(Document):
     tags = ListField(StringField(max_length=100))
     images = ListField(URLField(required=False))
     available = BooleanField()
+    quantity = IntField()
+    price = IntField(required=True)
+    discount_percent = IntField(required=False, default=0)
 
     status_choices = (
         ("archived", "archived"),

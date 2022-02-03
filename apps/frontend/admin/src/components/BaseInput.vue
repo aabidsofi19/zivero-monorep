@@ -11,9 +11,17 @@
         `shadow-${$props.elevation}`,
 
         $props.tile ? 'rounded-none' : `rounded-${$props.rounded}`,
+
+        $props.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-text',
+
+        $props.errors.length > 0 ? 'border-red-500' : 'border-gray-400',
       ]"
       v-bind="$attrs"
     />
+
+    <div v-for="error of $props.errors" :key="error.$uid" class="mt-1">
+      <div class="text-red-600 italic text-sm">{{ error.$message }}</div>
+    </div>
   </div>
 </template>
 
@@ -24,6 +32,11 @@ export default {
     modelValue: {
       type: String,
       default: '',
+    },
+
+    errors: {
+      type: Array,
+      default: () => [],
     },
     label: {
       type: String,

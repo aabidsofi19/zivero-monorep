@@ -7,7 +7,7 @@ from graphene_django.types import DjangoObjectType, ObjectType
 from graphene_mongo import MongoengineObjectType
 from graphql_jwt.decorators import login_required
 from shop.models import Category, Product, Variation
-from shop.schema import CategoryType, ProductType, VariationType
+from shop.types import CategoryType, ProductType, VariationType
 from shop.utils import get_variation
 
 from .cart import Cart
