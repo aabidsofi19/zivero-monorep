@@ -25,8 +25,8 @@ const routes = [
       },
       {
         path: ':id',
-        name: 'products-edit',
-        component: () => import('../views/ProductsEdit.vue'),
+        name: 'product-edit',
+        component: () => import('../views/ProductEdit.vue'),
       },
     ],
   },

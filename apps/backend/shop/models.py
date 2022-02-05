@@ -60,22 +60,22 @@ class Product(Document):
 
     meta = {
         "collection": "products",
-        "strict": False,
+        "strict": True,
     }
 
     created_at = DateTimeField(default=datetime.now)
-    name = StringField(max_length=100, required=False)
-    brand = ReferenceField(Brand)
-    category = ReferenceField(Category)
+    name = StringField(max_length=100, required=True)
+    brand = ReferenceField(Brand, required=True)
+    category = ReferenceField(Category, required=True)
     # sub_category= ReferenceField(SubCategory)
-    description = StringField(required=False, max_length=2000)
+    description = StringField(required=True, max_length=2000)
     variations = ListField(EmbeddedDocumentField(Variation))
     tags = ListField(StringField(max_length=100))
-    images = ListField(URLField(required=False))
+    images = ListField(URLField(required=True))
     available = BooleanField()
-    quantity = IntField()
+    quantity = IntField(required=True)
     price = IntField(required=True)
-    discount_percent = IntField(required=False, default=0)
+    discount_percent = IntField(required=True, default=0)
 
     status_choices = (
         ("archived", "archived"),
@@ -93,7 +93,7 @@ class Product(Document):
         ("KIDS", "kids"),
         ("NEUTRAL", "neutral"),
     )
-    gender = StringField(choices=gender_choices)
+    gender = StringField(choices=gender_choices, required=True)
     # gender here will help with filtering the product from like category tshir but gender BOY
 
     @property
@@ -110,7 +110,7 @@ class Product(Document):
         return variants
 
     def filterby(self, data):  # usually the input from graphene schema i.e FilterInput
-        filter = {}
+        filter = {"status": data["status"]}
         print(data)
 
         if data.categories:

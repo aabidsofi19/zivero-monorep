@@ -1,4 +1,4 @@
-import { reactive, readonly, ref } from 'vue'
+import { readonly, ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { fetchFilters } from 'graphql-client/queries/filter'
 
@@ -14,6 +14,7 @@ const filterState = ref({
     gender: '',
     brands: null,
     sortBy: 'BetterDiscount',
+    status: 'active',
   },
   variantFilterInput: [
     //    {
@@ -38,18 +39,30 @@ const filterState = ref({
 const useFilters = () => {
   const getFilters = () => useQuery(fetchFilters, filterState.value.filterInput)
 
-  // const setInputFilter = (type, value) => {
-  //   filterState.filterInput[type] = value
-  // }
-
   const setInputFilter = filter => {
     filterState.value.filterInput = filter
   }
 
+  const setSortBy = sortBy => {
+    filterState.value.filterInput.sortBy = sortBy
+  }
+
+  const setStatus = status => {
+    filterState.value.filterInput.status = status
+  }
+
+  const clearFilters = () => {
+    filterState.value.filterInput = defaultFilterInput
+    filterState.value.variantFilterInput = []
+  }
+
   return {
     fetchFilters: getFilters,
-    filterState,
+    filterState: readonly(filterState),
     setInputFilter,
+    setSortBy,
+    setStatus,
+    clearFilters,
   }
 }
 

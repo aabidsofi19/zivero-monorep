@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import useNavdrawer from '../composables/useNavdrawer'
 
 const menuItems = {
@@ -31,49 +31,28 @@ const menuItems = {
 
 const { toggleDrawer, isDrawerOpen } = useNavdrawer()
 console.log('isOpen', isDrawerOpen)
-const active = ref('home')
-function clickMenuLink(key) {
-  active.value = key
-}
+
+const route = useRoute()
 </script>
 
 <template>
-  <transition
-    name="fade"
-    :duration="1000"
-  >
+  <transition name="fade" :duration="1000">
     <nav
       v-if="isDrawerOpen"
       class="drawer fixed top-0 bottom-0 w-2/3 bg-white h-auto z-50 md:pt-16 md:z-0 p-5 md:w-60 border-r-2 shadow-sm md:shadow-none"
     >
       <div class="text-right px-4 text-xl md:hidden w-full">
-        <font-awesome-icon
-          icon="times"
-          @click="toggleDrawer"
-        ></font-awesome-icon>
+        <font-awesome-icon icon="times" @click="toggleDrawer"></font-awesome-icon>
       </div>
 
-      <div
-        v-for="(item, key) in menuItems"
-        :key="key"
-      >
-        <router-link
-          :to="item.to"
-          :class="active == key ? 'nav-link-active' : 'nav-link'"
-        >
+      <div v-for="(item, key) in menuItems" :key="key">
+        <router-link :to="item.to" :class="route.name == item.to.name ? 'nav-link-active' : 'nav-link'">
           <font-awesome-icon :icon="item.icon" />
-          <span
-            class="mx-4 text-lg font-bold"
-            @click="clickMenuLink(key)"
-          > {{ key }} </span>
+          <span class="mx-4 text-lg font-bold"> {{ key }} </span>
         </router-link>
 
-        <div v-show="active == key">
-          <a
-            v-for="(submenu, key_) in item.submenu"
-            :key="key_"
-            class="nav-link"
-          >
+        <div v-show="route.name == item.to.name">
+          <a v-for="(submenu, key_) in item.submenu" :key="key_" class="nav-link">
             <font-awesome-icon :icon="submenu.icon" />
             <span class="pl-8 text-lg font-normal"> {{ key_ }} </span>
             <span class="flex-grow text-right"> </span>

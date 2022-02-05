@@ -5,9 +5,10 @@
         <span class="p-3 border">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>
         </span>
-        <span class="px-3 font-bold"> Add A Product</span>
+        <span class="px-3 font-bold"> Update Product</span>
       </div>
     </div>
+
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div class="col-span-2 h-auto pb-20 space-y-5">
         <v-card outlined>
@@ -23,22 +24,22 @@
           </v-card-body>
         </v-card>
 
-        <product-image-upload v-model="productData.images"></product-image-upload>
+        <product-image-upload v-model="productData.images" :update="true"></product-image-upload>
 
         <v-card outlined class="space-y-3">
           <v-card-heading>Pricing</v-card-heading>
           <v-card-body>
             <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
               <v-input
-                min="0"
                 v-model="productData.price"
+                min="0"
                 :errors="v$.productData.price.$errors"
                 label="Price"
                 type="number"
               ></v-input>
               <v-input
-                min="0"
                 v-model="productData.discountPercent"
+                min="0"
                 :errors="v$.productData.discountPercent.$errors"
                 label="Discount Percent"
                 type="number"
@@ -86,22 +87,25 @@
 
         <product-organization
           ref="productOrganisation"
-          v-model="productOrganizationData"
+          v-model="productOrganisationData"
           :options="productOrganisationOptions"
         ></product-organization>
       </div>
     </div>
 
-    <v-button @click="saveProduct"> Save Product </v-button>
+    <v-button @click="saveProduct"> Update Product </v-button>
+    <v-button @click="deleteProduct"> Delete Product </v-button>
   </div>
 </template>
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
-import { getProductCreateData } from 'graphql-client/queries/filter'
+import { GET_PRODUCT_EDIT_DATA } from 'graphql-client/queries/productQueries'
+
+import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { required, integer, minValue } from '@vuelidate/validators'
-import { CREATE_PRODUCT } from 'graphql-client/mutations/product'
+import { required, integer } from '@vuelidate/validators'
+import { UPDATE_PRODUCT, DELETE_PRODUCT } from 'graphql-client/mutations/product'
 import { GET_PRODUCTS_QUERY } from 'graphql-client/queries/productQueries'
 import { VCard, VCardBody, VCardHeading, VCardFooter } from '../components/AppCard.vue'
 import VInput from '../components/BaseInput.vue'
@@ -130,9 +134,67 @@ export default {
   },
 
   setup() {
-    const { result, loading } = useQuery(getProductCreateData)
-    const variantOptions = useResult(result, {}, data => data.variants)
+    const { params } = useRoute()
+    const productId = params.id
+    const { result, loading, onResult } = useQuery(GET_PRODUCT_EDIT_DATA, { id: productId })
+    const variantOptions = useResult(result, [], data => data.variants)
     const productOrganisationOptions = useResult(result, {}, data => data.filters)
+
+    const productData = ref({
+      name: '',
+      description: '',
+      variations: [],
+      tags: [],
+      images: [],
+      status: 'active',
+      price: null,
+      discountPercent: null,
+      quantity: null,
+    })
+
+    const productOrganisationData = ref({ brand: '', category: '', gender: '' })
+    const selectedOptions = ref({})
+
+    const initProductInput = data => {
+      const fields = ['name', 'description', 'tags', 'images', 'status', 'price', 'discountPercent', 'quantity']
+      const initData = {}
+
+      fields.forEach(field => {
+        initData[field] = data[field]
+      })
+
+      return initData
+    }
+
+    const initProductOrganisation = ({ gender, category, brand }) => {
+      const initData = {}
+      initData.gender = { label: gender, value: gender }
+      initData.category = { label: category.name, value: category.id }
+      initData.brand = { label: brand.name, value: brand.id }
+
+      return initData
+    }
+
+    const initSelectedOptions = ({ availableVariants }) => JSON.parse(availableVariants)
+
+    const initProductVariations = ({ variations }) => {
+      const variationsCopy = variations.slice()
+      variationsCopy.map(variation => ({
+        price: variation.price,
+        quantity: variation.quantity,
+        variant: variation.quantity,
+      }))
+
+      return variationsCopy
+    }
+
+    onResult(({ data }) => {
+      productData.value = initProductInput(data.product)
+      productOrganisationData.value = initProductOrganisation(data.product)
+      selectedOptions.value = initSelectedOptions(data.product)
+      productData.value.variations = initProductVariations(data.product)
+    })
+
     const cleanOptions = computed(() => {
       if (loading.value) {
         return {}
@@ -150,40 +212,24 @@ export default {
       return Options
     })
 
-    const { mutate: createProduct } = useMutation(CREATE_PRODUCT)
+    const { mutate: updateProduct } = useMutation(UPDATE_PRODUCT)
+    const { mutate: deleteProduct } = useMutation(DELETE_PRODUCT)
     const v$ = useVuelidate()
 
     return {
+      productId,
+      productData,
+      productOrganisationData,
+      selectedOptions,
       cleanOptions,
       productOrganisationOptions,
       variantOptions,
-      createProduct,
+      updateProduct,
+      DeleteProduct: deleteProduct,
       v$,
     }
   },
 
-  data() {
-    return {
-      selectedOptions: {},
-
-      productData: {
-        name: '',
-        description: '',
-        variations: [],
-        tags: [],
-        images: [],
-        status: 'draft',
-        price: null,
-        discountPercent: null,
-        quantity: null,
-      },
-      productOrganizationData: {
-        brand: '',
-        category: '',
-        gender: '',
-      },
-    }
-  },
   validations: () => ({
     productData: {
       name: { required },
@@ -197,8 +243,8 @@ export default {
   computed: {
     cleanedProductOrganisationData() {
       const clean = {}
-      Object.keys(this.productOrganizationData).forEach(key => {
-        clean[key] = this.productOrganizationData[key].value
+      Object.keys(this.productOrganisationData).forEach(key => {
+        clean[key] = this.productOrganisationData[key].value
       })
 
       return clean
@@ -207,7 +253,7 @@ export default {
 
   methods: {
     validateForm() {
-      this.v$.$validate()
+      this.v$.productData.$validate()
       this.$refs.productOrganisation.v$.$validate()
       const variationsComponent = this.$refs.variationsField
       console.log('variations cmp', variationsComponent)
@@ -227,20 +273,24 @@ export default {
       if (this.validateForm()) {
         console.log('saving true')
         const ProductInput = { ...this.productData, ...this.cleanedProductOrganisationData }
-        this.createProduct(
-          { ProductInput },
-          {
-            update: (cache, { data: { product } }) => {
-              const data = cache.readQuery({ query: GET_PRODUCTS_QUERY })
-              console.log('data', data)
-              if (data && data.products) {
-                data.products.push(product)
-                cache.writeQuery({ query: GET_PRODUCTS_QUERY, data })
-              }
-            },
-          },
-        )
+        this.updateProduct({ id: this.productId, ProductInput })
       }
+    },
+
+    deleteProduct() {
+      this.DeleteProduct(
+        { id: this.productId },
+        {
+          update: cache => {
+            let data = cache.readQuery({ query: GET_PRODUCTS_QUERY })
+            console.log('data', data)
+            if (data.products) {
+              data = data.products.filter(product => product.id !== this.productId)
+              cache.writeQuery({ query: GET_PRODUCTS_QUERY, data })
+            }
+          },
+        },
+      )
     },
   },
 }

@@ -29,7 +29,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-auto object-contain w-10">
-                      <img class="h-10 w-10" :src="product.variations[0].images[0]" alt="" />
+                      <img class="h-10 w-10" :src="getProductImage(product)" alt="" />
                     </div>
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
@@ -51,12 +51,16 @@
                   <span
                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
                   >
-                    Active
+                    {{ product.status }}
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ product.quantity }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  <router-link
+                    :to="{ name: 'product-edit', params: { id: product.id } }"
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >Edit</router-link
+                  >
                 </td>
               </tr>
             </tbody>
@@ -70,5 +74,10 @@
 <script>
 export default {
   props: ['products'],
+  methods: {
+    getProductImage(product) {
+      return product.images.length > 0 ? product.images[0] : ''
+    },
+  },
 }
 </script>

@@ -80,12 +80,12 @@ const selectOption = option => {
             <div
               v-for="option of options"
               :key="option"
-              class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100"
+              class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-mint"
             >
               <div
                 class="flex w-full items-center p-2 pl-2 relative"
                 :class="{
-                  'border-l-8 border-blue-500': modelValue.includes(option),
+                  'border-l-8 border-teal-700': modelValue.includes(option),
                 }"
                 @click="selectOption(option)"
               >

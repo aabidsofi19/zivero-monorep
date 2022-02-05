@@ -12,12 +12,11 @@ module.exports = {
         display: ['Playfair Display', 'serif'],
       },
       colors: {
-        primary: '#DEB992',
-        secondary: '#e98074',
-        accent: '#1BA098',
-        error: '#b71c1c',
-        info: '#D8c3a5',
-        background: '#051622',
+        forest: '#11201e',
+        tealDark: '#154042',
+        mint: '#d5e9dd',
+        pink: '#decec8',
+        cloud: '#d4d6d5',
       },
       spacing: {
         128: '32rem',

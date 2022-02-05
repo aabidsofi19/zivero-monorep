@@ -10,14 +10,32 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  update: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 const uploadedImages = ref([])
 
+const initProductImageUpload = () => {
+  console.log('update')
+  props.modelValue.forEach(url => {
+    uploadedImages.value.push({
+      url,
+      thumbnail_url: url,
+      public_id: url,
+    })
+  })
+}
+
 onMounted(() => {
   console.log('mounted')
+  if (props.update) {
+    initProductImageUpload()
+  }
   includeScript('widget.cloudinary.com/v2.0/global/all.js')
 })
 

@@ -88,9 +88,10 @@ const editableOptions = computed(() => {
 })
 
 const saveOption = async () => {
-  const valid = await addValidator.value.$validate()
-  console.log(valid)
-  if (valid) {
+  addValidator.value.$validate()
+  const isInvalid = addValidator.value.$invalid
+
+  if (!isInvalid) {
     console.log('onDone')
     selectedOptions.value[addOptionData.option] = addOptionData.variants
     addOptionData.option = Object.keys(cleanOptions.value)[0]

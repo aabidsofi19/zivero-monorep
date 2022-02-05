@@ -44,6 +44,7 @@
             <tbody>
               <variants-table-row
                 v-for="variantCombination in variationCombinations"
+                :ref="rowKey(variantCombination)"
                 :key="rowKey(variantCombination)"
                 v-model="variations[rowKey(variantCombination)]"
                 :variant-ids="getVariantIds(variantCombination)"
@@ -60,6 +61,7 @@
 </template>
 
 <script>
+import useVariantsValidator from '../composables/useVariantsValidator'
 import { VCard, VCardBody, VCardHeading } from './AppCard.vue'
 import VariantsTableRow from './ProductCreateVariantsTableRow.vue'
 
@@ -85,6 +87,26 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+
+  setup() {
+    const { validators } = useVariantsValidator()
+
+    const validate = () => {
+      let validated = true
+      validators.value.forEach(v$ => {
+        if (v$.$invalid) {
+          validated = false
+        }
+      })
+
+      return validated
+    }
+
+    return {
+      validate,
+    }
+  },
+
   data() {
     return {
       variations: {},
@@ -119,6 +141,7 @@ export default {
       return map
     },
   },
+
   watch: {
     variations: {
       deep: true,
@@ -127,6 +150,22 @@ export default {
       },
     },
   },
+
+  mounted() {
+    this.modelValue.forEach(variation => {
+      const variantIds = []
+      variation.variant.forEach(variant => {
+        variantIds.push(variant.id)
+      })
+      const key = variantIds.join()
+      this.variations[key] = {
+        price: variation.price,
+        quantity: variation.quantity,
+        variant: variantIds,
+      }
+    })
+  },
+
   methods: {
     getVariantId(variant) {
       const key = Object.keys(variant)[0]

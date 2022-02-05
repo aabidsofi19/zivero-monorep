@@ -1,8 +1,10 @@
 <script setup>
 import { reactive, computed, onUnmounted } from 'vue'
+
 import { useVuelidate } from '@vuelidate/core'
 import { required, integer, minValue } from '@vuelidate/validators'
 import VInput from './BaseInput.vue'
+import useVariantsValidator from '../composables/useVariantsValidator'
 
 const props = defineProps({
   variants: {
@@ -60,8 +62,9 @@ const rules = {
   price: { required, integer, minValue: 100 },
   quantity: { required, integer, minValue: 1 },
 }
-
+const { addValidator } = useVariantsValidator()
 const v$ = useVuelidate(rules, variationData)
+addValidator(v$)
 console.log(v$)
 </script>
 
