@@ -1,6 +1,7 @@
 import graphene
 from graphene_django.types import ObjectType
-
+from numpy import equal
+import bson
 from .models import Product, Category, Variant
 from filters.schema import FilterInput
 from .types import ProductsType, VariantType, ProductType, CategoryType
@@ -25,8 +26,12 @@ class Query(ObjectType):
     def resolve_Products(self, info, filter={}, pageNb=1, **kwargs):
         # print("fetching products")
         # print("pagenb :- ",pageNb)
+
+        if not info.context.user.is_superuser:
+            filter["status"] = "active"
+
         limit = 30
-        offset = (pageNb - 1) * limitBrandType, VariationType, SubCategoryType
+        offset = (pageNb - 1) * limit
         if filter:
             products_set = Product().filterby(filter)
             Products = products_set[offset : (offset + limit)]
@@ -50,28 +55,6 @@ class Query(ObjectType):
 
     def resolve_variants(self, info, **kwargs):
         return Variant.objects.all()
-
-
-"""
-
-
-class Variant(Document):
-    name = StringField()
-    value = StringField(unique=True)
-
-
-class Variation(EmbeddedDocument):
-    _id = ObjectIdField(required=True, default=lambda: ObjectId())
-    variant = ListField(ReferenceField(Variant))
-    sku = UUIDField(default=lambda: (uuid.uuid4()))
-    quantity = IntField()
-    available = BooleanField(default=True)
-    price = IntField(required=True)
-    discount_percent = IntField(required=False, default=0)
-    images = ListField(URLField())
-    meta = {"strict": False}
-
-"""
 
 
 class VariationInput(graphene.InputObjectType):
@@ -118,5 +101,63 @@ class createProduct(graphene.Mutation):
         return createProduct(product=product)
 
 
+def clean_product_variation(data):
+    copy = {k: v for k, v in data.items() if v != None}
+    variants_cleaned = [bson.ObjectId(variant) for variant in data.variant]
+    copy["variant"] = variants_cleaned
+    return copy
+
+
+def clean_product_update_input(data):
+    copy = {k: v for k, v in data.items() if v != None}
+    brand = copy.get("brand")
+    category = copy.get("category")
+    if brand:
+        copy["brand"] = bson.ObjectId(brand)
+    if category:
+        copy["category"] = bson.ObjectId(category)
+
+    variations_copy = []
+    for variation in copy["variations"]:
+        variations_copy.append(clean_product_variation(variation))
+
+    copy["variations"] = variations_copy
+
+    return copy
+
+
+class updateProduct(graphene.Mutation):
+
+    product = graphene.Field(ProductType)
+
+    class Arguments:
+        id = graphene.String()
+        pd = ProductInput()
+
+    def mutate(root, info, id, pd):
+        product = Product.objects(id=id).first()
+        clean_input = clean_product_update_input(pd)
+        print(clean_input)
+
+        product.update(**clean_input)
+        product.reload()
+        return updateProduct(product=product)
+
+
+class deleteProduct(graphene.Mutation):
+
+    product = graphene.Field(ProductType)
+
+    class Arguments:
+        id = graphene.String()
+
+    def mutate(root, info, id):
+        product = Product.objects(id=id).first()
+        product.delete()
+        return deleteProduct(product=product)
+
+
 class Mutation(graphene.ObjectType):
     create_product = createProduct.Field()
+    update_product = updateProduct.Field()
+    delete_product = deleteProduct.Field()
