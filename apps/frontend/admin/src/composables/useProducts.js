@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 import { GET_PRODUCTS_QUERY } from 'graphql-client/queries/productQueries'
 import { useQuery, useResult } from '@vue/apollo-composable'
 
@@ -13,7 +13,7 @@ export default () => {
   // eslint-disable-next-line prefer-destructuring
   //   const filterInput = filterState.filterInput
 
-  const { loading, error, result, variables, onResult } = useQuery(GET_PRODUCTS_QUERY, () => ({
+  const { loading, error, result } = useQuery(GET_PRODUCTS_QUERY, () => ({
     page: pageNo.value,
     filter: filterState.value.filterInput,
   }))
@@ -28,26 +28,10 @@ export default () => {
     return data.Products.totalPages
   })
 
-  // implementing total pages this way breaks rectivity of variables
-
   const loadPage = page => {
     console.log('loadinf', page)
     pageNo.value = page
-
-    // variables.value = {
-    //   page: pageNo.value,
-    //   filter: filterInput.value,~
-    // }
-    // variables.value.page = page
   }
-
-  //   watchEffect(() => {
-  //     console.log('refetching', pageNo.value)
-  //     variables.value = {
-  //       page: pageNo.value,
-  //       filter: filterInput.value,
-  //     }
-  //   })
 
   return {
     result,

@@ -1,7 +1,7 @@
 <template>
   <Component
     :is="$props.tag"
-    class="p-3 space-y-3 overflow-hidden break-words"
+    class="p-6 font-montserrat space-y-3 overflow-hidden break-words"
     :class="[$props.outlinedTop ? 'border-t' : 'border-t-none', `shadow-${$props.elevation}`]"
     v-bind="$attrs"
   >

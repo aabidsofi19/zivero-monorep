@@ -5,7 +5,7 @@
     </label>
     <input
       v-model="model"
-      class="p-3 bg-white focus:outline-blue-400 w-full"
+      class="p-2 bg-white focus:outline-blue-400 w-full"
       :class="[
         $props.outlined ? 'border border-gray-400' : 'border-none',
         `shadow-${$props.elevation}`,

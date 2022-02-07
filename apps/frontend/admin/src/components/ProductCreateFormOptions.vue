@@ -105,7 +105,7 @@ const saveOption = async () => {
   <v-card outlined>
     <v-card-heading>Options</v-card-heading>
 
-    <div v-for="(values, option) in selectedOptions" :key="option" class="border-b p-3 py-6">
+    <div v-for="(values, option) in selectedOptions" :key="option" class="border-b px-6 py-3">
       <!-- selected Options -->
 
       <div v-if="editing != option">

@@ -59,7 +59,7 @@
             </div>
           </v-card-body>
           <v-card-footer>
-            <p class="text-lg font-bold text-black">Quantity</p>
+            <p class="text-lg font-montserrat font-semibold text-gray-800">Quantity</p>
             <v-input
               v-model="productData.quantity"
               class="w-1/2"

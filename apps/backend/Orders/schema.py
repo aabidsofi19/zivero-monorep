@@ -1,9 +1,9 @@
 from shop.types import ProductType, VariationType
-
+from django.core.paginator import Paginator
 import graphene
 from graphene import relay
 
-from graphene_django import DjangoObjectType
+from graphene_django import DjangoObjectType, DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 
 from .models import Order, OrderItem
@@ -25,6 +25,7 @@ class OrderFilter(FilterSet):
             "paid": ["exact"],
             "payment_method": ["exact"],
             "payment_status": ["exact"],
+            "fulfillment_status": ["exact"],
             "created_at": ["exact"],
             "updated_at": ["exact"],
             "extra_charges": ["exact"],
@@ -33,14 +34,33 @@ class OrderFilter(FilterSet):
     order_by = OrderingFilter(fields=(("updated_at", "created_at"),))
 
 
+class PaginationType(graphene.ObjectType):
+
+    page_no = graphene.Int()
+    total_pages = graphene.Int()
+    total_count = graphene.Int()
+
+
+class CountableConnectionBase(relay.Connection):
+    class Meta:
+        abstract = True
+
+    total_items = graphene.Int()
+
+    def resolve_total_items(self, *args, **kwargs):
+        return self.length
+
+
 class OrderNode(DjangoObjectType):
     class Meta:
         model = Order
         interfaces = (relay.Node,)
+        connection_class = CountableConnectionBase
 
     totalAmount = graphene.Int()
 
     def resolve_totalAmount(self, info):
+
         return self.total_amount()
 
 
@@ -91,6 +111,7 @@ class Query(graphene.ObjectType):
 
     @login_required
     def resolve_orders(self, info, **kwargs):
+        print(self)
         user = info.context.user
         if user.is_superuser:
             orders = OrderFilter(kwargs).qs

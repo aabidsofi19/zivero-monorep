@@ -37,7 +37,7 @@ const selectOption = option => {
       <div class="flex flex-col items-center relative">
         <div class="w-full">
           <div
-            class="my-2 p-1 flex border border-gray-200 bg-white rounded"
+            class="my-2 p-1 flex border border-gray-400 bg-white rounded"
             :class="[$props.errors.length > 0 ? 'border-red-500' : 'border-gray-400']"
           >
             <div class="flex flex-auto items-center flex-wrap">

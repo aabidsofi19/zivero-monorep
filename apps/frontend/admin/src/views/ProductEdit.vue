@@ -93,20 +93,24 @@
       </div>
     </div>
 
-    <v-button @click="saveProduct"> Update Product </v-button>
-    <v-button @click="deleteProduct"> Delete Product </v-button>
+    <div class="flex justify-between items-center border-t mt-3 py-4">
+      <div class="flex gap-2">
+        <v-button danger @click="deleteProduct"> Delete Product </v-button>
+        <v-button secondary @click="deleteProduct"> Archive </v-button>
+      </div>
+
+      <v-button @click="saveProduct"> Save </v-button>
+    </div>
   </div>
 </template>
 <script>
 import { computed, ref } from 'vue'
 import { useMutation, useQuery, useResult } from '@vue/apollo-composable'
-import { GET_PRODUCT_EDIT_DATA } from 'graphql-client/queries/productQueries'
-
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, integer } from '@vuelidate/validators'
 import { UPDATE_PRODUCT, DELETE_PRODUCT } from 'graphql-client/mutations/product'
-import { GET_PRODUCTS_QUERY } from 'graphql-client/queries/productQueries'
+import { GET_PRODUCTS_QUERY, GET_PRODUCT_EDIT_DATA } from 'graphql-client/queries/productQueries'
 import { VCard, VCardBody, VCardHeading, VCardFooter } from '../components/AppCard.vue'
 import VInput from '../components/BaseInput.vue'
 import VRichText from '../components/BaseRichTextInput.vue'

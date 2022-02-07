@@ -8,18 +8,18 @@ const { toggleDrawer } = useNavdrawer()
 <template>
   <!-- start navbar -->
   <div
-    class="fixed w-screen z-10 md:relative flex flex-row flex-wrap items-center justify-between bg-white p-3 border-b border-gray-300"
+    class="fixed w-screen z-10 flex flex-row flex-wrap items-center justify-between bg-white p-3 border-b border-gray-300"
   >
     <!-- logo -->
     <div class="w-56 flex flex-row items-center">
-      <button
-        class="mr-4 text-right text-gray-900 md:hidden"
-        @click="toggleDrawer()"
-      >
+      <button class="mr-4 text-right text-gray-900 md:hidden" @click="toggleDrawer()">
         <f-icon icon="bars"></f-icon>
       </button>
       <!-- <img src="img/logo.png" class="w-10 flex-none" /> -->
-      <strong class="capitalize ml-1 flex-1">zivero</strong>
+      <div>
+        <span class="capitalize font-medium text-lg text-gray-800 font-montserrat px-1">zivero</span>
+        <span class="capitalize font-medium text-lg text-gray-600 font-montserrat"> Admin</span>
+      </div>
     </div>
   </div>
 </template>

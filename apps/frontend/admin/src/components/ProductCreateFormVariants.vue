@@ -1,11 +1,11 @@
 <template>
   <v-card>
-    <v-card-heading> Variants </v-card-heading>
+    <v-card-heading class=""> Variants </v-card-heading>
 
     <!-- {{ variantMap }} -->
     <!-- {{ variationCombinations }} -->
-    <v-card-body class="'p-0">
-      <div class="overflow-x-auto">
+    <v-card-body class="py-3">
+      <div class="overflow-x-auto border">
         <div class="">
           <table class="min-w-full leading-normal">
             <thead>

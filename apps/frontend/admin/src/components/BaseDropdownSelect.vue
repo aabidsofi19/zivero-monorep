@@ -3,10 +3,11 @@
     <div class="relative mt-1">
       <ListboxLabel>{{ label }} :</ListboxLabel>
       <ListboxButton
-        class="relative border border-gray-400 focus-visible:border-blue-400 focus:ring-1 focus:ring-blue-600 w-full py-3 pl-3 pr-10 text-left bg-white rounded-md"
+        class="relative border border-gray-400 focus-visible:border-blue-400 focus:ring-1 focus:ring-blue-600 w-full py-2 pl-3 pr-10 text-left bg-white rounded-md"
         :class="[$props.errors.length > 0 ? 'border-red-500' : 'border-gray-400']"
       >
-        <span class="block truncate">{{ selectedItem.label }}</span>
+        <span v-if="selectedItem" class="block truncate">{{ selectedItem.label }}</span>
+        <span v-else class="block truncate text-gray-400">{{ placeholder }}</span>
         <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
           <font-awesome-icon class="w-5 h-5 text-gray-400" icon="sort"></font-awesome-icon>
         </span>
@@ -61,6 +62,10 @@ export const BaseDropdownSelect = {
     label: {
       type: String,
       default: '',
+    },
+    placeholder: {
+      type: String,
+      default: 'select',
     },
     errors: {
       type: Array,

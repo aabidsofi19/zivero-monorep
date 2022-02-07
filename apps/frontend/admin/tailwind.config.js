@@ -6,10 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'Roboto', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
-        body: ['Poppins', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        sans: ['Poppins', 'Helvetica', 'Arial', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
       },
       colors: {
         forest: '#11201e',

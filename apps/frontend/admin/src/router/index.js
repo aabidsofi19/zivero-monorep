@@ -30,6 +30,14 @@ const routes = [
       },
     ],
   },
+
+  {
+    path: '/orders',
+    name: 'orders',
+    component: () => import('../views/Orders.vue'),
+
+    children: [{ path: '', name: 'orders-all', component: () => import('../views/OrdersAll.vue') }],
+  },
 ]
 
 const router = createRouter({

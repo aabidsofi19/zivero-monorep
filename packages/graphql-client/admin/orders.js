@@ -11,7 +11,7 @@ export const GetOrders = gql`
     $paid: Boolean
     $paymentMethod: String
     $paymentStatus: String
-    $fullfilmentStatus: String
+    $fulfillmentStatus: String
     $createdAt: DateTime
     $updatedAt: DateTime
     $orderBy: String
@@ -27,7 +27,7 @@ export const GetOrders = gql`
       paid: $paid
       paymentMethod: $paymentMethod
       paymentStatus: $paymentStatus
-      fullfilmentStatus: $fullfilmentStatus
+      fulfillmentStatus: $fulfillmentStatus
       createdAt: $createdAt
       updatedAt: $updatedAt
     ) {
@@ -37,29 +37,19 @@ export const GetOrders = gql`
         startCursor
         endCursor
       }
+      totalItems
       edges {
         node {
           id
           extraCharges
           paymentStatus
           createdAt
-          orderitemSet {
-            id
-            product {
-              available
-              brand {
-                id
-                name
-              }
-              name
+          fulfillmentStatus
+          totalAmount
+          Customer {
+            user {
+              username
             }
-            variation {
-              price
-              images
-            }
-            Amount
-            totalAmount
-            Quantity
           }
         }
         cursor

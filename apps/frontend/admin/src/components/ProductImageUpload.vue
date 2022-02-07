@@ -69,7 +69,7 @@ const deleteImage = image => {
 <template>
   <v-card outlined>
     <v-card-body>
-      <h3>Media</h3>
+      <h3 class="text-gray-800 font-lg font-semibold">Media</h3>
       <div class="flex gap-2">
         <product-image-thumbnail
           v-for="image of uploadedImages"

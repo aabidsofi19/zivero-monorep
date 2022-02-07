@@ -36,7 +36,11 @@
         </div>
       </div>
 
-      <div v-if="!loading">
+      <div v-if="loading">loading</div>
+      <div v-else-if="error">
+        {{ error }}
+      </div>
+      <div v-else>
         <products-table :products="products"></products-table>
       </div>
     </div>
