@@ -1,24 +1,27 @@
-import os
-
 # third party packages
 import graphene
-import requests
-from graphene_django.types import DjangoObjectType, ObjectType
-from graphene_mongo import MongoengineObjectType
+from graphene_django.types import DjangoObjectType
 from graphql_auth.schema import UserQuery, MeQuery
 from graphql_auth import mutations
 from graphql_auth.models import UserStatus
-from graphql_jwt.decorators import login_required
+from graphql_jwt.decorators import login_required, superuser_required
+from graphene_django.filter import DjangoFilterConnectionField
+from django_filters import FilterSet
+from utils import CountableConnectionBase
+from graphene import relay
+
 # app packages
 from .models import User, Customer, Address
-from cart.decorators import migrate_cart_to_db,migrate_cart_to_session
+from cart.decorators import migrate_cart_to_db, migrate_cart_to_session
+
 
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        
+
     verified = graphene.Boolean()
-    def resolve_verified(self,*args,**kwargs):
+
+    def resolve_verified(self, *args, **kwargs):
         return self.status.verified
 
 
@@ -31,6 +34,7 @@ class AddressType(DjangoObjectType):
     class Meta:
         model = Address
 
+
 class MeQuery(MeQuery):
     class Meta:
         abstract = True
@@ -42,46 +46,69 @@ class MeQuery(MeQuery):
         return info.context.user
 
 
+class CustomerFilter(FilterSet):
+    class Meta:
+        model = Customer
+        fields = {
+            "user": ["exact"],
+            "user__first_name": ["exact"],
+            "user__last_name": ["exact"],
+            "user__email": ["exact"],
+            "phone_number": ["exact"],
+        }
+
+
+class CustomerNode(DjangoObjectType):
+    class Meta:
+        model = Customer
+        interfaces = (relay.Node,)
+        connection_class = CountableConnectionBase
+
+    total_orders = graphene.Int()
+
+    def resolve_total_orders(self, info):
+        return self.orders.count()
+
+
 class Query(UserQuery, MeQuery, graphene.ObjectType):
     # user=graphene.Field(UserType)
     customer = graphene.Field(CustomerType)
     # users=graphene.List(UserType)
-    customers = graphene.List(CustomerType)
+    # customers = graphene.List(CustomerType)
+
+    customers = DjangoFilterConnectionField(
+        CustomerNode, filterset_class=CustomerFilter
+    )
     default_address = graphene.Field(AddressType)
     addresses = graphene.List(AddressType)
-    
+
+    @superuser_required
+    def resolve_customers(self, info, **kwargs):
+
+        return CustomerFilter(kwargs).qs
+
     @login_required
     def resolve_customer(self, info, **kwargs):
         user = info.context.user
-        #print(user)
+        # print(user)
         if user.is_customer:
             customer = Customer.objects.get(user=user)
-            #print("customer", customer)
+            # print("customer", customer)
             return customer
-        raise Exception('You are not registerd as customer')
+        raise Exception("You are not registerd as customer")
 
-    def resolve_customers(self, info, **kwargs):
-        user = info.context.user
-        #print(user)
-        if user.is_superuser:
-            customers = Customer.objects.all()
-            #print("customer", customers)
-            return customers
-        raise Exception('You are not admin')
-    
     @login_required
     def resolve_default_address(self, info, **kwargs):
         user = info.context.user
         # if user.is_customer:
-        customer = Customer.objects.get(
-            user=user)
-        #print(customer)
+        customer = Customer.objects.get(user=user)
+        # print(customer)
         return customer.default_address
 
     @login_required
     def resolve_addresses(self, info, **kwargs):
         user = info.context.user
-        #print(user)
+        # print(user)
         customer = Customer.objects.get(user=user)
         return customer.Addresses.all()
 
@@ -105,24 +132,24 @@ class AddAddressMutation(graphene.Mutation):
 
     class Arguments:
         address = AddressInput()
+
     @login_required
     def mutate(self, info, address):
         user = info.context.user
-        is_primary =address.get("is_primary")
+        is_primary = address.get("is_primary")
         del address["is_primary"]
-        #print("address",address)
+        # print("address",address)
         # #print(user)
         customer = Customer.objects.get(user=user)
         address = Address(**address)
         address.save()
-        #print(address)
-        
-       
+        # print(address)
+
         if is_primary:
             customer.default_address = address
         else:
             customer.Addresses.add(address)
-            
+
         customer.save()
         return AddAddressMutation(address=address)
 
@@ -132,6 +159,7 @@ class ChangeDefaultAddressMutation(graphene.Mutation):
 
     class Arguments:
         address_id = graphene.String()
+
     @login_required
     def mutate(self, info, address_id):
         user = info.context.user
@@ -143,7 +171,7 @@ class ChangeDefaultAddressMutation(graphene.Mutation):
         #     p.update()
         # # add is_primary to new address
         address = customer.Addresses.get(id=address_id)
-        customer.default_address= address
+        customer.default_address = address
         # address.is_primary = True
         address.update()
         customer.update()
@@ -156,6 +184,7 @@ class UpdateAddressMutation(graphene.Mutation):
     class Arguments:
         address_id = graphene.String()
         update_values = AddressInput()
+
     @login_required
     def mutate(self, info, address_id, update_values):
         user = info.context.user
@@ -164,31 +193,34 @@ class UpdateAddressMutation(graphene.Mutation):
             address = customer.Addresses.get(id=address_id)
             address.update_fields(update_values)
             if update_values.is_primary:
-                #print("setting as primary")
+                # print("setting as primary")
                 customer.default_address = address
                 customer.Addresses.remove(int(address_id))
-            if update_values.is_primary== False and customer.default_address==address:
-                 customer.default_address.delete()
+            if (
+                update_values.is_primary == False
+                and customer.default_address == address
+            ):
+                customer.default_address.delete()
             address.save()
             customer.save()
             return UpdateAddressMutation(address=address)
 
+
 class DeleteAddressMutation(graphene.Mutation):
     success = graphene.Boolean()
 
-    class Arguments :
+    class Arguments:
         address_id = graphene.String()
 
     @login_required
-    def mutate(self,info,address_id):
+    def mutate(self, info, address_id):
         user = info.context.user
         if user.is_authenticated:
             customer = Customer.objects.get(user=user)
             customer.Addresses.remove(int(address_id))
-            if customer.default_address.id==int(address_id):
+            if customer.default_address.id == int(address_id):
                 customer.default_address.delete()
 
-           
             # address.delete()
             return DeleteAddressMutation(success=True)
 
@@ -196,17 +228,18 @@ class DeleteAddressMutation(graphene.Mutation):
 class TokenAuth(mutations.ObtainJSONWebToken):
     @classmethod
     @migrate_cart_to_db
-    def resolve_mutation(cls,root,info,**kwargs):
-        response = super().resolve_mutation(root,info,**kwargs)
+    def resolve_mutation(cls, root, info, **kwargs):
+        response = super().resolve_mutation(root, info, **kwargs)
         return response
+
 
 class RevokeToken(mutations.RevokeToken):
-
     @classmethod
     @migrate_cart_to_session
-    def resolve_mutation(cls,root,info,**kwargs):
-        response = super().resolve_mutation(root,info,**kwargs)
+    def resolve_mutation(cls, root, info, **kwargs):
+        response = super().resolve_mutation(root, info, **kwargs)
         return response
+
 
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
@@ -236,4 +269,4 @@ class Mutation(AuthMutation, graphene.ObjectType):
     add_address = AddAddressMutation.Field()
     change_default_address = ChangeDefaultAddressMutation.Field()
     update_address = UpdateAddressMutation.Field()
-    delete_address=DeleteAddressMutation.Field()
+    delete_address = DeleteAddressMutation.Field()

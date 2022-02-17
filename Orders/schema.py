@@ -1,8 +1,10 @@
+from ast import Str
+import base64
 from shop.types import ProductType, VariationType
 from django.core.paginator import Paginator
 import graphene
-from graphene import relay
-
+from graphene import Int, relay
+import json
 from graphene_django import DjangoObjectType, DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 
@@ -10,10 +12,15 @@ from .models import Order, OrderItem
 from Users.models import User, Customer, Address
 from cart.cart import Cart
 from cart.models import PersistentCart
-from graphql_jwt.decorators import login_required
+from graphql_jwt.decorators import login_required, superuser_required
 
 
 from django_filters import FilterSet, OrderingFilter
+
+
+def object_id_from_global_id(global_id: Str) -> Int:
+    global_id_decoded = base64.decodebytes(bytes(global_id, "utf-8")).decode("utf-8")
+    return int(global_id_decoded.split(":")[1])
 
 
 class OrderFilter(FilterSet):
@@ -21,24 +28,17 @@ class OrderFilter(FilterSet):
         model = Order
         fields = {
             "id": ["exact"],
-            "Customer": ["exact"],
+            "customer": ["exact"],
             "paid": ["exact"],
             "payment_method": ["exact"],
             "payment_status": ["exact"],
             "fulfillment_status": ["exact"],
-            "created_at": ["exact"],
+            "created_at": ["exact", "gt", "gte", "lt", "lte", "range", "date"],
             "updated_at": ["exact"],
-            "extra_charges": ["exact"],
+            # "extra_charges": ["exact"],
         }
 
     order_by = OrderingFilter(fields=(("updated_at", "created_at"),))
-
-
-class PaginationType(graphene.ObjectType):
-
-    page_no = graphene.Int()
-    total_pages = graphene.Int()
-    total_count = graphene.Int()
 
 
 class CountableConnectionBase(relay.Connection):
@@ -61,7 +61,7 @@ class OrderNode(DjangoObjectType):
 
     def resolve_totalAmount(self, info):
 
-        return self.total_amount()
+        return self.total_amount
 
 
 class OrderItemType(DjangoObjectType):
@@ -73,14 +73,16 @@ class OrderItemType(DjangoObjectType):
     totalAmount = graphene.Int()
 
     def resolve_totalAmount(self, info):
-        return self.total_amount()
+        return self.total_amount
 
     def resolve_product(self, info):
 
         return self.product
 
     def resolve_variation(self, info):
+
         for v in self.product.variations:
+
             if str(v._id) == self.variation_id:
                 return v
 
@@ -98,6 +100,8 @@ class Query(graphene.ObjectType):
     @login_required
     def resolve_order(self, info, id=None, get_current=None):
         user = info.context.user
+        if id is not None:
+            id = object_id_from_global_id(id)
 
         if get_current:
             session = info.context.session
@@ -162,13 +166,14 @@ class CreateOrderMutation(graphene.Mutation):
 
         customer = Customer.objects.get(user=user)
 
-        order = Order(Customer=customer)
-        order.save()
         # address=Address.objects.get(pk=input.address_id)
         if input.is_primary:
             address = customer.default_address
         else:
             address = customer.Addresses.get(pk=int(input.address_id))
+        order = Order(customer=customer, address=address)
+        order.save()
+
         order_items = []
 
         for item in cart.products():
@@ -182,10 +187,9 @@ class CreateOrderMutation(graphene.Mutation):
             order_item = OrderItem(
                 order=order,
                 product_id=str(product_id),
-                Amount=price,
-                Address=address,
-                Customer=customer,
-                Quantity=item.quantity,
+                amount=price,
+                customer=customer,
+                quantity=item.quantity,
                 variation_id=str(variation_id),
             )
 
@@ -197,5 +201,22 @@ class CreateOrderMutation(graphene.Mutation):
         return CreateOrderMutation(order=order, order_items=order_items)
 
 
+class UpdateOrderMutation(graphene.Mutation):
+
+    order = graphene.Field(OrderNode)
+
+    class Arguments:
+        order_id = graphene.String()
+        fulfillment_status = graphene.String()
+
+    def mutate(self, info, order_id, fulfillment_status, **kwargs):
+        id = object_id_from_global_id(order_id)
+        order = Order.objects.get(pk=id)
+        order.fulfillment_status = fulfillment_status
+        order.save()
+        return UpdateOrderMutation(order=order)
+
+
 class Mutation(graphene.ObjectType):
     create_order = CreateOrderMutation.Field()
+    update_order = UpdateOrderMutation.Field()
