@@ -1,4 +1,7 @@
 import {
+  faShoppingBag,
+  faShoppingCart,
+  faDollarSign,
   faUserSecret,
   faHome,
   faTag,
@@ -26,6 +29,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 export default [
+  faShoppingCart,
+  faDollarSign,
+  faShoppingBag,
   faUserSecret,
   faHome,
   faTag,

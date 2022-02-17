@@ -1,23 +1,40 @@
 <script setup>
 import withSideBarLayout from '../layouts/WithSideBar.vue'
+import { useQuery, useResult } from '@vue/apollo-composable'
+import { GetOrders } from 'graphql-client/admin/orders'
 import summaryChart from '../components/SalesSummary.vue'
-import salesHistory from '../components/SalesTodayCard.vue'
-import recentOrders from '../components/HomeRecentOrders.vue'
-import bestSellers from '../components/HomeBestSellers.vue'
+import DashboardOverviewCards from '../components/DashBoardOverviewCards.vue'
+import EarningsMonth from '../components/DashboardEarningMonth.vue'
+import SalesMonth from '../components/DashboardSalesMonth.vue'
+import OrdersTable from '../components/OrdersTable.vue'
+
+const { result, loading, error } = useQuery(GetOrders, {
+  variables: {
+    first: 10,
+  },
+})
+
+const recentOrders = useResult(result, [], data => data.orders.edges)
 </script>
 
 <template>
   <with-side-bar-layout>
-    <main>
-      <div class="flex-1 w-full pt-16 md:pt-0">
-        <div class="flex w-full flex-wrap justify-center md:justify-between">
-          <sales-history class=""></sales-history>
-          <summary-chart class="w-full mt-1 md:w-2/3"></summary-chart>
+    <main class="space-y-3">
+      <dashboard-overview-cards></dashboard-overview-cards>
+      <div>
+        <h2 class="text-2xl font-montserrat font-semibold py-3 text-gray-600">Earnings Summary</h2>
+        <div class="grid grid-cols-3 gap-8">
+          <div class="flex flex-col justify-between">
+            <earnings-month class=""></earnings-month>
+            <sales-month class=""></sales-month>
+          </div>
+          <summary-chart class="w-full col-span-2"></summary-chart>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-        <best-sellers></best-sellers>
-        <recent-orders></recent-orders>
+
+      <div>
+        <h2 class="text-2xl font-montserrat font-semibold py-3 text-gray-600">Recent Orders</h2>
+        <orders-table :orders="recentOrders"></orders-table>
       </div>
     </main>
   </with-side-bar-layout>

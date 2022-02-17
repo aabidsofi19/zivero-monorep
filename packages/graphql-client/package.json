@@ -9,5 +9,14 @@
     "utils":"*",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6"
+  },
+   "graphql": {
+    "schema": "./schema.graphql",
+    "client": {
+      "service": {
+        "name": "zivero",
+        "url": "http://localhost:8000/graphql"
+      }
+    }
   }
 }

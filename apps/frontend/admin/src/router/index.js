@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/products',
     name: 'products',
-    component: () => import('../views/Products.vue'),
+    component: () => import('../views/SideBarView.vue'),
 
     children: [
       {
@@ -34,9 +34,19 @@ const routes = [
   {
     path: '/orders',
     name: 'orders',
-    component: () => import('../views/Orders.vue'),
+    component: () => import('../views/SideBarView.vue'),
 
-    children: [{ path: '', name: 'orders-all', component: () => import('../views/OrdersAll.vue') }],
+    children: [
+      { path: '', name: 'orders-all', component: () => import('../views/OrdersAll.vue') },
+      { path: ':id', name: 'order-view', component: () => import('../views/OrderSingle.vue') },
+    ],
+  },
+  {
+    path: '/customers',
+    name: 'customers',
+    component: () => import('../views/SideBarView.vue'),
+
+    children: [{ path: '', name: 'customers-all', component: () => import('../views/CustomersAll.vue') }],
   },
 ]
 

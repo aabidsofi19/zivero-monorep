@@ -3,7 +3,7 @@
     :is="$props.tag"
     class="bg-white"
     :class="[
-      $props.outlined ? 'border-2' : 'border-none',
+      $props.outlined ? 'border' : 'border-none',
       `shadow-${$props.elevation}`,
 
       $props.tile ? 'rounded-none' : `rounded-${$props.rounded}`,

@@ -14,6 +14,7 @@ import router from './router'
 
 console.log(apolloClient)
 Chart.register(DoughnutController, ArcElement, Tooltip, LineController, ...registerables)
+Chart.defaults.maintainAspectRatio = false
 library.add(...icons)
 const app = createApp({
   setup() {

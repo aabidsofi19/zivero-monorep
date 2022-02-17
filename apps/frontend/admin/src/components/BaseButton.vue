@@ -8,6 +8,11 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  base: {
+    type: Boolean,
+    default: false,
+  },
+
   primary: {
     type: Boolean,
     default: false,
@@ -41,17 +46,18 @@ defineProps({
 
 <template>
   <button
-    class="text-center capitalize font-montserrat block py-2 px-5 text-white transition-all ease-in-out duration-300 hover:scale-105"
+    class="text-center capitalize font-montserrat block py-2 px-5 transition-all ease-in-out duration-300 hover:scale-105"
     :class="{
       rounded: !tile,
-      'bg-teal-700 hover:bg-teal-600': !secondary && !warning && !success && !info && !danger,
-      'bg-mint text-gray-600 ': secondary,
+      'bg-teal-700 hover:bg-teal-600 text-white ': !secondary && !warning && !success && !info && !danger && !base,
+      'bg-mint text-gray-600  ': secondary,
       'bg-yellow-600 text-white': warning,
       'bg-green-600 text-gray-600': success,
       'bg-blue-600 text-gray-600': info,
       'bg-white hover:shadow-sm border border-red-500 text-red-500': danger,
       'bg-gray-400 cursor-not-allowed': disabled,
       'bg-gray-400 cursor-wait': loading,
+      'bg-white': base,
     }"
     v-bind="$attrs"
   >

@@ -41,12 +41,12 @@ export const GetOrders = gql`
       edges {
         node {
           id
-          extraCharges
+          createdAt
           paymentStatus
           createdAt
           fulfillmentStatus
           totalAmount
-          Customer {
+          customer {
             user {
               username
             }
@@ -64,12 +64,36 @@ export const GetOrder = gql`
       id
       paid
       paymentStatus
-      extraCharges
+      fulfillmentStatus
+      shippingCharges
+      taxPercent
+      discountPercent
       paymentStatus
       createdAt
+      updatedAt
+      totalAmount
+      customer {
+        user {
+          username
+        }
+      }
+      address {
+        name
+        pincode
+        state
+        country
+        city
+        town
+        apartmentNo
+        isWork
+        isHome
+        phoneNumber
+      }
       orderitemSet {
         id
         product {
+          id
+          images
           available
           brand {
             id
@@ -79,11 +103,40 @@ export const GetOrder = gql`
         }
         variation {
           price
+          variant {
+            name
+            value
+          }
           images
         }
-        Amount
+        amount
         totalAmount
-        Quantity
+        quantity
+      }
+    }
+  }
+`
+
+export const UpdateOrder = gql`
+  mutation updateOrder($id: String!, $fulfillmentStatus: String) {
+    updateOrder(orderId: $id, fulfillmentStatus: $fulfillmentStatus) {
+      order {
+        fulfillmentStatus
+        id
+      }
+    }
+  }
+`
+
+export const GetSales = gql`
+  query getSales($createdAt_Lte: DateTime!, $createdAt_Gte: DateTime!) {
+    orders(createdAt_Gte: $createdAt_Gte, createdAt_Lte: $createdAt_Lte, paymentStatus: "succeeded") {
+      edges {
+        node {
+          id
+          createdAt
+          totalAmount
+        }
       }
     }
   }

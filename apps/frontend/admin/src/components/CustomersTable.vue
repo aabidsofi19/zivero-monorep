@@ -8,66 +8,61 @@
             <thead class="bg-gray-50">
               <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Order
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Date
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Customer
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Payment Status
+                  User ID
                 </th>
 
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Fullfillment Status
+                  user name
+                </th>
+
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Email
+                </th>
+
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Active Status
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total
+                  Phone No
                 </th>
-                <!-- <th scope="col" class="relative px-6 py-3">
+                <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">Edit</span>
-                </th> -->
+                </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="{ node: order } in orders" :key="order.id" class="cursor-pointer" @click="goToOrder(order.id)">
+              <tr v-for="{ node: customer } in customers" :key="customer.id" class="cursor-pointer">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">#{{ order.id }}</div>
+                  <div class="text-sm font-medium text-gray-900">#{{ customer.id }}</div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ order.createdAt.split('T')[0] }}
+                    {{ customer.user.username }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ order.customer.user.username }}
+                    {{ customer.user.email }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ order.paymentStatus }}
+                    {{ customer.user.isActive }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ order.fulfillmentStatus }}
+                    {{ customer.phoneNumber }}
                   </div>
-                </td>
-
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">Rs {{ order.totalAmount }}</div>
                 </td>
 
                 <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <router-link
-                    :to="{ name: 'product-edit', params: { id: order.id } }"
+                    :to="{ name: 'product-edit', params: { id: customer.id } }"
                     class="text-indigo-600 hover:text-indigo-900"
                     >Edit</router-link
                   >
@@ -84,13 +79,13 @@
 <script>
 export default {
   props: {
-    orders: {
+    customers: {
       type: Array,
       required: true,
     },
   },
   methods: {
-    goToOrder(id) {
+    goToCustomer(id) {
       this.$router.push({
         name: 'order-view',
         params: {

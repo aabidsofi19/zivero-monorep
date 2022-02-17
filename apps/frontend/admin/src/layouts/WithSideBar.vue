@@ -7,7 +7,7 @@
       <side-bar class=""></side-bar>
       <!-- Sidebar ends -->
       <!-- Remove class [ h-64 ] when adding a card block -->
-      <div class="bg-gray-100 md:ml-48 md:py-5 px-2 md:px-6 m-0 w-full h-full">
+      <div class="bg-gray-100 md:ml-56 md:py-16 px-2 md:px-6 m-0 w-full h-full">
         <!-- Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border -->
         <div class="w-full min-h-screen h-full">
           <slot />

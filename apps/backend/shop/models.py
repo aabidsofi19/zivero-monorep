@@ -110,8 +110,12 @@ class Product(Document):
         return variants
 
     def filterby(self, data):  # usually the input from graphene schema i.e FilterInput
-        filter = {"status": data["status"]}
+        filter = {}
+
         print(data)
+
+        if data.status:
+            filter["status"] = data["status"]
 
         if data.categories:
             filter["category__in"] = data.categories

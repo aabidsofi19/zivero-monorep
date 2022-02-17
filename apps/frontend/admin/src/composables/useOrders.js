@@ -4,7 +4,7 @@ import { GetOrders } from 'graphql-client/admin/orders'
 
 const defaultFilters = {
   orderBy: null,
-  first: 1,
+  first: 30,
   offset: 0,
   id: null,
   paid: null,
@@ -19,9 +19,16 @@ const ordersFilter = reactive({
   ...defaultFilters,
 })
 
-const filterOptions = {
+export const filterOptions = {
   paymentStatus: ['succeeded', 'processing', 'initiated', 'cancelled'],
   fulfillmentStatus: ['Unfulfilled', 'Fulfilled', 'PartiallyFulfilled'],
+}
+
+export const salesForMonth = () => {
+  const today = new Date()
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
+  const { result, loading, error } = useQuery(GetOrders, { createdAt_Gte: firstDay.toISOString() })
+  return useResult(result)
 }
 
 export default () => {

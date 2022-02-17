@@ -27,8 +27,8 @@ class Query(ObjectType):
         # print("fetching products")
         # print("pagenb :- ",pageNb)
 
-        # if not info.context.user.is_superuser:
-        #     filter["status"] = "active"
+        if not info.context.user.is_superuser:
+            filter["status"] = "active"
 
         limit = 30
         offset = (pageNb - 1) * limit

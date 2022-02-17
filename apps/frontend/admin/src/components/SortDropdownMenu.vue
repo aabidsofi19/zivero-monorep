@@ -30,9 +30,7 @@
               <button
                 :class="[
                   active ? 'bg-mint text-gray-800' : 'text-gray-900',
-                  option.value == filterState.filterInput.sortBy
-                    ? 'bg-mint text-gray-800 border-l-3 border-teal-800'
-                    : '',
+                  option.value == active ? 'bg-mint text-gray-800 border-l-3 border-teal-800' : '',
                   'group flex rounded-md items-center w-full px-2 py-2 text-sm',
                 ]"
               >
@@ -57,28 +55,27 @@ export default {
     MenuItems,
     MenuItem,
   },
-
-  setup() {
-    const { setSortBy, filterState } = useFilters()
-    // eslint-disable-next-line prefer-destructuring
-    // const sortBy = filterState.value.filterInput.sortBy
-    const { sortingOptions } = filterState.value
-
-    return {
-      sortingOptions,
-      filterState,
-      setSortBy,
-    }
+  props: {
+    sortingOptions: {
+      type: Object,
+      required: true,
+    },
+    active: {
+      type: String,
+      required: true,
+    },
   },
-
-  data: () => ({
-    // sortingOptions: [
-    //   { title: 'Popularity', value: 'Popularity' },
-    //   { title: 'Whats New', value: 'WhatsNew' },
-    //   { title: 'Better Discount', value: 'BetterDiscount' },
-    //   { title: 'Price : Low to High', value: 'PriceLowToHigh' },
-    //   { title: 'Price : High to Low', value: 'PriceHighToLow' },
-    // ],
-  }),
+  emits: ['setSortBy'],
+  // setup() {
+  //   const { setSortBy, filterState } = useFilters()
+  //   // eslint-disable-next-line prefer-destructuring
+  //   // const sortBy = filterState.value.filterInput.sortBy
+  //   const { sortingOptions } = filterState.value
+  //   return {
+  //     sortingOptions,
+  //     filterState,
+  //     setSortBy,
+  //   }
+  // },
 }
 </script>

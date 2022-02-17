@@ -40,7 +40,7 @@ export const GetOrders = gql`
       edges {
         node {
           id
-          extraCharges
+          deliveryCharges
           paymentStatus
           createdAt
           orderitemSet {
@@ -57,9 +57,9 @@ export const GetOrders = gql`
               price
               images
             }
-            Amount
+            amount
             totalAmount
-            Quantity
+            quantity
           }
         }
         cursor
