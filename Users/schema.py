@@ -15,6 +15,11 @@ from .models import User, Customer, Address
 from cart.decorators import migrate_cart_to_db, migrate_cart_to_session
 
 
+class UserStatusType(DjangoObjectType):
+    class Meta:
+        model = UserStatus
+
+
 class UserType(DjangoObjectType):
     class Meta:
         model = User
@@ -55,6 +60,9 @@ class CustomerFilter(FilterSet):
             "user__last_name": ["exact"],
             "user__email": ["exact"],
             "phone_number": ["exact"],
+            "user__status__verified": ["exact"],
+            "user__status__archived": ["exact"],
+            "user__is_active": ["exact"],
         }
 
 

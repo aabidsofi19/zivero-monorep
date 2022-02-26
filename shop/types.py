@@ -2,11 +2,10 @@ from graphene_mongo import MongoengineObjectType
 import graphene
 from shop.models import *
 
+
 class BrandType(MongoengineObjectType):
     class Meta:
-        model=Brand
-
-
+        model = Brand
 
 
 class CategoryType(MongoengineObjectType):
@@ -32,8 +31,10 @@ class VariationType(MongoengineObjectType):
 class ProductType(MongoengineObjectType):
     available_variants = graphene.JSONString()
     page_no = graphene.Int()
+
     class Meta:
         model = Product
+
 
 class ProductsType(graphene.ObjectType):
     products = graphene.List(ProductType)
