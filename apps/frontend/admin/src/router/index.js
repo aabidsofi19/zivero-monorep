@@ -42,6 +42,14 @@ const routes = [
     ],
   },
   {
+    path: '/collections',
+    name: 'collections',
+    component: () => import('../views/SideBarView.vue'),
+
+    children: [{ path: '', name: 'categories', component: () => import('../views/Categories.vue') }],
+  },
+
+  {
     path: '/customers',
     name: 'customers',
     component: () => import('../views/SideBarView.vue'),

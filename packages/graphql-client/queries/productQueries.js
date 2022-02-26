@@ -20,6 +20,8 @@ export const GET_PRODUCTS_QUERY = gql`
         }
         status
         images
+        price
+        discountPercent
         variations {
           Id
           price
@@ -40,6 +42,8 @@ export const GET_PRODUCT_QUERY = gql`
       id
       name
       description
+      images
+      price
       brand {
         id
         name
@@ -49,7 +53,7 @@ export const GET_PRODUCT_QUERY = gql`
         id
       }
       availableVariants
-
+      status
       variations {
         Id
         price

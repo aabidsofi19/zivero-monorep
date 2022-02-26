@@ -3,27 +3,28 @@
     <v-container class="d-flex">
       <v-checkbox v-model="selected"></v-checkbox>
       <v-container>
-        
         <p class="ma-0 py-1 text-bold text-h6">
-          {{address.name}} 
-          <v-chip class="mx-4" small outlined color="green" >
+          {{ address.name }}
+          <v-chip class="mx-4" small outlined color="green">
             <span v-if="address.isHome">Home</span>
             <span v-if="address.isWork">Work</span>
-          </v-chip>        
+          </v-chip>
         </p>
         <div class="text-grey">
-          <p class="text-caption  mx-0 px-0">
-            {{address.apartmentNo}}. {{address.town}} .{{address.city}} . 
-            {{address.state}} -{{address.pincode}} 
+          <p class="text-caption mx-0 px-0">
+            {{ address.apartmentNo }}. {{ address.town }} .{{ address.city }} .
+            {{ address.state }} -{{ address.pincode }}
           </p>
-          <p class="ma-0 py-1 text-subtitle">Mobile <b>{{address.phoneNumber}}</b></p>
+          <p class="ma-0 py-1 text-subtitle">
+            Mobile <b>{{ address.phoneNumber }}</b>
+          </p>
         </div>
         <v-container
           class="py-2 px-0 mx-0 d-flex justify-start"
           v-if="selected"
         >
-          <v-btn outlined @click="$emit('updateAddress',address)"> Edit</v-btn>
-          <v-btn outlined class="mx-4"  @click="removeAddress()"> Remove</v-btn>
+          <v-btn outlined @click="$emit('updateAddress', address)"> Edit</v-btn>
+          <v-btn outlined class="mx-4" @click="removeAddress()"> Remove</v-btn>
         </v-container>
       </v-container>
     </v-container>
@@ -31,44 +32,38 @@
 </template>
 
 <script>
-import { mapActions,mapState,mapMutations } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
-  props: [ "address",],
-
+  props: ["address"],
   data() {
-    return {
-      
-    };
+    return {};
   },
   methods: {
-    ...mapActions("addresses",["deleteAddress"]),
-    ...mapMutations("addresses",["setSelectedAddress"]),
+    ...mapActions("addresses", ["deleteAddress"]),
+    ...mapMutations("addresses", ["setSelectedAddress"]),
     select() {
       this.selected = !this.selected;
     },
-    removeAddress(){
-      this.deleteAddress(this.address.id)
-    }
-
+    removeAddress() {
+      this.deleteAddress(this.address.id);
+    },
   },
 
-  computed:{
-    ...mapState("addresses",["selectedAddress"]),
-    selected:{
-      get(){
+  computed: {
+    ...mapState("addresses", ["selectedAddress"]),
+    selected: {
+      get() {
         return this.address.id == this.selectedAddress.id;
       },
-      set(value){
-        console.log("valle",value)
-        if (value==true){
-          this.setSelectedAddress(this.address)
+      set(value) {
+        console.log("valle", value);
+        if (value == true) {
+          this.setSelectedAddress(this.address);
+        } else {
+          this.setSelectedAddress({ id: null });
         }
-        else{
-          this.setSelectedAddress({id:null})
-        }
-        
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>

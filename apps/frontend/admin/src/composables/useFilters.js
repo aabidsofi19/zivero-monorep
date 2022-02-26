@@ -44,6 +44,7 @@ const useFilters = () => {
   }
 
   const setSortBy = sortBy => {
+    console.log('setting', sortBy)
     filterState.value.filterInput.sortBy = sortBy
   }
 

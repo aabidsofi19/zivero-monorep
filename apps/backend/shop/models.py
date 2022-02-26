@@ -30,7 +30,7 @@ class Category(Document):
         StringField(choices=gender_choices)
     )  # genders a category can have
     # will help in updating filters if a category is selected to get the revent gender associated to it
-    brands = ListField(ReferenceField(Brand))
+    brands = ListField(ReferenceField(Brand, reverse_delete_rule=NULLIFY))
     # will help in updating filters if a category is selected to get the relevent brands  associated to it
 
 

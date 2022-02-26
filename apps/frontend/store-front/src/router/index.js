@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+
 import homePage from '@/components/homePage.vue';
 
 import cart from '../views/cart.vue';

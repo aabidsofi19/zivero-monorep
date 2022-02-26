@@ -23,6 +23,9 @@
                   Active Status
                 </th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Verified Status
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Phone No
                 </th>
                 <th scope="col" class="relative px-6 py-3">
@@ -44,14 +47,19 @@
 
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-900">
-                    {{ customer.user.email }}
+                    {{ customer.user.email ?? 'Not Set' }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
-                    {{ customer.user.isActive }}
-                  </div>
+                  <base-pill :success="customer.user.isActive" :warning="!customer.user.isActive">
+                    {{ userActive(customer.user) }}</base-pill
+                  >
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <base-pill :success="customer.user.status.verified" :error="!customer.user.status.verified">
+                    {{ userVerificationStatus(customer.user) }}
+                  </base-pill>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -77,14 +85,31 @@
 </template>
 
 <script>
+import BasePill from './BasePill.vue'
 export default {
+  name: 'CustomersTable',
+  components: {
+    BasePill,
+  },
+
   props: {
     customers: {
       type: Array,
       required: true,
     },
   },
+  computed: {},
   methods: {
+    userActive(user) {
+      if (user.status.archived) {
+        return 'archived'
+      } else if (user.isActive) {
+        return 'Active'
+      }
+    },
+    userVerificationStatus(user) {
+      return user.status.verified ? 'verified' : 'not verified'
+    },
     goToCustomer(id) {
       this.$router.push({
         name: 'order-view',

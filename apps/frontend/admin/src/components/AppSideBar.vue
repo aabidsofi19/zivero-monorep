@@ -39,6 +39,21 @@ const menuItems = {
     icon: 'user',
     submenu: true,
   },
+  collections: {
+    to: { name: 'categories' },
+    icon: 'tag',
+    submenu: {
+      categories: {
+        to: { name: 'categories' },
+      },
+      brands: {
+        to: { name: 'categories' },
+      },
+      variants: {
+        to: { name: 'categories' },
+      },
+    },
+  },
 }
 
 const activeSubmenu = computed(() => {

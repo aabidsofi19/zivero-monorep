@@ -31,7 +31,7 @@
           />
         </div>
         <div class="flex items-center gap-3">
-          <sort-dropdown-menu></sort-dropdown-menu>
+          <sort-dropdown-menu :sorting-options="sortingOptions" :selected="sortBy" @onSort="sort"></sort-dropdown-menu>
           <button class="border border-gray-500 py-2 px-3 w-full text-sm" @click="toggleDrawer()">More Filters</button>
         </div>
       </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 import useProducts from '../composables/useProducts'
 import useNavdrawer from '../composables/useNavdrawer'
@@ -74,12 +74,21 @@ export default {
 
   setup() {
     const { open, toggleDrawer } = useNavdrawer(true)
-    const { setStatus, filterState } = useFilters()
+    const { setStatus, filterState, setSortBy } = useFilters()
+    const { sortingOptions } = filterState.value
+    const sortBy = computed(() => filterState.value.filterInput.sortBy)
+
     const statuses = ref(['active', 'draft', 'archived'])
 
     const { products, totalPages, loading, error, currentPage, loadPage } = useProducts()
 
+    const sort = v => setSortBy(v)
+
     return {
+      sort,
+      setSortBy,
+      sortingOptions,
+      sortBy,
       statuses,
       setStatus,
       filterState,

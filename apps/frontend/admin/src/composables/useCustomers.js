@@ -5,15 +5,19 @@ import { FetchCustomers } from 'graphql-client/admin/customers'
 const defaultFilters = {
   first: 30,
   offset: 0,
+  // isVerified: true,
+  // isArchived: false,
+  // isActive: true,
 }
 
 const customerFilters = reactive({
   ...defaultFilters,
 })
 
-export const filterOptions = {
-  paymentStatus: ['succeeded', 'processing', 'initiated', 'cancelled'],
-  fulfillmentStatus: ['Unfulfilled', 'Fulfilled', 'PartiallyFulfilled'],
+const statusOptions = {
+  isActive: 'Active',
+  isVerified: 'Verified',
+  isArchived: 'Archived',
 }
 
 export default () => {
@@ -43,8 +47,19 @@ export default () => {
       customerFilters[key] = defaultFilters[key]
     })
   }
+
+  const toggleStatus = key => {
+    if (['isActive', 'isVerified', 'isArchived'].includes(key)) {
+      // customerFilters[key] = !customerFilters[key]
+      if (customerFilters[key]) {
+        setFilter(key, null)
+      } else {
+        setFilter(key, true)
+      }
+    }
+  }
+
   const pageInfo = computed(() => {
-    console.log(totalItems.value)
     const totalPages = Math.ceil(totalItems.value / customerFilters.first)
     const currentPage = Math.floor((customerFilters.offset + customerFilters.first) / customerFilters.first)
 
@@ -56,14 +71,16 @@ export default () => {
 
   return {
     customerNodes,
+
+    toggleStatus,
     setFilter,
     setFilters,
     loadPage,
     resetFilters,
     filter: readonly(customerFilters),
+    statusOptions,
     error,
     loading,
     pageInfo,
-    filterOptions,
   }
 }

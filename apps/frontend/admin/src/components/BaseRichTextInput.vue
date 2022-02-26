@@ -4,7 +4,8 @@
       v-model="model"
       api-key="amcbn744ff0x5gvrf8z0vvxiasj7ldn8f9cqr07cnwyugt26"
       :init="{
-        height: 200,
+        height: 400,
+
         width: '100%',
         menubar: false,
         plugins: [

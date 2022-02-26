@@ -58,8 +58,13 @@
             class="w-11/12 text-gray-500 border-none focus:ring-transparent focus:border-none"
           />
         </div>
+
         <div class="flex items-center gap-3">
-          <sort-dropdown-menu></sort-dropdown-menu>
+          <sort-dropdown-menu
+            :sorting-options="sortOptions"
+            :selected="sortedBy"
+            @onSort="setSort"
+          ></sort-dropdown-menu>
           <button class="border border-gray-500 py-2 px-3 w-full text-sm" @click="toggleDrawer()">More Filters</button>
         </div>
       </div>
@@ -89,7 +94,7 @@ import OrdersFilterDrawer from './OrdersFilterDrawer.vue'
 import VPagination from './BasePagination.vue'
 import OrdersTable from './OrdersTable.vue'
 import SortDropdownMenu from './SortDropdownMenu.vue'
-import useOrders from '../composables/useOrders'
+import useOrders, { sortOptions } from '../composables/useOrders'
 
 export default {
   components: {
@@ -136,6 +141,7 @@ export default {
       toggleDrawer,
       paymentStatuses,
       fulfillmentStatuses,
+      sortOptions,
     }
   },
 }

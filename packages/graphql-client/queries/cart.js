@@ -1,25 +1,25 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
-
-export const getCart= gql`query 
-cart
-{
-    cart{
+export const getCart = gql`
+  query cart {
+    cart {
       cartLength
       totalPrice
-      products{
+      products {
         price
         quantity
+
         totalPrice
         product {
+          images
           id
-          brand{
+          brand {
             id
             name
           }
           name
         }
-        variation{
+        variation {
           Id
           images
           price
@@ -28,9 +28,8 @@ cart
             name
             value
           }
-          }
         }
-      
+      }
     }
-}
+  }
 `

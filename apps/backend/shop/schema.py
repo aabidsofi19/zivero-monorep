@@ -1,10 +1,9 @@
 import graphene
 from graphene_django.types import ObjectType
-from numpy import equal
 import bson
-from .models import Product, Category, Variant
+from .models import Product, Category, Variant, Brand
 from filters.schema import FilterInput
-from .types import ProductsType, VariantType, ProductType, CategoryType
+from .types import ProductsType, VariantType, ProductType, CategoryType, BrandType
 
 
 class Query(ObjectType):
@@ -17,6 +16,7 @@ class Query(ObjectType):
     product = graphene.Field(ProductType, id=graphene.String())
     categories = graphene.List(CategoryType)
     variants = graphene.List(VariantType)
+    brands = graphene.List(BrandType)
 
     def resolve_product(self, info, id, **kwargs):
         product = Product.objects(id=id).first()
@@ -56,6 +56,9 @@ class Query(ObjectType):
     def resolve_variants(self, info, **kwargs):
         return Variant.objects.all()
 
+    def resolve_brands(self, info, **kwargs):
+        return Brand.objects.all()
+
 
 class VariationInput(graphene.InputObjectType):
 
@@ -83,6 +86,147 @@ class ProductInput(graphene.InputObjectType):
     price = graphene.Int()
     quantity = graphene.Int()
     discount_percent = graphene.Int()
+
+
+class CategoryInput(graphene.InputObjectType):
+    name = graphene.String()
+    description = graphene.String()
+    image = graphene.String()
+    brands = graphene.List(graphene.String)
+    genders = graphene.List(graphene.String)
+
+
+class BrandInput(graphene.InputObjectType):
+    name = graphene.String()
+    logo = graphene.String()
+
+
+class VariantInput(graphene.InputObjectType):
+    name = graphene.String()
+    value = graphene.String()
+
+
+class createVariant(graphene.Mutation):
+    class Arguments:
+        input = VariantInput(required=True)
+
+    variant = graphene.Field(VariantType)
+
+    def mutate(self, info, input):
+        variant = Variant(**input)
+        variant.save()
+        return createVariant(variant=variant)
+
+
+class updateVariant(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+        input = VariantInput(required=True)
+
+    variant = graphene.Field(VariantType)
+
+    def mutate(self, info, id, input):
+        variant = Variant.objects(id=id).first()
+        variant.update(**input)
+        variant.save()
+        return updateVariant(variant=variant)
+
+
+class deleteVariant(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+
+    variant = graphene.Field(VariantType)
+
+    def mutate(self, info, id):
+        variant = Variant.objects(id=id).first()
+        variant.delete()
+        return deleteVariant(variant=variant)
+
+
+class createBrand(graphene.Mutation):
+    class Arguments:
+        input = BrandInput(required=True)
+
+    brand = graphene.Field(BrandType)
+
+    def mutate(self, info, input):
+        brand = Brand(**input)
+        brand.save()
+        return createBrand(brand=brand)
+
+
+class updateBrand(graphene.Mutation):
+    class Arguments:
+        input = BrandInput(required=True)
+
+    brand = graphene.Field(BrandType)
+
+    def mutate(self, info, input):
+        brand = Brand.objects(id=input.get("id")).first()
+        brand.update(**input)
+        return updateBrand(brand=brand)
+
+
+class deleteBrand(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+
+    brand = graphene.Field(BrandType)
+
+    def mutate(self, info, id):
+        brand = Brand.objects(id=id).first()
+        brand.delete()
+        return deleteBrand(brand=brand)
+
+
+class createCategory(graphene.Mutation):
+    class Arguments:
+        input = CategoryInput()
+
+    category = graphene.Field(CategoryType)
+
+    def mutate(self, info, input):
+        category = Category(
+            name=input.name,
+            description=input.description,
+            image=input.image,
+            brands=input.brands,
+        )
+        category.save()
+        return createCategory(category=category)
+
+
+class updateCategory(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+        input = CategoryInput(required=True)
+
+    category = graphene.Field(CategoryType)
+
+    def mutate(self, info, id, input):
+        category = Category.objects(id=id).first()
+        if category:
+            category.update(**{k: v for k, v in input.items() if v is not None})
+            category.save()
+            return updateCategory(category=category)
+        else:
+            return updateCategory(category=None)
+
+
+class deleteCategory(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, id):
+        category = Category.objects(id=id).first()
+        if category:
+            category.delete()
+            return deleteCategory(success=True)
+        else:
+            return deleteCategory(success=False)
 
 
 class createProduct(graphene.Mutation):
@@ -161,3 +305,12 @@ class Mutation(graphene.ObjectType):
     create_product = createProduct.Field()
     update_product = updateProduct.Field()
     delete_product = deleteProduct.Field()
+    create_category = createCategory.Field()
+    update_category = updateCategory.Field()
+    delete_category = deleteCategory.Field()
+    create_brand = createBrand.Field()
+    update_brand = updateBrand.Field()
+    delete_brand = deleteBrand.Field()
+    create_variant = createVariant.Field()
+    update_variant = updateVariant.Field()
+    delete_variant = deleteVariant.Field()

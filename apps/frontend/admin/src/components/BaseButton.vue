@@ -61,7 +61,7 @@ defineProps({
     }"
     v-bind="$attrs"
   >
-    <div class="flex gap-2">
+    <div class="flex justify-center gap-2">
       <slot> </slot>
       <div
         v-if="loading"

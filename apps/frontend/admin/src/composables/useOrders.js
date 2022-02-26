@@ -13,7 +13,19 @@ const defaultFilters = {
   fulfillmentStatus: null,
   createdAt: null,
   updatedAt: null,
+  orderBy: '-createdAt',
 }
+
+export const sortOptions = [
+  {
+    title: 'Newest',
+    value: '-created_at',
+  },
+  {
+    title: 'Oldest',
+    value: 'created_at',
+  },
+]
 
 const ordersFilter = reactive({
   ...defaultFilters,
@@ -22,13 +34,6 @@ const ordersFilter = reactive({
 export const filterOptions = {
   paymentStatus: ['succeeded', 'processing', 'initiated', 'cancelled'],
   fulfillmentStatus: ['Unfulfilled', 'Fulfilled', 'PartiallyFulfilled'],
-}
-
-export const salesForMonth = () => {
-  const today = new Date()
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
-  const { result, loading, error } = useQuery(GetOrders, { createdAt_Gte: firstDay.toISOString() })
-  return useResult(result)
 }
 
 export default () => {
@@ -58,6 +63,11 @@ export default () => {
       ordersFilter[key] = defaultFilters[key]
     })
   }
+
+  const setSort = sort => {
+    ordersFilter.orderBy = sort
+  }
+
   const pageInfo = computed(() => {
     console.log(totalItems.value)
     const totalPages = Math.ceil(totalItems.value / ordersFilter.first)
@@ -69,8 +79,15 @@ export default () => {
     }
   })
 
+  const sortedBy = computed(() => {
+    const { orderBy } = ordersFilter
+    return orderBy
+  })
+
   return {
     orderNodes,
+    sortedBy,
+    setSort,
     setFilter,
     setFilters,
     loadPage,

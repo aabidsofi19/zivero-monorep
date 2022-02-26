@@ -25,12 +25,12 @@
               v-for="option of sortingOptions"
               :key="option.value"
               v-slot="{ active }"
-              @click="setSortBy(option.value)"
+              @click="setSort(option.value)"
             >
               <button
                 :class="[
                   active ? 'bg-mint text-gray-800' : 'text-gray-900',
-                  option.value == active ? 'bg-mint text-gray-800 border-l-3 border-teal-800' : '',
+                  option.value == selected ? 'bg-mint text-gray-800 border-l-3 border-teal-800' : '',
                   'group flex rounded-md items-center w-full px-2 py-2 text-sm',
                 ]"
               >
@@ -60,12 +60,18 @@ export default {
       type: Object,
       required: true,
     },
-    active: {
+    selected: {
       type: String,
       required: true,
     },
   },
-  emits: ['setSortBy'],
+  emits: ['onSort'],
+
+  methods: {
+    setSort(value) {
+      this.$emit('onSort', value)
+    },
+  },
   // setup() {
   //   const { setSortBy, filterState } = useFilters()
   //   // eslint-disable-next-line prefer-destructuring

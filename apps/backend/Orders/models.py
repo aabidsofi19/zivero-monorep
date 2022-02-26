@@ -8,7 +8,7 @@ from shop.models import Product
 
 # Create your models here.
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     paid = models.BooleanField(default=False)
     payment_methods = (("0", "stripe_checkout"), ("1", "PaymentIntent"))
 
@@ -39,7 +39,7 @@ class Order(models.Model):
         choices=Fullfilment_Statuses, default="Unfulfilled", max_length=50
     )
 
-    address = models.ForeignKey(Address, on_delete=models.DO_NOTHING, null=True)
+    address = models.ForeignKey(Address, on_delete=models.PROTECT, null=True)
     tax_percent = models.IntegerField(default=0)
     discount_percent = models.IntegerField(default=0)
     shipping_charges = models.IntegerField(default=0)
@@ -86,7 +86,7 @@ class OrderItem(models.Model):
     product_id = models.CharField(max_length=100, null=False)
     variation_id = models.CharField(null=False, max_length=50)
     amount = models.IntegerField(null=False)  # single item price
-    customer = models.ForeignKey(Customer, on_delete=models.DO_NOTHING)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
     quantity = models.IntegerField(null=False)
     Order_date = models.DateTimeField(auto_now_add=True, blank=True)

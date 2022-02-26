@@ -34,7 +34,7 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="{ node: order } in orders" :key="order.id" class="cursor-pointer" @click="goToOrder(order.id)">
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">#{{ order.id }}</div>
+                  <div class="text-sm text-gray-600 font-semibold font-montserrat">#{{ order.id }}</div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -50,13 +50,28 @@
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
+                  <div
+                    class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full text-center"
+                    :class="{
+                      'bg-green-100 text-green-800': order.paymentStatus === 'SUCCEEDED',
+                      'bg-red-200 text-red-800': order.paymentStatus === 'CANCELED',
+                      'bg-yellow-100 text-yellow-600': order.paymentStatus === 'PROCESSING',
+                      'bg-gray-100 text-gray-600': order.paymentStatus === 'INITIATED',
+                    }"
+                  >
                     {{ order.paymentStatus }}
                   </div>
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
+                  <div
+                    class="px-3 inline-flex text-xs leading-5 font-semibold rounded-full text-center text-gray-600"
+                    :class="{
+                      'bg-green-100 text-green-800': order.fulfillmentStatus === 'FULFILLED',
+                      'bg-red-200 text-red-800': order.fulfillmentStatus === 'UNFULFILLED',
+                      'bg-yellow-100 text-yellow-600': order.fulfillmentStatus === 'PARTIALLYFULFILLED',
+                    }"
+                  >
                     {{ order.fulfillmentStatus }}
                   </div>
                 </td>
