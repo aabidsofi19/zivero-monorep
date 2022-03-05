@@ -4,13 +4,14 @@ import bson
 from .models import Product, Category, Variant, Brand
 from filters.schema import FilterInput
 from .types import ProductsType, VariantType, ProductType, CategoryType, BrandType
+from Orders.models import Order
 
 
 class Query(ObjectType):
 
     Products = graphene.Field(
         ProductsType,
-        filter=FilterInput(),
+        filter=FilterInput(default_value=FilterInput.default()),
         pageNb=graphene.Int(default_value=1, required=False),
     )
     product = graphene.Field(ProductType, id=graphene.String())
@@ -23,12 +24,12 @@ class Query(ObjectType):
         # print(product)
         return product
 
-    def resolve_Products(self, info, filter={}, pageNb=1, **kwargs):
+    def resolve_Products(self, info, filter, pageNb=1, **kwargs):
         # print("fetching products")
         # print("pagenb :- ",pageNb)
 
         if not info.context.user.is_superuser:
-            filter["status"] = "active"
+            filter.status = "active"
 
         limit = 30
         offset = (pageNb - 1) * limit
@@ -158,13 +159,16 @@ class createBrand(graphene.Mutation):
 
 class updateBrand(graphene.Mutation):
     class Arguments:
+        id = graphene.String(required=True)
         input = BrandInput(required=True)
 
     brand = graphene.Field(BrandType)
 
-    def mutate(self, info, input):
-        brand = Brand.objects(id=input.get("id")).first()
+    def mutate(self, info, id, input):
+        brand = Brand.objects(id=id).first()
         brand.update(**input)
+        brand.save()
+        brand.reload()
         return updateBrand(brand=brand)
 
 
@@ -206,12 +210,21 @@ class updateCategory(graphene.Mutation):
 
     def mutate(self, info, id, input):
         category = Category.objects(id=id).first()
+        clean_input = clean_category_input(input)
         if category:
-            category.update(**{k: v for k, v in input.items() if v is not None})
+            category.update(**clean_input)
             category.save()
+            category.reload()
             return updateCategory(category=category)
         else:
             return updateCategory(category=None)
+
+
+def clean_category_input(input):
+    copy = {k: v for k, v in input.items() if v is not None}
+    if copy.get("brands"):
+        copy["brands"] = {bson.ObjectId(id) for id in copy["brands"]}
+    return copy
 
 
 class deleteCategory(graphene.Mutation):
@@ -296,6 +309,10 @@ class deleteProduct(graphene.Mutation):
         id = graphene.String()
 
     def mutate(root, info, id):
+
+        orders_for_product = Order.objects.filter(product_id=id)
+        if orders_for_product:
+            raise Exception("Orders for this product exist")
         product = Product.objects(id=id).first()
         product.delete()
         return deleteProduct(product=product)

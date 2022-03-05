@@ -1,5 +1,8 @@
 from ast import Str
 import base64
+from mongoengine.errors import DoesNotExist
+
+from shop.models import Variation
 from shop.types import ProductType, VariationType
 from django.core.paginator import Paginator
 import graphene
@@ -80,11 +83,10 @@ class OrderItemType(DjangoObjectType):
         return self.product
 
     def resolve_variation(self, info):
-
-        for v in self.product.variations:
-
-            if str(v._id) == self.variation_id:
-                return v
+        try:
+            return self.product.get_variation(self.variation_id)
+        except DoesNotExist:
+            return Variation(price=0)
 
 
 class Query(graphene.ObjectType):

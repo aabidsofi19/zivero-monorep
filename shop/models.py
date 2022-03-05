@@ -65,8 +65,8 @@ class Product(Document):
 
     created_at = DateTimeField(default=datetime.now)
     name = StringField(max_length=100, required=True)
-    brand = ReferenceField(Brand, required=True)
-    category = ReferenceField(Category, required=True)
+    brand = ReferenceField(Brand, required=True, reverse_delete_rule=NULLIFY)
+    category = ReferenceField(Category, required=True, reverse_delete_rule=NULLIFY)
     # sub_category= ReferenceField(SubCategory)
     description = StringField(required=True, max_length=2000)
     variations = ListField(EmbeddedDocumentField(Variation))
