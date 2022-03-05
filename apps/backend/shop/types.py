@@ -1,6 +1,7 @@
 from graphene_mongo import MongoengineObjectType
 import graphene
 from shop.models import *
+from mongoengine.errors import DoesNotExist
 
 
 class BrandType(MongoengineObjectType):
@@ -34,6 +35,20 @@ class ProductType(MongoengineObjectType):
 
     class Meta:
         model = Product
+
+    def resolve_brand(self, info):
+        try:
+            brand = self.brand
+            return brand
+        except DoesNotExist:
+            return Brand(name="Doesnt Exist", logo="")
+
+    def resolve_category(self, info):
+        try:
+            category = self.category
+            return category
+        except DoesNotExist:
+            return Category(name="", image="")
 
 
 class ProductsType(graphene.ObjectType):

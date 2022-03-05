@@ -75,18 +75,18 @@ export default {
     this.productsLoading = true;
     let query = this.$route.query.filter;
     let filter = {};
-    console.log(query);
+    //console.log(query);
     if (query != undefined) {
       filter = JSON.parse(query);
     }
 
-    console.log(filter);
+    //console.log(filter);
     this.setFilters(filter);
     await this.filterProducts(true);
     this.productsLoading = false;
   },
   destroyed() {
-    console.log("destroyed");
+    //console.log("destroyed");
     this.resetFilters();
     this.clearProductsPage();
   },
@@ -111,7 +111,7 @@ export default {
       return p;
     },
     is_mobile() {
-      console.log(screen.width);
+      //console.log(screen.width);
       if (screen.width <= 700) {
         return true;
       } else {
@@ -131,7 +131,7 @@ export default {
     ...mapMutations("filters", ["resetFilters", "setFilters"]),
     handleObserver(entries, observer) {
       if (entries[0].isIntersecting) {
-        console.log("loading more products", observer);
+        //console.log("loading more products", observer);
         this.loading = true;
         observer.unobserve(this.$refs.loader);
         this.getMoreProducts();
@@ -148,15 +148,15 @@ export default {
   watch: {
     // products :{
     //   handler: function(val, ){
-    //     console.log("products changed",)
-    //     console.log(val.pageNo)
+    //     //console.log("products changed",)
+    //     //console.log(val.pageNo)
     //     if(val.pageNo == val.totalPages){
     //       this.loading = false
-    //       console.log("final pages")
+    //       //console.log("final pages")
     //       return
     //     }
     //     this.loading = false
-    //     console.log("observing",)
+    //     //console.log("observing",)
     //     this.observer.observe(this.$refs.loader)
     //   },
     //   deep: true

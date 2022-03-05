@@ -42,7 +42,7 @@ export default () => {
   }
 
   const resetFilters = () => {
-    console.log('resetFilters')
+    //console.log('resetFilters')
     Object.keys(customerFilters).forEach(key => {
       customerFilters[key] = defaultFilters[key]
     })

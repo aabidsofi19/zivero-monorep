@@ -16,6 +16,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  placeholder: {
+    type: String,
+    default: 'Select Values',
+  },
+  label: {
+    type: String,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -33,6 +41,10 @@ const selectOption = option => {
 
 <template>
   <div class="w-full flex flex-col items-center h-auto h-max-64">
+    <label v-if="$props.label" class="self-start" :for="$attrs.id ?? 'input'">
+      {{ $props.label }}
+    </label>
+
     <div class="w-full">
       <div class="flex flex-col items-center relative">
         <div class="w-full">
@@ -52,7 +64,7 @@ const selectOption = option => {
                 <font-awesome-icon icon="times" @click="selectOption(selectedOption)"></font-awesome-icon>
               </div>
               <div class="flex-1" @click="active = !active">
-                <p class="text-gray-300 pl-2">Add Values</p>
+                <p class="text-gray-300 pl-2">{{ placeholder }}</p>
               </div>
               <!-- <div class="flex-1">
                 <input

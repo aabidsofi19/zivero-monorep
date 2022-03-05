@@ -1,6 +1,6 @@
 export const navigationGaurd = (to, from, next) => {
   // Check if the user is logged i
-  // console.log(JSON.stringify(store.getters))
+  // //console.log(JSON.stringify(store.getters))
   const isUserLoggedIn = localStorage.getItem("Zivero_refresh_token");
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isUserLoggedIn) {

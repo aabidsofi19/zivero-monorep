@@ -26,9 +26,11 @@ import {
   faPlus,
   faCheck,
   faSort,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons'
 
 export default [
+  faTrash,
   faShoppingCart,
   faDollarSign,
   faShoppingBag,

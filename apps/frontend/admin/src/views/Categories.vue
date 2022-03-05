@@ -1,13 +1,26 @@
 <script setup>
+import { ref } from 'vue'
 import VButton from '../components/BaseButton.vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { getCategories } from 'graphql-client/queries/collections'
-import addCategory from '../components/CategoryFormModal.vue'
+import addCategory from '../components/CategoryCreateModal.vue'
+import CategoryEditModal from '../components/CategoryEditModal.vue'
+import CategoryDeleteDialog from '../components/CategoryDeleteDialog.vue'
 const { loading, error, result } = useQuery(getCategories)
 const categories = useResult(result, [], data => data.categories)
+
+const deleteDialog = ref(false)
+const categoryToDelete = ref('')
+
+const deleteCategory = id => {
+  categoryToDelete.value = id
+  deleteDialog.value = true
+}
 </script>
 
 <template>
+  <category-delete-dialog :category="categoryToDelete" v-model="deleteDialog"></category-delete-dialog>
+
   <div>
     <!-- header -->
     <div class="flex justify-between my-4 items-center">
@@ -50,6 +63,7 @@ const categories = useResult(result, [], data => data.categories)
                   >
                     genders
                   </th>
+                  <th></th>
                   <!-- <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">Edit</span>
                 </th> -->
@@ -58,9 +72,9 @@ const categories = useResult(result, [], data => data.categories)
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr v-for="category in categories" :key="category.id" class="cursor-pointer">
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div>
-                      <div>
-                        <img :src="category.image" alt="" />
+                    <div class="flex items-center">
+                      <div class="h-auto max-h-16 rounded-md w-16 mr-1 overflow-hidden bg-red-400">
+                        <img :src="category.image" class="object-cover rounded-md shadow-sm" alt="" />
                       </div>
                       <div>
                         <div class="text-sm text-gray-600 font-semibold font-montserrat">#{{ category.id }}</div>
@@ -83,6 +97,14 @@ const categories = useResult(result, [], data => data.categories)
                       <div class="rounded bg-mint text-sm py-1 px-2" v-for="gender in category.genders" :key="gender">
                         {{ gender }}
                       </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex gap-3">
+                      <v-button @click="deleteCategory(category)" base class="text-red-400">
+                        <font-awesome-icon icon="trash"></font-awesome-icon
+                      ></v-button>
+                      <category-edit-modal :category="category"></category-edit-modal>
                     </div>
                   </td>
                 </tr>

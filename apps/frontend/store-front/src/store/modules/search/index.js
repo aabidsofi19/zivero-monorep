@@ -38,7 +38,7 @@ const actions = {
     });
 
     let results = res.data;
-    console.log(results);
+    //console.log(results);
     commit("setAutocompleteResults", results.productAutocompleteResults);
   },
 
@@ -52,7 +52,7 @@ const actions = {
       variables: { search: query, pageNo: pageNo },
     });
     let results = res.data;
-    console.log(results);
+    //console.log(results);
     commit("setSearchResults", results.productSearchResults);
   },
 };

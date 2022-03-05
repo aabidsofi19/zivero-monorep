@@ -19,7 +19,18 @@ export const getBrands = gql`
   query brands {
     brands {
       id
+      logo
       name
+    }
+  }
+`
+
+export const getVariants = gql`
+  query {
+    variants {
+      id
+      name
+      value
     }
   }
 `

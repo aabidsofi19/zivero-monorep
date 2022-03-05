@@ -7,7 +7,7 @@
         class="img mx-1 rounded my-1 grey lighten-5"
         v-for="(brand, i) in brands"
         :key="i"
-        src="https://images.pexels.com/photos/1619652/pexels-photo-1619652.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+        :src="brand.logo"
         :alt="brand"
         @click="filterByBrand(brand)"
       >

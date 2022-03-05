@@ -72,12 +72,20 @@ class SortOptions(graphene.Enum):
 class FilterInput(graphene.InputObjectType):
     categories = graphene.List(graphene.String, required=False)
     gender = graphene.String(required=False)
-    status = graphene.String(required=False)
+    status = graphene.String(required=False, default_value="active")
     sub_categories = graphene.List(graphene.String, required=False)
     brands = graphene.List(graphene.String, required=False)
     variant_filters = graphene.List(VariantsFilterInput, required=False)
     tags = graphene.List(graphene.String, required=False)
     sort_by = graphene.Field(SortOptions)
+
+    @classmethod
+    def default(cls):
+        meta = cls._meta
+        fields = meta.fields
+        default_fields = {name: field.default_value for name, field in fields.items()}
+        container = meta.container
+        return container(**default_fields)
 
 
 ##### custom filter to use in model #######

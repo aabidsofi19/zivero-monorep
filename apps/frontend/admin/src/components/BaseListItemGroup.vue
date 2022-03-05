@@ -54,7 +54,7 @@ export const BaseList = {
     const selected = computed({
       get: () => props.modelValue,
       set: value => {
-        console.log('set computed', value)
+        //console.log('set computed', value)
         const newValue = props.multiselect ? [...props.modelValue, value] : value
         context.emit('update:modelValue', newValue)
       },

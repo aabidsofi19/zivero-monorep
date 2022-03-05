@@ -77,7 +77,7 @@ export default {
       return chunk(this.WomensTrending.products, 4);
     },
     newArrivals() {
-      console.log("chunks");
+      //console.log("chunks");
       return chunk(this.NewArrivals.products, 4);
     },
   },

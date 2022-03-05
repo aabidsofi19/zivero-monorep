@@ -17,7 +17,7 @@ const getters = {
   },
 
   totalOrderAmount: () => (order) => {
-    console.log(order);
+    //console.log(order);
     return (
       order.extraCharges +
       order.orderitemSet.reduce((total, item) => {
@@ -29,7 +29,7 @@ const getters = {
 
 const actions = {
   async createOrder({ rootState, commit }) {
-    console.log("rootstate", rootState);
+    //console.log("rootstate", rootState);
     let selectedAddress = rootState.addresses.selectedAddress;
     let orderInput = {
       addressId: selectedAddress.id,

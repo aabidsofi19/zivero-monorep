@@ -1,7 +1,6 @@
 <template>
   <v-card class="pa-0" outlined tile>
-    </v-img>
-
+    <v-img @click="goToProduct()" class="product-image" :src="image"> </v-img>
     <v-container class="productDetails d-flex flex-column pa-1 ma-0">
       <div class="d-flex justify-space-between align-end mb-0 px-1 kpoppins">
         <span class="text-overline">{{ brandName }}</span>

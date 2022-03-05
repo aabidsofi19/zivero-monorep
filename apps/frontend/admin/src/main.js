@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { createApp, provide, h } from 'vue'
-import { DefaultApolloClient, ApolloClients } from '@vue/apollo-composable'
+import { DefaultApolloClient, provideApolloClient, ApolloClients } from '@vue/apollo-composable'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { Chart, LineController, DoughnutController, ArcElement, Tooltip, registerables } from 'chart.js'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -12,19 +12,22 @@ import './css/app.sass'
 import store from './store'
 import router from './router'
 
-console.log(apolloClient)
+//console.log(apolloClient)
 Chart.register(DoughnutController, ArcElement, Tooltip, LineController, ...registerables)
 Chart.defaults.maintainAspectRatio = false
 library.add(...icons)
+provideApolloClient(apolloClient)
+
 const app = createApp({
   setup() {
-    provide(ApolloClients, {
-      default: apolloClient,
-    })
+    // provide(ApolloClients, {
+    //   default: apolloClient,
+    // })
   },
 
   render: () => h(App),
 })
+
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 app.use(store)
 app.use(router)

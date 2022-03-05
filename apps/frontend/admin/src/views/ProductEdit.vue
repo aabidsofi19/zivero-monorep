@@ -8,7 +8,6 @@
         <span class="px-3 font-bold"> Update Product</span>
       </div>
     </div>
-
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div class="col-span-2 h-auto pb-20 space-y-5">
         <v-card outlined>
@@ -95,11 +94,11 @@
 
     <div class="flex justify-between items-center border-t mt-3 py-4">
       <div class="flex gap-2">
-        <v-button danger @click="deleteProduct"> Delete Product </v-button>
+        <v-button danger @click="deleteProduct" :loading="deleting"> Delete Product </v-button>
         <v-button secondary @click="deleteProduct"> Archive </v-button>
       </div>
 
-      <v-button @click="saveProduct"> Save </v-button>
+      <v-button @click="saveProduct" :loading="updating"> Save </v-button>
     </div>
   </div>
 </template>
@@ -216,8 +215,8 @@ export default {
       return Options
     })
 
-    const { mutate: updateProduct } = useMutation(UPDATE_PRODUCT)
-    const { mutate: deleteProduct } = useMutation(DELETE_PRODUCT)
+    const { mutate: updateProduct, loading: updating, error: updateError } = useMutation(UPDATE_PRODUCT)
+    const { mutate: deleteProduct, loading: deleting, error: deleteError } = useMutation(DELETE_PRODUCT)
     const v$ = useVuelidate()
 
     return {
@@ -228,6 +227,10 @@ export default {
       cleanOptions,
       productOrganisationOptions,
       variantOptions,
+      deleting,
+      updating,
+      deleteError,
+      updateError,
       updateProduct,
       DeleteProduct: deleteProduct,
       v$,
@@ -260,22 +263,22 @@ export default {
       this.v$.productData.$validate()
       this.$refs.productOrganisation.v$.$validate()
       const variationsComponent = this.$refs.variationsField
-      console.log('variations cmp', variationsComponent)
+      //console.log('variations cmp', variationsComponent)
       if (variationsComponent !== undefined && variationsComponent !== null) {
         if (variationsComponent.validate() === false) {
           return false
         }
       }
-      console.log(this.v$.$errors, 'org', this.$refs.productOrganisation.v$.$errors)
+      //console.log(this.v$.$errors, 'org', this.$refs.productOrganisation.v$.$errors)
 
       return !this.v$.productData.$invalid && !this.$refs.productOrganisation.v$.$invalid
     },
 
     saveProduct() {
-      console.log('saving', this.$refs.productOrganisation, this.$refs.variationsField)
-      console.log('isvalid', this.validateForm())
+      //console.log('saving', this.$refs.productOrganisation, this.$refs.variationsField)
+      //console.log('isvalid', this.validateForm())
       if (this.validateForm()) {
-        console.log('saving true')
+        //console.log('saving true')
         const ProductInput = { ...this.productData, ...this.cleanedProductOrganisationData }
         this.updateProduct({ id: this.productId, ProductInput })
       }
@@ -287,7 +290,7 @@ export default {
         {
           update: cache => {
             let data = cache.readQuery({ query: GET_PRODUCTS_QUERY })
-            console.log('data', data)
+            //console.log('data', data)
             if (data.products) {
               data = data.products.filter(product => product.id !== this.productId)
               cache.writeQuery({ query: GET_PRODUCTS_QUERY, data })

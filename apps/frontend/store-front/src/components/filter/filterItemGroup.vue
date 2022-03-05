@@ -68,7 +68,7 @@ export default {
     },
     getValue(item) {
       //return the the name if the item is an obj else the item
-      // console.log(typeof item== "object")
+      // //console.log(typeof item== "object")
       if (typeof item == "object") {
         return item.id;
       } else {

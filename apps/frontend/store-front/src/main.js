@@ -16,7 +16,7 @@ import store from "@/store";
 
 import VueSanitize from "vue-sanitize";
 
-// console.log("happy coding")
+// //console.log("happy coding")
 
 Vue.use(VueApollo);
 Vue.use(VueSanitize);
@@ -24,10 +24,10 @@ Vue.use(VueSanitize);
 //auth middle ware
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  console.log("auth middleware");
-  console.log(store.state.user);
+  //console.log("auth middleware");
+  //console.log(store.state.user);
   var token = store.state.user.auth.token;
-  console.log("JWT", token);
+  //console.log("JWT", token);
   operation.setContext({
     headers: {
       Authorization: token ? `JWT ${token}` : null,
@@ -44,20 +44,20 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 // })
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
-  console.log("hey eror in request gql");
+  //console.log("hey eror in request gql");
   if (graphQLErrors) {
-    console.log("gql-errors", graphQLErrors);
+    //console.log("gql-errors", graphQLErrors);
     for (let err of graphQLErrors) {
-      console.log(err.message, err.extensions);
+      //console.log(err.message, err.extensions);
       switch (err.message) {
         case "You do not have permission to perform this action":
         case "You are not registerd as customer":
         case "Signature has expired":
-          console.log("refreshing ");
+          //console.log("refreshing ");
           return fromPromise(
             refreshTokenFlow().catch((error) => {
               // Handle token refresh errors e.g clear stored tokens, redirect to login
-              console.log("error while refresdhing", error);
+              //console.log("error while refresdhing", error);
               router.push("/login");
               return;
             })
@@ -74,7 +74,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
               });
 
               // retry the request, returning the new observable
-              console.log("forwarding");
+              //console.log("forwarding");
               return forward(operation);
             });
       }
@@ -87,7 +87,7 @@ const link = new HttpLink({
   fetch,
   credentials: "include",
   onError(err) {
-    console.log(err);
+    //console.log(err);
   },
 });
 

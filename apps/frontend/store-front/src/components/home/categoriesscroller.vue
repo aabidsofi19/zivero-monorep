@@ -45,7 +45,7 @@ export default {
     ...mapActions("filters", ["selectFilter"]),
 
     addCategoryFilter(category) {
-      console.log("adding temp filter");
+      //console.log("adding temp filter");
       let filter = {
         categories: [category.id],
       };
@@ -58,7 +58,7 @@ export default {
       });
     },
     // addGenderFilter(genderName){
-    //     console.log("adding temp filter") ;
+    //     //console.log("adding temp filter") ;
     //     this.updateQueryFilters({
     //         genders:[genderName]
     //     })

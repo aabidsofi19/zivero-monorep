@@ -95,10 +95,10 @@ export const useSalesForMonths = (startDate, endDate) => {
     if (ordersTheseMonths.value) {
       ordersTheseMonths.value.forEach(({ node }) => {
         const date = new Date(node.createdAt)
-        console.log('hello')
+        //console.log('hello')
         const month = date.getMonth()
         const year = date.getFullYear()
-        console.log('month', month)
+        //console.log('month', month)
         const monthIndex = months.findIndex(m => m.month === month && m.year === year)
         if (monthIndex === -1) {
           months.push({ month, year })

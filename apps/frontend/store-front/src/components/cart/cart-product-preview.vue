@@ -128,7 +128,7 @@ export default {
   },
   watch: {
     Quantity: function (oldQuantity, newQuantity) {
-      console.log("request sent", oldQuantity, newQuantity);
+      //console.log("request sent", oldQuantity, newQuantity);
     },
   },
 };

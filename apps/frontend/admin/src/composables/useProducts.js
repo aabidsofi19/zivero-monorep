@@ -29,7 +29,7 @@ export default () => {
   })
 
   const loadPage = page => {
-    console.log('loadinf', page)
+    //console.log('loadinf', page)
     pageNo.value = page
   }
 

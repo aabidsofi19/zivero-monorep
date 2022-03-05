@@ -194,7 +194,7 @@ export default {
     ...mapState("products", ["product", "selected"]),
     ...mapGetters("products", ["variations", "variationId", "productImages"]),
     isDisabled() {
-      console.log("vid", this.variationId);
+      //console.log("vid", this.variationId);
       return this.variationId === null || this.addingToCart;
     },
     sanitizedDescription() {
@@ -205,7 +205,7 @@ export default {
     ...mapMutations("products", ["selectVariant"]),
     ...mapActions("cart", ["addToCart"]),
     buttonSelected(name, value) {
-      //console.log(name + value)
+      ////console.log(name + value)
       for (let i of this.selected) {
         if ((i.name == name) & (i.value == value)) {
           return true;
@@ -225,7 +225,7 @@ export default {
     },
 
     async add2Cart() {
-      //console.log('p',this)
+      ////console.log('p',this)
       this.addingToCart = true;
       let details = {
         productId: this.product.id,

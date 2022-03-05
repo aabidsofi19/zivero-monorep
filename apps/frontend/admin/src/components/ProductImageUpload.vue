@@ -30,7 +30,7 @@ watchEffect(() => {
 })
 
 onMounted(() => {
-  console.log('mounted')
+  //console.log('mounted')
   includeScript('widget.cloudinary.com/v2.0/global/all.js')
 })
 
@@ -40,7 +40,7 @@ const openUploadModel = () => {
       { cloud_name: 'dh3azc5sk', upload_preset: 'e4ftjcge', return_delete_token: true },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          console.log('Done uploading..: ', result.info)
+          //console.log('Done uploading..: ', result.info)
           const url = result.info.secure_url
           emit('update:modelValue', [...props.modelValue, url])
           uploadedImages.value.push(result.info)
@@ -51,7 +51,7 @@ const openUploadModel = () => {
 }
 
 const deleteImage = image => {
-  console.log('deleting image', image)
+  //console.log('deleting image', image)
   const index = uploadedImages.value.findIndex(i => i.public_id === image.public_id)
   uploadedImages.value.splice(index, 1)
   emit(

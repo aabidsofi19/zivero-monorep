@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import useNavdrawer from '../composables/useNavdrawer'
 import BaseNavLink from './BaseNavLink.vue'
+import BaseButton from './BaseButton.vue'
 
 const menuItems = {
   home: {
@@ -47,10 +48,10 @@ const menuItems = {
         to: { name: 'categories' },
       },
       brands: {
-        to: { name: 'categories' },
+        to: { name: 'brands' },
       },
       variants: {
-        to: { name: 'categories' },
+        to: { name: 'variants' },
       },
     },
   },
@@ -75,7 +76,7 @@ const activeSubmenu = computed(() => {
 })
 
 const { toggleDrawer, isDrawerOpen } = useNavdrawer()
-console.log('isOpen', isDrawerOpen)
+//console.log('isOpen', isDrawerOpen)
 
 const route = useRoute()
 </script>
@@ -84,7 +85,7 @@ const route = useRoute()
   <transition name="fade" :duration="1000">
     <nav
       v-if="isDrawerOpen"
-      class="gap-4 font-montserrat drawer fixed top-0 bottom-0 w-2/3 bg-white h-auto z-50 md:pt-16 md:z-0 pr-2 md:w-56 border-r-2 shadow-sm md:shadow-none"
+      class="gap-4 font-montserrat drawer fixed top-0 bottom-0 w-2/3 bg-white h-auto z-50 md:pt-20 md:z-0 pr-2 md:w-56 border-r-2 shadow-sm md:shadow-none"
     >
       <div class="text-right px-4 text-xl md:hidden w-full">
         <font-awesome-icon icon="times" @click="toggleDrawer"></font-awesome-icon>
@@ -98,11 +99,12 @@ const route = useRoute()
           </router-link>
         </base-nav-link>
 
-        <div v-show="activeSubmenu == key" class="">
+        <div v-show="activeSubmenu == key" class="flex flex-col">
           <router-link
             v-for="(submenu, key_) in item.submenu"
             :key="key_"
             :to="submenu.to"
+            class="w-full"
             :class="[
               route.name == submenu.to.name
                 ? 'border-l-4  flex bg-cloud bg-opacity-20 border-x-teal-700 font-light  text-teal-700'

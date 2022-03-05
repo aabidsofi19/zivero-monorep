@@ -18,17 +18,16 @@ const props = defineProps({
 })
 
 const selectItem = () => {
-  console.log('emitting')
+  //console.log('emitting')
   selectedValue.value = props.value
 }
 
 const selected = computed(() => {
   if (selectedValue.value instanceof Array) {
     return props.value in selectedValue.value
-  } 
-    
-return selectedValue.value == props.value
-  
+  }
+
+  return selectedValue.value == props.value
 })
 
 const checkbox = ref(true)

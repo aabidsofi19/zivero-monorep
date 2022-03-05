@@ -1,81 +1,122 @@
 import gql from 'graphql-tag'
 
-// export const CategoryFragment = {
-//   category: gql`
-//     fragment CategoryFragment on CategoryType {
-//       id
-//       brands {
-//         id
-//         name
-//       }
-//       description
-//     }
-//   `,
-// }
+export const CategoryFragment = {
+  category: gql`
+    fragment CategoryFragment on CategoryType {
+      id
+      brands {
+        id
+        name
+      }
+      description
+      image
+      name
+      genders
+    }
+  `,
+}
+
+const BrandFragment = gql`
+  fragment BrandFragment on BrandType {
+    id
+    name
+    logo
+  }
+`
 
 export const createCategory = gql`
   mutation createCategory($input: CategoryInput!) {
     createCategory(input: $input) {
       category {
-        #       ...CategoryFragment
+        ...CategoryFragment
+      }
+    }
+  }
+
+  ${CategoryFragment.category}
+`
+
+export const updateCategory = gql`
+  mutation updateCategory($id: String!, $input: CategoryInput!) {
+    updateCategory(id: $id, input: $input) {
+      category {
+        ...CategoryFragment
+      }
+    }
+  }
+  ${CategoryFragment.category}
+`
+
+export const deleteCategory = gql`
+  mutation deleteCategory($id: String!) {
+    deleteCategory(id: $id) {
+      success
+    }
+  }
+`
+
+export const createBrand = gql`
+  mutation createBrand($input: BrandInput!) {
+    createBrand(input: $input) {
+      brand {
+        ...BrandFragment
+      }
+    }
+  }
+  ${BrandFragment}
+`
+
+export const updateBrand = gql`
+  mutation updateBrand($id: String!, $input: BrandInput!) {
+    updateBrand(id: $id, input: $input) {
+      brand {
+        ...BrandFragment
+      }
+    }
+  }
+  ${BrandFragment}
+`
+
+export const deleteBrand = gql`
+  mutation deleteBrand($id: String!) {
+    deleteBrand(id: $id) {
+      brand {
+        ...BrandFragment
+      }
+    }
+  }
+  ${BrandFragment}
+`
+
+export const createVariant = gql`
+  mutation createVariant($input: VariantInput!) {
+    createVariant(input: $input) {
+      variant {
         id
+        name
+        value
+      }
+    }
+  }
+`
+export const updateVariant = gql`
+  mutation updateVariant($id: String!, $input: VariantInput!) {
+    updateVariant(id: $id, input: $input) {
+      variant {
+        id
+        name
+        value
       }
     }
   }
 `
 
-// export const updateCategory = gql`
-//    mutation updateCategory($id:Int!,$input:CategoryInput!){
-//        updateCategory(id:$id,input:$input){
-//               ${CategoryFragment}
-//        }
-//    }
-// `
-
-// export const deleteCategory = gql`
-//   mutation deleteCategory($id: Int!) {
-//     deleteCategory(id: $id) {
-//       success
-//     }
-//   }
-// `
-
-// export const fetchCategories = gql`
-//   query categories(
-//     $offset: Int
-//     $first: Int
-//     $userId: ID
-//     $isActive: Boolean
-//     $isArchived: Boolean
-//     $isVerified: Boolean
-//   ) {
-//     categories(
-//       offset: $offset
-//       first: $first
-//       user: $userId
-//       user_Status_Verified: $isVerified
-//       user_Status_Archived: $isArchived
-//       user_IsActive: $isActive
-//     ) {
-//       pageInfo {
-//         hasNextPage
-//         startCursor
-//       }
-//       edges {
-//         node {
-//           id
-//           ${CategoryFragment}
-//         }
-//       }
-//     }
-//   }
-// `
-
-// export const fetchBrands = gql`
-//   query brands {
-//     brands {
-//       id
-//       name
-//     }
-//   }
-// `
+export const deleteVariant = gql`
+  mutation deleteVariant($id: String!) {
+    deleteVariant(id: $id) {
+      variant {
+        id
+      }
+    }
+  }
+`

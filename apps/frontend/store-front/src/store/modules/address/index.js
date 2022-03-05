@@ -39,12 +39,12 @@ const mutations = {
 
 const actions = {
   async fetchAddresses({ commit }) {
-    console.log("fetching");
+    //console.log("fetching");
     let { loading, data } = await client.query({
       query: fetchAddresses,
       fetchPolicy: "no-cache",
     });
-    console.log("addresses", data);
+    //console.log("addresses", data);
     commit("setAddresses", data);
     return loading;
   },
@@ -54,19 +54,19 @@ const actions = {
   //         query:fetchDefaultAddress,
   //         fetchPolicy:"no-cache"
   //     })
-  //     console.log("default",result)
+  //     //console.log("default",result)
   //     commit('setDefaultAddress',result.data.defaultAddress)
   // },
 
   async addAddress({ dispatch, commit }, address) {
-    // console.log("adding",address)
+    // //console.log("adding",address)
     commit("app/SET_LOADING", true, { root: true });
     let result = await client.mutate({
       mutation: ADD_ADDRESS,
       variables: { address: { ...address } },
     });
 
-    // console.log("add address",result)
+    // //console.log("add address",result)
     if (result.data.addAddress.address.id) {
       let { loading } = await dispatch("fetchAddresses");
       commit("app/SET_LOADING", loading, { root: true });
@@ -79,8 +79,8 @@ const actions = {
     delete updateValues["id"];
     delete updateValues["__typename"];
 
-    console.log("addressID", addressId);
-    console.log("address", updateValues);
+    //console.log("addressID", addressId);
+    //console.log("address", updateValues);
     let result = await client.mutate({
       mutation: UPDATE_ADDRESS,
       variables: { addressId: addressId, updateValues: { ...updateValues } },
@@ -93,14 +93,14 @@ const actions = {
   },
 
   async deleteAddress({ dispatch }, addressId) {
-    console.log("id", addressId);
+    //console.log("id", addressId);
     let result = await client.mutate({
       mutation: DELETE_ADDRESS,
       variables: { addressId: addressId },
     });
-    console.log("res", result);
+    //console.log("res", result);
     if (result.data.deleteAddress.success) {
-      console.log("fetching");
+      //console.log("fetching");
       dispatch("fetchAddresses");
       // dispatch("fetchDefaultAddress")
     }
