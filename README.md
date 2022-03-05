@@ -1,26 +1,26 @@
-# Turborepo starter
+# Zivero
 
 This is an official Mono repo for the Zivero Ecommerce Engine
 
 ## What's inside?
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
+This mono repo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager.
+and uses turborepo for monorepo mangement .
+
+It includes the following packages/apps:
 
 ### Apps and Packages
 
 - `backend`: a Django app
-- `web`: another [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `store_front`: a [Vue2 ](https://vuejs.org) app
+- `admin` : a Vue3 and vite app
+- `graphql-client`: graphql sdl and documents to interact with the backend
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Utilities
 
 This turborepo has some additional tools already setup for you:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Jest](https://jestjs.io) test runner for all things JavaScript
 - [Prettier](https://prettier.io) for code formatting
