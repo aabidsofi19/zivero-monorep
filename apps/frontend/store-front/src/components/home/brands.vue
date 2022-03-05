@@ -61,8 +61,8 @@ export default {
 }
 
 .img {
-  width: 35vw;
-  height: 55vh;
+  width: 30vw;
+  height: 32vh;
 }
 
 @media screen and (min-width: 600px) {

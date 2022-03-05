@@ -76,7 +76,7 @@ export const GetOrder = gql`
       id
       paid
       paymentStatus
-      extraCharges
+      shippingCharges
       paymentStatus
       createdAt
       orderitemSet {
@@ -93,9 +93,9 @@ export const GetOrder = gql`
           price
           images
         }
-        Amount
+        amount
         totalAmount
-        Quantity
+        quantity
       }
     }
   }

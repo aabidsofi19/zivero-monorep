@@ -4,7 +4,7 @@
     v-if="orderItem.product"
     color="lightgrey"
   >
-    <v-badge overlap :content="orderItem.Quantity">
+    <v-badge overlap :content="orderItem.quantity">
       <!-- <v-badge  width="20%" max-width="100px" :content="orderItem.Quantity" height="auto" overlap > -->
       <v-img
         :src="orderItemImage(orderItem.product, orderItem.variation)"
