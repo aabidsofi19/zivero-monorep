@@ -1,6 +1,6 @@
 # Zivero
 
-This is an official Mono repo for the Zivero Ecommerce Engine
+This is the official Mono repo for the Zivero Ecommerce Engine
 
 ## What's inside?
 
@@ -24,6 +24,9 @@ This turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Jest](https://jestjs.io) test runner for all things JavaScript
 - [Prettier](https://prettier.io) for code formatting
+- [Pylint](https:pylint.org) for python code linting
+- [black](https://pypi.org/project/black/) for python codel formating
+- [mypy](http://mypy-lang.org/) fro static type checking
 
 ## Setup
 
