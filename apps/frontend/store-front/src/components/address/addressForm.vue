@@ -6,8 +6,16 @@
           <span class="ma-0 pa-0 text-button"> Contact details </span>
         </div>
         <div class="pa-2">
-          <v-text-field v-model="address.name" label="Name" outlined></v-text-field>
-          <v-text-field v-model="address.phoneNumber" label="Mobile No" outlined></v-text-field>
+          <v-text-field
+            v-model="address.name"
+            label="Name"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.phoneNumber"
+            label="Mobile No"
+            outlined
+          ></v-text-field>
         </div>
       </div>
       <div class="address-details">
@@ -15,33 +23,63 @@
           <span class="ma-0 pa-0 text-button"> Address</span>
         </div>
         <div class="pa-2">
-          <v-text-field v-model="address.pincode" label="Pincode" outlined></v-text-field>
-          <v-text-field v-model="address.apartmentNo" label="Apartment No" outlined></v-text-field>
-          <v-text-field v-model="address.town" label="locality/town" outlined></v-text-field>
-          <v-text-field v-model="address.city" label="city/district" outlined></v-text-field>
-          <v-text-field v-model="address.state" label="State" outlined></v-text-field>
-          <v-text-field v-model="address.country" label="Country" outlined></v-text-field>
-          
+          <v-text-field
+            v-model="address.pincode"
+            label="Pincode"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.apartmentNo"
+            label="Apartment No"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.town"
+            label="locality/town"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.city"
+            label="city/district"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.state"
+            label="State"
+            outlined
+          ></v-text-field>
+          <v-text-field
+            v-model="address.country"
+            label="Country"
+            outlined
+          ></v-text-field>
+
           <div>
-            <p class="text-button font-weight-bold"> Save Address As</p>
-         
-            <v-btn class="rounded-pill mr-7" outlined  
-              :class = '{"green darken-2": address.isHome}'
+            <p class="text-button font-weight-bold">Save Address As</p>
+
+            <v-btn
+              class="rounded-pill mr-7"
+              outlined
+              :class="{ 'green darken-2': address.isHome }"
               @click="setAsHome()"
-             >
-               Home
+            >
+              Home
             </v-btn>
-            <v-btn class="rounded-pill mr-7" outlined  
-              :class = '{"green darken-2": address.isWork}'
+            <v-btn
+              class="rounded-pill mr-7"
+              outlined
+              :class="{ 'green darken-2': address.isWork }"
               @click="setAsWork()"
-             >
-               Work
+            >
+              Work
             </v-btn>
           </div>
-          <v-checkbox v-model="address.isPrimary" class="" > 
+          <v-checkbox v-model="address.isPrimary" class="">
             <template v-slot:label>
-              <div class="text-button font-weight-bold black--text">Set As Default Address</div>
-            </template> 
+              <div class="text-button font-weight-bold black--text">
+                Set As Default Address
+              </div>
+            </template>
           </v-checkbox>
         </div>
       </div>
@@ -51,19 +89,19 @@
 
 <script>
 export default {
-  props:["update"],
-  
-  mounted(){
-    console.log("mounting form")
-    if(this.update){
-      console.log("updating fields")
-      let address = this.$store.state.addresses.addressToUpdate
-      this.address =address
-    }  
+  props: ["update"],
+
+  mounted() {
+    //console.log("mounting form")
+    if (this.update) {
+      //console.log("updating fields")
+      let address = this.$store.state.addresses.addressToUpdate;
+      this.address = address;
+    }
   },
   data() {
     return {
-      address:{
+      address: {
         name: "",
         pincode: "",
         state: "",
@@ -75,31 +113,30 @@ export default {
         isWork: false,
         isHome: true,
         phoneNumber: "",
-      }
+      },
     };
   },
 
-
-  methods:{
-    setAsHome(){
-      this.address.isHome = !this.address.isHome
-      this.address.isWork =false
+  methods: {
+    setAsHome() {
+      this.address.isHome = !this.address.isHome;
+      this.address.isWork = false;
     },
-    setAsWork(){
-      this.address.isHome =false
-      this.address.isWork = ! this.address.isWork 
-    }
-  }
+    setAsWork() {
+      this.address.isHome = false;
+      this.address.isWork = !this.address.isWork;
+    },
+  },
 };
 </script>
 
 <style>
-.addressForm{
-  width:100%;
-  max-width:600px;
+.addressForm {
+  width: 100%;
+  max-width: 600px;
 }
 
-.outlined{
+.outlined {
   border: 1px solid black;
 }
 </style>

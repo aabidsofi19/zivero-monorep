@@ -1,18 +1,18 @@
 <template>
-  <div class="">
+  <div class="w-full h-full">
     <nav-bar />
-    <div class="py-8 flex flex-no-wrap">
+    <div class="flex flex-no-wrap w-full h-full">
       <!-- Sidebar starts -->
-      <!-- Remove class [ hidden ] and replace [ sm:flex ] with [ flex ] -->
-      <side-bar></side-bar>
+
+      <side-bar class=""></side-bar>
       <!-- Sidebar ends -->
       <!-- Remove class [ h-64 ] when adding a card block -->
-      <div class="container mx-auto ml-60 py-10 h-64 md:w-4/5 w-11/12 px-6">
+      <div class="bg-gray-100 md:ml-56 md:py-20 @click='logout' :loading='loggingOut' px-2 md:px-6 m-0 w-full h-full">
         <!-- Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border -->
-        <div class="w-full h-full rounded border-dashed border-2 border-gray-300">
-          <!-- Place your content here -->
+        <div class="w-full min-h-screen h-full">
           <slot />
         </div>
+        <!-- Place your content here -->
       </div>
     </div>
   </div>
@@ -21,6 +21,7 @@
 <script>
 import sideBar from '../components/AppSideBar.vue'
 import navBar from '../components/TheNavBar.vue'
+
 export default {
   name: 'SideBarWithIconsAtBottom',
   components: {

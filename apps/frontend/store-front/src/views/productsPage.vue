@@ -1,118 +1,117 @@
 <template>
-<div>
-  <mobile-filter-panel   />
-  <productsLoading v-if="productsLoading" />
-  
-  <div v-else class="d-flex">
-    
-    <desktop-filter-panel v-if="!isMobile" />
-    
-    <productsLoading v-if="isFiltering" />
+  <div class="w-full">
+    <mobile-filter-panel v-if="isMobile" />
+    <productsLoading v-if="productsLoading" />
 
-    <div v-else >
+    <div v-else v class="d-flex">
+      <desktop-filter-panel v-if="!isMobile" />
 
+      <productsLoading v-if="isFiltering" />
+
+      <v-sheet width="100%" v-else class="">
         <v-sheet class="justify-end d-none d-md-flex" width="100%">
-          <sortingMenu class="mx-5 my-2 d-none d-md-block "/>
+          <sortingMenu class="mx-5 my-2 d-none d-md-block" />
         </v-sheet>
-        
-        <productsGrid  @scroll.prevent :productChunks="productChunks"> </productsGrid>
-         
-        <div class="px-4">
-        <v-btn block color="primary" tile  class="mb-4 mt-4 white--text" @click="fetchMoreProducts"
-          v-show="hasNextPage"
-         :loading="fetchingMoreProducts" :disabled="fetchingMoreProducts">
-          Load More
-        </v-btn>
-        </div>
-        
-    </div>
-   
-    <sortingBottomSheet/>
-    <bottom-navigation ></bottom-navigation>
-  </div>
-</div>
 
+        <productsGrid @scroll.prevent :productChunks="productChunks">
+        </productsGrid>
+
+        <div class="px-4">
+          <v-btn
+            block
+            color="primary"
+            tile
+            class="mb-4 mt-4 white--text"
+            @click="fetchMoreProducts"
+            v-show="hasNextPage"
+            :loading="fetchingMoreProducts"
+            :disabled="fetchingMoreProducts"
+          >
+            Load More
+          </v-btn>
+        </div>
+      </v-sheet>
+
+      <sortingBottomSheet />
+      <bottom-navigation></bottom-navigation>
+    </div>
+  </div>
 </template>
 
 <script>
 import productsGrid from "../components/products/productsGrid.vue";
 import desktopFilterPanel from "../components/filter/desktopFilterPanel.vue";
-import mobileFilterPanel from "../components/filter/mobileFilterPanel.vue"
+import mobileFilterPanel from "../components/filter/mobileFilterPanel.vue";
 import bottomNavigation from "../components/products/productsBtmnav.vue";
-import productsLoading   from "../components/products/loader.vue";
+import productsLoading from "../components/products/loader.vue";
 import sortingMenu from "../components/filter/sortingMenu.vue";
 import sortingBottomSheet from "../components/filter/sortingBottomSheet.vue";
 // import loader from "../components/products/loader.vue";
 // import Loading from "../components/loading.vue"
 
-import {mapState,mapActions , mapGetters, mapMutations} from "vuex"
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 // import Loading from "../components/loading.vue";
 export default {
   name: "productsPage ",
   components: {
     productsGrid,
     mobileFilterPanel,
-   desktopFilterPanel,
+    desktopFilterPanel,
     bottomNavigation,
     productsLoading,
     sortingMenu,
     sortingBottomSheet,
-    
-},
+  },
   async mounted() {
-     
     this.$store.dispatch("products/getFilters");
 
     //  if (! this.areFiltersChanged){
-       
-    //     
+
+    //
     //     await this.getProducts({})
     //     this.productsLoading =false
 
     //  }
-    this.productsLoading = true
-    let query=this.$route.query.filter
-    let filter={}
-    console.log(query)
-    if( query != undefined ){
-        filter = JSON.parse(query)
+    this.productsLoading = true;
+    let query = this.$route.query.filter;
+    let filter = {};
+    //console.log(query);
+    if (query != undefined) {
+      filter = JSON.parse(query);
     }
-    
-    console.log(filter)
-    this.setFilters(filter)
-    await this.filterProducts(true)
-    this.productsLoading =false
 
-    
-
+    //console.log(filter);
+    this.setFilters(filter);
+    await this.filterProducts(true);
+    this.productsLoading = false;
   },
-  destroyed(){
-    console.log("destroyed")
-    this.resetFilters()
-    this.clearProductsPage()
+  destroyed() {
+    //console.log("destroyed");
+    this.resetFilters();
+    this.clearProductsPage();
   },
   data() {
     return {
-      productsLoading:false,
-      oberver : null,
+      productsLoading: false,
+      oberver: null,
       isOpenDrawer: false,
-      fetchingMoreProducts:false
+      fetchingMoreProducts: false,
     };
   },
 
   computed: {
-    ...mapState("products",["products"]) ,
-    ...mapState("filters",["isFiltering"]),
+    ...mapState("products", ["products"]),
+    ...mapState("filters", ["isFiltering"]),
     ...mapGetters("filters", ["areFiltersChanged"]),
-    page(){
-      return this.products.pageNo
+    page() {
+      return this.products.pageNo;
     },
     productChunks() {
       let p = this.$store.getters["products/productChunks"];
       return p;
     },
     is_mobile() {
-      console.log(screen.width);
+      //console.log(screen.width);
       if (screen.width <= 700) {
         return true;
       } else {
@@ -121,60 +120,56 @@ export default {
     },
 
     hasNextPage() {
-       return this.products.pageNo < this.products.totalPages
-    }
+      return this.products.pageNo < this.products.totalPages;
+    },
   },
-
-  
 
   methods: {
-    ...mapActions("products",["getMoreProducts","getProducts"]),
-    ...mapActions("filters",["filterProducts"]),
-    ...mapMutations("products",["clearProductsPage"]),
-    ...mapMutations("filters",["resetFilters","setFilters"]),
-    handleObserver(entries, observer){
-      if(entries[0].isIntersecting){
-          console.log('loading more products',observer)
-          this.loading = true
-          observer.unobserve(this.$refs.loader);
-          this.getMoreProducts()
-          }
+    ...mapActions("products", ["getMoreProducts", "getProducts"]),
+    ...mapActions("filters", ["filterProducts"]),
+    ...mapMutations("products", ["clearProductsPage"]),
+    ...mapMutations("filters", ["resetFilters", "setFilters"]),
+    handleObserver(entries, observer) {
+      if (entries[0].isIntersecting) {
+        //console.log("loading more products", observer);
+        this.loading = true;
+        observer.unobserve(this.$refs.loader);
+        this.getMoreProducts();
+      }
     },
 
-    async fetchMoreProducts(){
-      this.fetchingMoreProducts =true
+    async fetchMoreProducts() {
+      this.fetchingMoreProducts = true;
       await this.getMoreProducts();
-      this.fetchingMoreProducts =false
-    }
-
-
-
-
+      this.fetchingMoreProducts = false;
+    },
   },
 
-  watch:{
-   
+  watch: {
     // products :{
     //   handler: function(val, ){
-    //     console.log("products changed",)
-    //     console.log(val.pageNo)
+    //     //console.log("products changed",)
+    //     //console.log(val.pageNo)
     //     if(val.pageNo == val.totalPages){
     //       this.loading = false
-    //       console.log("final pages")
+    //       //console.log("final pages")
     //       return
     //     }
     //     this.loading = false
-    //     console.log("observing",)
+    //     //console.log("observing",)
     //     this.observer.observe(this.$refs.loader)
     //   },
     //   deep: true
     // }
-  }
-
+  },
 };
 </script>
 
-<style scoped >
+<style scoped>
+.w-full {
+  widows: 100%;
+}
+
 /* @media  screen and (min-width: 700px) {
    
    .products{

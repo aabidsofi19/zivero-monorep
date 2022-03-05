@@ -1,44 +1,33 @@
 <template>
-
-    <div>
-
-       <mobile-filter-panel > </mobile-filter-panel>
-       <desktop-filter-panel > </desktop-filter-panel>
-       
-    </div>
-   
-  
+  <div>
+    <mobile-filter-panel> </mobile-filter-panel>
+    <desktop-filter-panel> </desktop-filter-panel>
+  </div>
 </template>
 
-<script >
+<script>
 // import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
-import mobileFilterPanel from "./mobileFilterPanel.vue"
-import desktopFilterPanel from "./desktopFilterPanel.vue"
+import mobileFilterPanel from "./mobileFilterPanel.vue";
+import desktopFilterPanel from "./desktopFilterPanel.vue";
 export default {
-  
-  components:{
-     desktopFilterPanel,
-     mobileFilterPanel
+  components: {
+    desktopFilterPanel,
+    mobileFilterPanel,
   },
   mounted() {
-
     this.$store.dispatch("products/getFilters");
-  
   },
   data() {
-    return {
-
-    };
+    return {};
   },
   // computed: {
   //   ...mapState("app", ["isFilterDrawerOpen"]),
   //   ...mapState("products", ["filters"]),
   //   ...mapGetters("products", ["cleanedFilters", "variationFilters"]),
 
-    
   //   is_mobile() {
-  //     console.log(screen.width);
+  //     //console.log(screen.width);
   //     if (screen.width <= 700) {
   //       return true;
   //     } else {
@@ -48,7 +37,7 @@ export default {
 
   //   isOpen: {
   //     get: function () {
-        
+
   //       if(!this.is_mobile){
   //         return true
   //       }
@@ -58,7 +47,7 @@ export default {
 
   //     set: function () {
   //       //this.toggleFilterDrawer();
-  //       //console.log("set");
+  //       ////console.log("set");
   //     },
   //   },
   // },
@@ -66,10 +55,8 @@ export default {
   //   ...mapActions("app", ["toggleFilterDrawer"]),
   //   ...mapActions("filters",["clearFilters"]),
   //   ...mapMutations("products", ["updateQueryFilters"]),
-    
-  // },
 
-  
+  // },
 };
 </script>
 

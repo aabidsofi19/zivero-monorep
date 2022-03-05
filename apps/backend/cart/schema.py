@@ -7,30 +7,11 @@ from graphene_django.types import DjangoObjectType, ObjectType
 from graphene_mongo import MongoengineObjectType
 from graphql_jwt.decorators import login_required
 from shop.models import Category, Product, Variation
-from shop.schema import CategoryType, ProductType, VariationType
+from shop.types import CategoryType, ProductType, VariationType
 from shop.utils import get_variation
 
 from .cart import Cart
 from .models import PersistentCart
-
-# class CartProductType(graphene.ObjectType):
-#     product=graphene.Field(ProductType)
-#     price=graphene.Int()
-#     variation=graphene.Field(VariationType)
-#     quantity=graphene.Int()
-#     total_price=graphene.Int()
-
-
-#     def resolve_total_price(parent):
-
-#         # print("self",self,info)
-#         return parent["quantity"] * parent["price"]
-
-
-# class CartType(graphene.ObjectType):
-#     cartLength=graphene.Int()
-#     totalPrice=graphene.Int()
-#     products=graphene.List(CartProductType)
 
 
 class CartProductType(graphene.ObjectType):
@@ -67,7 +48,7 @@ class Query(graphene.ObjectType):
         length = cart_.total_items()
         total_price = cart_.get_total_price()
         cart_products = cart_.products()
-        print(cart_products)
+        print("products", cart_products)
         return CartType(
             cartLength=length, totalPrice=total_price, products=cart_products
         )
@@ -147,6 +128,7 @@ class UpdateCartMutation(graphene.Mutation):
         else:
             cart = Cart(info.context)
         if Input.quantity <= 0:
+
             cart.remove(product_id=Input.product_id, variation_id=Input.variation_id)
         else:
             cart.add(

@@ -1,3 +1,4 @@
 import { navigationGaurd } from "./router";
-
-export { navigationGaurd };
+import { includeScript } from "./helpers";
+import { parseJwt } from "./helpers";
+export { navigationGaurd, includeScript, parseJwt };

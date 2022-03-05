@@ -2,11 +2,19 @@
   "name": "turborepo-basic-shared",
   "version": "0.0.0",
   "private": true,
-  "workspaces": [
-    "apps/frontend/*",
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "nohoist": [
+      "*",
+      "**",
+      "apps/frontend/**/vue",
+      "apps/frontend/**/vue/**"
+    ],
+    "packages": [
+      "apps/frontend/*",
+      "apps/*",
+      "packages/*"
+    ]
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
@@ -14,6 +22,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,vue}\""
   },
   "devDependencies": {
+   
     "prettier": "^2.5.1",
     "turbo": "latest"
   },
@@ -31,16 +40,17 @@
       "lint": {
         "outputs": []
       },
-      "dev": {
-        
-      },
-      "format":{
-        "outputs":[]
+      "dev": {},
+      "format": {
+        "outputs": []
       }
     }
   },
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

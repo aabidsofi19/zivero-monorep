@@ -12,7 +12,6 @@
         <v-btn elevation="0" class="red--text" @click="clearFilters()"
           >CLEAR ALL</v-btn
         >
-       
       </div>
       <v-list-item-group
         class="d-none d-md-flex flex-column pa-0 ma-0"
@@ -57,7 +56,7 @@
         </v-radio-group>
       </v-list-item-group>
     </v-list>
-    
+
     <!-- mobile mobile-pannel -->
     <v-container fluid class="d-md-none d-flex mobile-pannel pa-0 ma-0"
       ><!-- filter panel for mobile view-->
@@ -129,7 +128,7 @@
   </v-navigation-drawer>
 </template>
 
-<script >
+<script>
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   // props: ["isOpen"],
@@ -143,9 +142,9 @@ export default {
       bottom_selected: "",
       group: "",
       selectedFilter: "gender", // gives the seletec filter type like genders , categories,variationfilter
-      selectedVariation: "",     // gives the seletef  variation filter type like size,color
-      selectedVariationValue: {}, 
-      selectedValue: {},         // returns filter for types expect variationfilters {categories:["red"],genders:["male"]}
+      selectedVariation: "", // gives the seletef  variation filter type like size,color
+      selectedVariationValue: {},
+      selectedValue: {}, // returns filter for types expect variationfilters {categories:["red"],genders:["male"]}
     };
   },
   computed: {
@@ -164,8 +163,8 @@ export default {
         variant.values.push(value);
         filters.push(variant);
       }
-      console.log("cleanvariationfilter");
-      console.log(filters);
+      //console.log("cleanvariationfilter");
+      //console.log(filters);
       return filters;
     },
 
@@ -186,7 +185,7 @@ export default {
 
       set: function () {
         //this.toggleFilterDrawer();
-        //console.log("set");
+        ////console.log("set");
       },
     },
   },
@@ -195,7 +194,7 @@ export default {
     ...mapActions("products", ["updateFilters", "getProducts", "getFilters"]),
     ...mapMutations("products", ["updateQueryFilters"]),
     is_mobile() {
-      console.log(screen.width);
+      //console.log(screen.width);
       if (screen.width <= 700) {
         return true;
       } else {
@@ -203,23 +202,20 @@ export default {
       }
     },
     async fetchProducts(updateFilters) {
-      this.$emit('filtering',true)
-      
+      this.$emit("filtering", true);
+
       let loading = await this.getProducts({
         ...this.selectedValue,
         variantFilters: this.cleanedVariationValues,
       });
-      this.$emit('filtering',!loading)
-      
+      this.$emit("filtering", !loading);
+
       if (updateFilters == true) {
         this.updateFilters(this.selectedValue);
-       
-
       }
       if (this.is_mobile()) {
         this.toggleFilterDrawer();
       }
-      
     },
 
     clearFilters() {
@@ -238,21 +234,27 @@ export default {
     },
   },
 
-  watch:{
+  watch: {
     selectedValue: {
-      handler: function(newValue) {
-        this.updateQueryFilters({...newValue,variantFilters:this.cleanedVariationValues});
+      handler: function (newValue) {
+        this.updateQueryFilters({
+          ...newValue,
+          variantFilters: this.cleanedVariationValues,
+        });
       },
       deep: true,
     },
 
     cleanedVariationValues: {
-      handler: function(newValue) {
-        this.updateQueryFilters({...this.selectedValue,variantFilters:newValue});
+      handler: function (newValue) {
+        this.updateQueryFilters({
+          ...this.selectedValue,
+          variantFilters: newValue,
+        });
       },
       deep: true,
     },
-  }
+  },
 };
 </script>
 

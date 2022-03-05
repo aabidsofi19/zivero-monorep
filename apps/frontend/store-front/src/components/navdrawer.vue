@@ -1,5 +1,11 @@
 <template>
-  <v-navigation-drawer  class="d-block d-md-none "  stateless  app clipped v-model="$store.state.app.is_navbar_open">
+  <v-navigation-drawer
+    class="d-block"
+    stateless
+    app
+    clipped
+    v-model="$store.state.app.is_navbar_open"
+  >
     <v-list nav dense>
       <v-list-item-group
         v-model="group"
@@ -29,20 +35,18 @@
             Products
           </v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="isLoggedIn" >
+        <v-list-item v-if="isLoggedIn">
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title @click="logOut()" >
-            Log Out
-          </v-list-item-title>
+          <v-list-item-title @click="logOut()"> Log Out </v-list-item-title>
         </v-list-item>
-        <v-list-item v-else >
+        <v-list-item v-else>
           <v-list-item-icon>
             <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title @click="$router.push('/login')" >
-            SignIn / Register 
+          <v-list-item-title @click="$router.push('/login')">
+            SignIn / Register
           </v-list-item-title>
         </v-list-item>
       </v-list-item-group>
@@ -58,7 +62,6 @@ export default {
     ...mapState("user", ["auth"]),
     isLoggedIn() {
       return this.auth.isLoggedIn;
-    
     },
   },
   methods: {
@@ -67,7 +70,7 @@ export default {
     },
     logOut() {
       this.$store.dispatch("user/logOut");
-    }
+    },
   },
 };
 </script>

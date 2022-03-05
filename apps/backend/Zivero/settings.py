@@ -6,10 +6,9 @@ from mongoengine import connect
 
 # connect('zivero',host='mongodb://localhost:27017')
 # connect('products',host='mongodb://25.19.8.34:27017')
-try:
-    connect('zivero', host='mongodb+srv://test-user:M7AbnQx3MQLZErZ@cluster0.n9vpu.mongodb.net/zivero?retryWrites=true&w=majority')
-except:
-    pass
+
+connect('zivero', host='mongodb+srv://test-user:M7AbnQx3MQLZErZ@cluster0.n9vpu.mongodb.net/zivero?retryWrites=true&w=majority')
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
