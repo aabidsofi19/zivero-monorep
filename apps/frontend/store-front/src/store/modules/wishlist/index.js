@@ -22,7 +22,7 @@ const actions = {
       });
       commit("setWishlist", data.wishlist);
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   },
 
@@ -34,7 +34,7 @@ const actions = {
       });
       await dispatch("fetchWishlist");
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   },
 
@@ -46,7 +46,7 @@ const actions = {
       });
       await dispatch("fetchWishlist");
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   },
 };

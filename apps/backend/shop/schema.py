@@ -4,7 +4,7 @@ import bson
 from .models import Product, Category, Variant, Brand
 from filters.schema import FilterInput
 from .types import ProductsType, VariantType, ProductType, CategoryType, BrandType
-from Orders.models import Order
+from Orders.models import Order, OrderItem
 
 
 class Query(ObjectType):
@@ -310,7 +310,7 @@ class deleteProduct(graphene.Mutation):
 
     def mutate(root, info, id):
 
-        orders_for_product = Order.objects.filter(product_id=id)
+        orders_for_product = OrderItem.objects.filter(product_id=id)
         if orders_for_product:
             raise Exception("Orders for this product exist")
         product = Product.objects(id=id).first()

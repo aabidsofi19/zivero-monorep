@@ -109,7 +109,14 @@
             <span class="px-3"><v-icon>mdi-cart</v-icon> </span>
             <span>ADD TO BAG </span>
           </v-btn>
-          <v-btn color="accent" width="45%" class="py-8 my-3" outlined block>
+          <v-btn
+            color="accent"
+            @click="addToWishlist"
+            width="45%"
+            class="py-8 my-3"
+            outlined
+            block
+          >
             <span class="px-3"><v-icon>mdi-heart</v-icon> </span>
             <span class="text-caption text-md-button">ADD TO WISHLIST</span>
           </v-btn>
@@ -138,6 +145,7 @@
         width="auto"
         height="95%"
         outlined
+        @click="addToWishlist"
         class="mx-7 px-6 py-2"
       >
         <span><v-icon>mdi-heart</v-icon> </span>
@@ -188,6 +196,7 @@ export default {
       errors: ["select product variant "],
       loadingProduct: true,
       addingToCart: false,
+      wishlisted: false,
     };
   },
   computed: {
@@ -204,6 +213,8 @@ export default {
   methods: {
     ...mapMutations("products", ["selectVariant"]),
     ...mapActions("cart", ["addToCart"]),
+    ...mapActions("wishlist", ["addToWishlist", "removeFromWishlist"]),
+
     buttonSelected(name, value) {
       ////console.log(name + value)
       for (let i of this.selected) {
@@ -236,6 +247,15 @@ export default {
       this.disableAddToCart = loading;
       this.errors = errors;
       this.addingToCart = loading;
+    },
+    AddToWishlist() {
+      if (this.wishlisted) {
+        this.removeFromWishlist(this.product.id);
+        this.wishlisted = false;
+      } else {
+        this.addToWishlist(this.product.id);
+        this.wishlisted = true;
+      }
     },
   },
 };

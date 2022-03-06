@@ -3,9 +3,10 @@
     <p class="black--text text-h5 ml-9 my-8 font-weight-bold">
       My Wishlist ({{ totalItems }} items )
     </p>
-    <div class="d-flex flex-wrap justify-space-around overflow-hidden">
+
+    <div class="d-flex flex-wrap justify-center overflow-hidden">
       <product-card
-        class="product-card ma-0 pa-0"
+        class="product-card ma-3 pa-0"
         :name="product.name"
         :image="product.variations[0].images[0]"
         :price="product.variations[0].price"

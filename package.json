@@ -1,5 +1,5 @@
 {
-  "name": "turborepo-basic-shared",
+  "name": "turboepo-basic-shared",
   "version": "0.0.0",
   "private": true,
   "workspaces": {
@@ -11,6 +11,7 @@
     ],
     "packages": [
       "apps/frontend/*",
+      "apps/frontend/store-front",
       "apps/*",
       "packages/*"
     ]
@@ -31,5 +32,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.21"
-  }
+  },
+  "packageManager": "yarn@1.22.17"
 }
