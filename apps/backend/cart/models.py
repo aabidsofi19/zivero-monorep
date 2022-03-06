@@ -42,13 +42,21 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
 
     def products(self):
 
+        # TODO : optimize checking for broken variations and products
         valid_items = list(
             filter(lambda item: document_exists(lambda: item.product), self.items)
         )
-        print("valid", valid_items)
-        self.items = valid_items
+        valid_products = list(
+            filter(
+                lambda item: document_exists(
+                    lambda: item.product.get_variation(item.variation._id)
+                ),
+                valid_items,
+            )
+        )
+        self.items = valid_products
         self.save()
-        return valid_items
+        return valid_products
 
     def add(self, product_id, variation_id, quantity=1, override_quantity=False):
         # checks if item is in cart already
@@ -82,7 +90,8 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
 
     def remove(self, product_id, variation_id):
         product = Product.objects.get(id=product_id)
-        variation = product.get_variation(variation_id)
+
+        variation = y
         self.update(pull__items=CartItem(product=product, variation=variation))
 
     def clear_cart(self):

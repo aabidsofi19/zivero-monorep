@@ -1,5 +1,6 @@
 {
-  "name": "zivero",
+  "name": "zivero_storefront",
+
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -29,25 +29,34 @@ watchEffect(() => {
   }
 })
 
+const cloudName = 'dh3azc5sk' // replace with your own cloud name
+const uploadPreset = 'e4ftjcge' // replace with your own upload preset
+let uploadWidget
+
+const initUploadWidget = () => {
+  console.log('init widget', window.cloudinary)
+  uploadWidget = window.cloudinary.createUploadWidget(
+    { cloudName: cloudName, uploadPreset: uploadPreset },
+    (error, result) => {
+      console.log(error, result)
+      if (!error && result && result.event === 'success') {
+        //console.log('Done uploading..: ', result.info)
+        const url = result.info.secure_url
+        emit('update:modelValue', [...props.modelValue, url])
+        uploadedImages.value.push(result.info)
+      }
+    },
+  )
+}
+
 onMounted(() => {
-  //console.log('mounted')
-  includeScript('widget.cloudinary.com/v2.0/global/all.js')
+  initUploadWidget()
+  //console.log('mokunted')
+  // includeScript('widget.cloudinary.com/v2.0/global/all.js', initUploadWidget)
 })
 
 const openUploadModel = () => {
-  window.cloudinary
-    .openUploadWidget(
-      { cloud_name: 'dh3azc5sk', upload_preset: 'e4ftjcge', return_delete_token: true },
-      (error, result) => {
-        if (!error && result && result.event === 'success') {
-          //console.log('Done uploading..: ', result.info)
-          const url = result.info.secure_url
-          emit('update:modelValue', [...props.modelValue, url])
-          uploadedImages.value.push(result.info)
-        }
-      },
-    )
-    .open()
+  uploadWidget.open()
 }
 
 const deleteImage = image => {
