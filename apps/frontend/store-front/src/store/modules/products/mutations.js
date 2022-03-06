@@ -12,6 +12,9 @@ export default {
   getProduct(state, product) {
     state.product = product;
   },
+  clearProduct(state) {
+    state.product = {};
+  },
   //selects a variant from product page
   selectVariant(state, variant) {
     // //console.log(state.selected)
@@ -27,7 +30,9 @@ export default {
       state.selected.push(variant);
     }
   },
-
+  clearSelectedVariants(state) {
+    state.selected = [];
+  },
   addFilters(state, data) {
     //console.log("filter_data")
     //console.log(data)

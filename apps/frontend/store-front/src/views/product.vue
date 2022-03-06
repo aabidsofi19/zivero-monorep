@@ -96,7 +96,6 @@
 
         <div class="d-none d-md-flex flex-column px-3 my-3">
           <v-btn
-            dark
             tile
             color="secondary"
             block
@@ -111,14 +110,18 @@
           </v-btn>
           <v-btn
             color="accent"
-            @click="addToWishlist"
+            @click="AddToWishlist"
             width="45%"
             class="py-8 my-3"
             outlined
             block
           >
-            <span class="px-3"><v-icon>mdi-heart</v-icon> </span>
-            <span class="text-caption text-md-button">ADD TO WISHLIST</span>
+            <span class="px-3"
+              ><v-icon :color="wishlisted ? red : grey">mdi-heart</v-icon>
+            </span>
+            <span class="text-caption text-md-button">
+              {{ wishlisted ? "Remove From Wishlist" : "Add To Wishlist" }}
+            </span>
           </v-btn>
         </div>
 
@@ -145,7 +148,7 @@
         width="auto"
         height="95%"
         outlined
-        @click="addToWishlist"
+        @click="AddToWishlist"
         class="mx-7 px-6 py-2"
       >
         <span><v-icon>mdi-heart</v-icon> </span>
@@ -182,6 +185,11 @@ export default {
     checkDelivery,
   },
 
+  destroyed() {
+    this.clearProduct();
+    this.clearSelectedVariants();
+  },
+
   async mounted() {
     let id = this.$route.params.id;
     let { errors, loading } = await this.$store.dispatch(
@@ -197,6 +205,7 @@ export default {
       loadingProduct: true,
       addingToCart: false,
       wishlisted: false,
+      updatingWishlist: false,
     };
   },
   computed: {
@@ -211,7 +220,11 @@ export default {
     },
   },
   methods: {
-    ...mapMutations("products", ["selectVariant"]),
+    ...mapMutations("products", [
+      "selectVariant",
+      "clearProduct",
+      "clearSelectedVariants",
+    ]),
     ...mapActions("cart", ["addToCart"]),
     ...mapActions("wishlist", ["addToWishlist", "removeFromWishlist"]),
 
@@ -249,6 +262,7 @@ export default {
       this.addingToCart = loading;
     },
     AddToWishlist() {
+      console.log("peoduction", this.product);
       if (this.wishlisted) {
         this.removeFromWishlist(this.product.id);
         this.wishlisted = false;
