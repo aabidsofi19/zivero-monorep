@@ -117,7 +117,11 @@ class Query(graphene.ObjectType):
 
     @login_required
     def resolve_orders(self, info, **kwargs):
-        print(self)
+
+        if kwargs.get("id"):
+            print("id", kwargs)
+            kwargs["id"] = object_id_from_global_id(kwargs["id"])
+
         user = info.context.user
         if user.is_superuser:
             orders = OrderFilter(kwargs).qs
