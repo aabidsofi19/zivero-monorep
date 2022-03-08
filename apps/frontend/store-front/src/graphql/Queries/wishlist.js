@@ -1,21 +1,17 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const FetchWishlist = gql`
-    query FetchWishlist {
-        wishlist {
-            id
-            
-            products {
-                id
-                name
-                description
-                variations {
-                  available
-                  discountPercent
-                  price
-                  images 
-                }
-            }
-        }
+  query FetchWishlist {
+    wishlist {
+      id
+
+      products {
+        id
+        name
+        price
+        images
+        discountPercent
+      }
     }
-`
+  }
+`;

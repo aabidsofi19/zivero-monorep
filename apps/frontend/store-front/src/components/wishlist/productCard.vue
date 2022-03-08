@@ -55,7 +55,8 @@
 import { mapActions } from "vuex";
 import selectVariation from "../products/selectVariation.vue";
 export default {
-  props: ["name", "brandName", "price", "image", "id"],
+  props: ["name", "brandName", "price", "image", "id", "discount"],
+
   components: {
     selectVariation,
   },

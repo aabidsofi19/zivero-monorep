@@ -44,6 +44,7 @@ export const GET_PRODUCT_QUERY = gql`
       description
       images
       price
+      discountPercent
       brand {
         id
         name

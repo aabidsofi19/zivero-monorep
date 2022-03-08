@@ -53,8 +53,10 @@
         <div class="text-lg rounded-md text-gray-400 border-2 py-1 px-2 w-4/5 focus-within:border-blue-400">
           <font-awesome-icon icon="search" class="text-current mr-1"></font-awesome-icon>
           <input
+            v-model="orderId"
+            @keyup.enter="search"
             type="text"
-            placeholder="search orders"
+            placeholder="search order Id"
             class="w-11/12 text-gray-500 border-none focus:ring-transparent focus:border-none"
           />
         </div>
@@ -95,7 +97,7 @@ import VPagination from './BasePagination.vue'
 import OrdersTable from './OrdersTable.vue'
 import SortDropdownMenu from './SortDropdownMenu.vue'
 import useOrders, { sortOptions } from '../composables/useOrders'
-
+import { ref } from 'vue'
 export default {
   components: {
     VCard,
@@ -108,6 +110,7 @@ export default {
 
   setup() {
     const { open, toggleDrawer } = useNavdrawer(true)
+    const orders = useOrders()
 
     const paymentStatuses = [
       {
@@ -135,8 +138,17 @@ export default {
       },
     ]
 
+    const orderId = ref('')
+
+    const search = () => {
+      console.log('id', orderId.value)
+      orders.search(orderId.value)
+    }
+
     return {
-      ...useOrders(),
+      ...orders,
+      orderId,
+      search,
       open,
       toggleDrawer,
       paymentStatuses,

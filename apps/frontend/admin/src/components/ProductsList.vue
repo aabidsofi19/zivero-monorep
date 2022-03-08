@@ -26,7 +26,9 @@
           <font-awesome-icon icon="search" class="text-current mr-1"></font-awesome-icon>
           <input
             type="text"
-            placeholder="filter products"
+            v-model="productId"
+            @keypress.enter="search"
+            placeholder="search product id"
             class="w-11/12 text-gray-500 border-none focus:ring-transparent focus:border-none"
           />
         </div>
@@ -61,6 +63,7 @@ import VPagination from './BasePagination.vue'
 import ProductsTable from './ProductsListTable.vue'
 import SortDropdownMenu from './SortDropdownMenu.vue'
 import useFilters from '../composables/useFilters'
+import { useRouter } from 'vue-router'
 
 export default {
   components: {
@@ -77,10 +80,14 @@ export default {
     const { setStatus, filterState, setSortBy } = useFilters()
     const { sortingOptions } = filterState.value
     const sortBy = computed(() => filterState.value.filterInput.sortBy)
-
+    const router = useRouter()
     const statuses = ref(['active', 'draft', 'archived'])
 
     const { products, totalPages, loading, error, currentPage, loadPage } = useProducts()
+    const productId = ref('')
+    const search = () => {
+      router.push({ name: 'product-edit', params: { id: productId.value } })
+    }
 
     const sort = v => setSortBy(v)
 
@@ -100,6 +107,8 @@ export default {
       totalPages,
       currentPage,
       loadPage,
+      search,
+      productId,
     }
   },
 }

@@ -4,9 +4,22 @@ import uuid
 from bson.objectid import ObjectId
 
 
-from mongoengine import *
-from mongoengine.document import Document
-from mongoengine.fields import ReferenceField, StringField
+from mongoengine import (
+    Document,
+    StringField,
+    DateTimeField,
+    ObjectIdField,
+    ListField,
+    ReferenceField,
+    BooleanField,
+    EmbeddedDocumentField,
+    EmbeddedDocument,
+    IntField,
+    UUIDField,
+    URLField,
+    NULLIFY,
+    DoesNotExist,
+)
 
 
 class Brand(Document):
@@ -29,9 +42,11 @@ class Category(Document):
     genders = ListField(
         StringField(choices=gender_choices)
     )  # genders a category can have
-    # will help in updating filters if a category is selected to get the revent gender associated to it
+    # will help in updating filters if a category is selected to get the
+    # revent gender associated to it
     brands = ListField(ReferenceField(Brand, reverse_delete_rule=NULLIFY))
-    # will help in updating filters if a category is selected to get the relevent brands  associated to it
+    # will help in updating filters if a category is selected to get the
+    # relevent brands  associated to it
 
 
 class SubCategory(Document):
@@ -94,7 +109,8 @@ class Product(Document):
         ("NEUTRAL", "neutral"),
     )
     gender = StringField(choices=gender_choices, required=True)
-    # gender here will help with filtering the product from like category tshir but gender BOY
+    # gender here will help with filtering the product from like category
+    # tshir but gender BOY
 
     @property
     def available_variants(self):
@@ -109,7 +125,9 @@ class Product(Document):
                     continue
         return variants
 
-    def filterby(self, data):  # usually the input from graphene schema i.e FilterInput
+    def filterby(self, data):
+
+        # usually the input from graphene schema i.e FilterInput
         filter = {}
 
         print(data)

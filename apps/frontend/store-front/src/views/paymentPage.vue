@@ -40,7 +40,7 @@
           <order-loading v-if="orderLoading"></order-loading>
           <order :order="activeOrder" v-else></order>
           <p v-if="!orderLoading">
-            Incl Shipping Charges: Rs {{ activeOrder.extraCharges }}
+            Incl Shipping Charges: Rs {{ activeOrder.extraCharges || 0 }}
           </p>
           <v-btn
             @click="submitPayment()"

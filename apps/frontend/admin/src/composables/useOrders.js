@@ -84,6 +84,11 @@ export default () => {
     return orderBy
   })
 
+  const search = id => {
+    resetFilters()
+    ordersFilter.id = id
+  }
+
   return {
     orderNodes,
     sortedBy,
@@ -92,6 +97,7 @@ export default () => {
     setFilters,
     loadPage,
     resetFilters,
+    search,
     filter: readonly(ordersFilter),
     error,
     loading,

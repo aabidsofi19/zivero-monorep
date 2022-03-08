@@ -1,15 +1,16 @@
 <template>
-  <div>
-    <p class="black--text text-h5 ml-9 my-8 font-weight-bold">
+  <div class="container">
+    <p class="black--text text-h5 my-8 font-weight-medium montserrat">
       My Wishlist ({{ totalItems }} items )
     </p>
 
-    <div class="d-flex flex-wrap justify-center overflow-hidden">
+    <div class="d-flex flex-wrap justify-start overflow-hidden">
       <product-card
-        class="product-card ma-3 pa-0"
+        class="product-card mr-3 my-2 pa-0"
         :name="product.name"
-        :image="product.variations[0].images[0]"
-        :price="product.variations[0].price"
+        :image="product.images[0]"
+        :price="product.price"
+        :discount="product.discountPercent"
         v-for="product in wishlist.products"
         :key="product.id"
         :id="product.id"
@@ -60,7 +61,7 @@ export default {
 
 @media screen and (min-width: 700px) {
   .product-card {
-    width: 20%;
+    width: 25%;
   }
 }
 </style>

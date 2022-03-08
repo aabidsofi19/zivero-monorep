@@ -27,13 +27,13 @@
           </div>
           <span class="d-flex py-3 justify-start price">
             <span class="poppins">
-              {{ product.variations[0].price }}
+              {{ currentSelectedItem.price }}
             </span>
-            <span class="text-decoration-line-through grey--text kpoppins"
-              >500</span
+            <span class="text-decoration-line-through grey--text kpoppins">
+              {{ getOrginalPrice }}</span
             >
             <span class="poppins red--text">
-              (You save {{ product.variations[0].discountPercent }}%)
+              (You save {{ currentSelectedItem.discountPercent }}%)
             </span>
           </span>
           <span class="green--text font-weight-bold text-caption poppins price">
@@ -210,13 +210,30 @@ export default {
   },
   computed: {
     ...mapState("products", ["product", "selected"]),
-    ...mapGetters("products", ["variations", "variationId", "productImages"]),
+    ...mapGetters("products", [
+      "variations",
+      "variationId",
+      "productImages",
+      "orginalPrice",
+      "selectedVariation",
+    ]),
     isDisabled() {
       //console.log("vid", this.variationId);
       return this.variationId === null || this.addingToCart;
     },
     sanitizedDescription() {
       return this.$sanitize(this.product.description);
+    },
+
+    // returns the selected variation else product
+    currentSelectedItem() {
+      return this.selectedVariation ?? this.product;
+    },
+    getOrginalPrice() {
+      return this.orginalPrice(
+        this.currentSelectedItem.price,
+        this.currentSelectedItem.discountPercent
+      );
     },
   },
   methods: {

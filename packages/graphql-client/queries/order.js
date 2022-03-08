@@ -82,6 +82,8 @@ export const GetOrder = gql`
       orderitemSet {
         id
         product {
+          images
+
           available
           brand {
             id
@@ -97,6 +99,8 @@ export const GetOrder = gql`
         totalAmount
         quantity
       }
+
+      totalAmount
     }
   }
 `

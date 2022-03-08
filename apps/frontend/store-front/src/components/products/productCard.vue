@@ -27,6 +27,9 @@
         <span class="ma-0 px-1 d-flex justify-space-between">
           <span id="price"> {{ price }} </span>
           <span id="mrp" class="text-button primary--text font-weight-bold">
+            <span class="text-decoration-line-through">{{
+              orginalPrice(price, discountPercent)
+            }}</span>
             {{ discountPercent }} % off
           </span>
         </span>
@@ -36,12 +39,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["name", "brandName", "price", "image", "id", "discountPercent"],
   data: () => ({
     wishlisted: false,
   }),
+  computed: {
+    ...mapGetters("products", ["orginalPrice"]),
+  },
   methods: {
     ...mapActions("wishlist", ["addToWishlist", "removeFromWishlist"]),
     goToProduct() {

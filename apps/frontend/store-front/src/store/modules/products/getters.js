@@ -16,6 +16,10 @@ export default {
     return productImages;
   },
 
+  orginalPrice: () => (price, discountPercent) => {
+    return Math.floor(price + (discountPercent / 100) * price);
+  },
+
   variations: (state) => {
     let product = state.product;
     // //console.log(product)
@@ -30,6 +34,22 @@ export default {
       }
     }
     return filters;
+  },
+  selectedVariation(state) {
+    // let id;
+    let clean = (obj) => {
+      let y = { name: obj.name, value: obj.value };
+      return y;
+    };
+    for (let variation of state.product.variations) {
+      let variant = variation.variant.map(clean);
+
+      if (_.isEqual(variant, state.selected)) {
+        //console.log("yes");
+        return variation;
+      }
+    }
+    return null;
   },
 
   variationId(state) {
@@ -50,6 +70,7 @@ export default {
     }
     return null;
   },
+
   cleanedFilters(state) {
     var filters = {};
     for (var filter in state.filters) {
