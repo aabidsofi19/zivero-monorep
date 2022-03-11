@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "zivero-backend"
+version = "0.1.0"
+description = ""
+authors = ["Aabid <mailtoaabid01@gmail.com>"]
+
+
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^3.0.0"
+graphene-django = "^2.15.0"
+graphene-mongoengine = "^0.1"
+gunicorn = "^20.1.0"
+stripe = "^2.67.0"
+django-environ = "^0.8.1"
+django-graphql-auth = "^0.3.16"
+django-filter = "^21.1"
+dnspython = "^2.2.1"
+django-cors-headers = "^3.11.0"
+
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.12.2"
+flake8 = "^4.0.1"
+mypy = "^0.931"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
