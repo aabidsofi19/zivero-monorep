@@ -1,3 +1,9 @@
+export const getBaseUrl = () => {
+  return process.env.NODE_ENV === "development"
+    ? "http://localhost:8000/graphql/"
+    : "https://zivero.herokuapp.com/graphql/";
+};
+
 export function includeScript(URL, callback) {
   let documentTag = document,
     tag = "script",

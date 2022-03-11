@@ -21,7 +21,7 @@ import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
 const getBaseUrl = () => {
   return process.env.NODE_ENV === "development"
     ? "http://localhost:8000/graphql/"
-    : "https://url/graphql/";
+    : "https://zivero.herokuapp.com/graphql/";
 };
 
 Vue.use(CoolLightBox);
