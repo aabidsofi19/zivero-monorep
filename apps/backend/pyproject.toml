@@ -10,9 +10,9 @@ authors = ["Aabid <mailtoaabid01@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 Django = "^3.0.0"
-graphene-django = "^2.15.0"
-graphene-mongoengine = "^0.1"
-gunicorn = "^20.1.0"
+graphene= "^2.1.9"
+graphene-django= "^2.15.0"
+graphene-mongo= "^0.2.13"
 stripe = "^2.67.0"
 django-environ = "^0.8.1"
 django-graphql-auth = "^0.3.16"
@@ -23,6 +23,8 @@ whitenoise = "^6.0.0"
 psycopg2 = "^2.9.3"
 dj-database-url = "^0.5.0"
 django-heroku = "^0.3.1"
+gunicorn = "^20.1.0"
+importlib-metadata = "^4.11.2"
 
 
 [tool.poetry.dev-dependencies]

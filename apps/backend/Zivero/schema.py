@@ -1,7 +1,7 @@
 import graphene
 
 import graphql_jwt
-from social.schema import Mutations as SocialMutation
+#from social.schema import Mutations as SocialMutation
 from shop.schema import Query as ShopQuery
 from shop.schema import Mutation as ShopMutation
 from cart.schema import Query as CartQuery
@@ -28,7 +28,7 @@ class Query(
 
 
 class Mutation(
-    ShopMutation, CartMutation, UsersMutation, OrdersMutation, SocialMutation,
+    ShopMutation, CartMutation, UsersMutation, OrdersMutation, 
     FiltersMutation,WishlistMutation, graphene.ObjectType
 ):
    
