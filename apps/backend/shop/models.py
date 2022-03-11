@@ -194,6 +194,9 @@ class Product(Document):
                 "$project": {
                     "id": 1,
                     "name": 1,
+                    "images": 1,
+                    "price": 1,
+                    "discount_percent": 1,
                     # "brand.name":1,
                     # "category.name":1,
                     "variations": {
@@ -226,6 +229,9 @@ class Product(Document):
                                 "id": 1,
                                 "name": 1,
                                 "brand": 1,
+                                "images": 1,
+                                "price": 1,
+                                "discount_percent": 1,
                                 "category.name": 1,
                                 "variations": {
                                     "price": 1,

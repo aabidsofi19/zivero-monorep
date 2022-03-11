@@ -1,14 +1,15 @@
+
 {
     "name": "backend",
     "version": "0.0.0",
     "private": true,
     "scripts": {
-      "dev": "python3 ./manage.py runserver",
-      "test": "python3 ./manage.py test",
-      "lint": "flake8 . --exclude=migrations",
-      "build": "python3 ./manage.py collectstatic --noinput",
-      "start": "yarn run build && yarn run dev",
-      "install": "pip3 install -r requirements.txt"
+      "dev": "poetry run python ./manage.py runserver",
+      "test": "poetry run python ./manage.py test",
+      "lint": "poetry run flake8 . --exclude=migrations",
+      "build": "poetry run python3 ./manage.py collectstatic --noinput",
+      "start": "poetry run yarn run build && yarn run dev",
+      "install": "poetry run pip3 install -r requirements.txt"
     }
     
   }
