@@ -1,1 +1,1 @@
-web :  gunicorn Zivero.wsgi:application 
+web :  gunicorn Zivero.wsgi:application --log-level debug 
