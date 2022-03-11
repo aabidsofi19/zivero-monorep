@@ -82,7 +82,8 @@ export default {
 
     async resendEmail() {
       this.timerCount = 110;
-      let data = await this.resendActivationEmail(this.email);
+      this.resendActivationEmail(this.email);
+
       //console.log("res resend",data)
     },
   },

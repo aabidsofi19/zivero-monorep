@@ -13,7 +13,7 @@ const defaultFilters = {
   fulfillmentStatus: null,
   createdAt: null,
   updatedAt: null,
-  orderBy: '-createdAt',
+  orderBy: '-created_at',
 }
 
 export const sortOptions = [

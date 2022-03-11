@@ -9,9 +9,9 @@ import SalesMonth from '../components/DashboardSalesMonth.vue'
 import OrdersTable from '../components/OrdersTable.vue'
 
 const { result, loading, error } = useQuery(GetOrders, {
-  variables: {
-    first: 10,
-  },
+  first: 10,
+  orderBy: '-created_at',
+  paymentStatus: 'succeeded',
 })
 
 const recentOrders = useResult(result, [], data => data.orders.edges)

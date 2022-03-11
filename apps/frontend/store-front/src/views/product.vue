@@ -176,13 +176,13 @@
 import { mapActions, mapMutations } from "vuex";
 import { mapState, mapGetters } from "vuex";
 //import _ from 'lodash'
-import checkDelivery from "../components/check-delivery.vue";
+//import checkDelivery from "../components/check-delivery.vue";
 import productCarousal from "../components/products/productCarousal.vue";
 export default {
   name: "productPage",
   components: {
     productCarousal,
-    checkDelivery,
+    /* checkDelivery, */
   },
 
   destroyed() {

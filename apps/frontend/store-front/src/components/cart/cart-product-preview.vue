@@ -126,11 +126,6 @@ export default {
       this.UpdateCart();
     },
   },
-  watch: {
-    Quantity: function (oldQuantity, newQuantity) {
-      //console.log("request sent", oldQuantity, newQuantity);
-    },
-  },
 };
 </script>
 <style scoped lang="css">

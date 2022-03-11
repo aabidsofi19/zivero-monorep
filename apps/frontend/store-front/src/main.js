@@ -15,7 +15,16 @@ import { refreshTokenFlow } from "./auth";
 import store from "@/store";
 
 import VueSanitize from "vue-sanitize";
+import CoolLightBox from "vue-cool-lightbox";
+import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
 
+const getBaseUrl = () => {
+  return process.env.NODE_ENV === "development"
+    ? "http://localhost:8000/graphql/"
+    : "https://url/graphql/";
+};
+
+Vue.use(CoolLightBox);
 // //console.log("happy coding")
 
 Vue.use(VueApollo);
@@ -55,7 +64,8 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
         case "Signature has expired":
           //console.log("refreshing ");
           return fromPromise(
-            refreshTokenFlow().catch((error) => {
+            // TODO redirect to login on refresh error
+            refreshTokenFlow().catch(() => {
               // Handle token refresh errors e.g clear stored tokens, redirect to login
               //console.log("error while refresdhing", error);
               router.push("/login");
@@ -83,11 +93,11 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 });
 
 const link = new HttpLink({
-  uri: "http://localhost:8000/graphql/",
+  uri: getBaseUrl(),
   fetch,
   credentials: "include",
   onError(err) {
-    //console.log(err);
+    console.log(err);
   },
 });
 

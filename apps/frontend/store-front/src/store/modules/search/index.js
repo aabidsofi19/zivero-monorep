@@ -19,11 +19,14 @@ const mutations = {
     state.autocompleteResults = results;
   },
 
-  setSearchResults(state, results) {
+  setSearchResults(state, results, searchMore) {
     state.productSearchResults.page = results.page;
     state.productSearchResults.totalResults = results.totalResults;
     state.productSearchResults.totalPages = results.totalPages;
-    state.productSearchResults.results.push(...results.results);
+    if (searchMore) {
+      state.productSearchResults.results.push(...results.results);
+    }
+    state.productSearchResults.results = results.results;
   },
   setSearchOpen(state, value) {
     state.isSearchOpen = value;
@@ -42,7 +45,7 @@ const actions = {
     commit("setAutocompleteResults", results.productAutocompleteResults);
   },
 
-  async search({ commit }, { query, pageNo }) {
+  async search({ commit }, { query, pageNo, searchMore }) {
     if (pageNo == undefined || pageNo == null) {
       pageNo = 1;
     }
@@ -53,7 +56,7 @@ const actions = {
     });
     let results = res.data;
     //console.log(results);
-    commit("setSearchResults", results.productSearchResults);
+    commit("setSearchResults", results.productSearchResults, searchMore);
   },
 };
 

@@ -7,6 +7,7 @@
     <v-list-item-group v-model="input" :multiple="multiple">
       <template v-for="(item, i) in filterValues">
         <v-list-item
+          :key="i"
           class="list-item"
           :value="getValue(item)"
           active-class="white"
