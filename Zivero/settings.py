@@ -34,7 +34,8 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.43.82"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'zivero.herokuapp.com']
+
 
 # sentry
 
@@ -94,12 +95,13 @@ SESSION_REDIS = {
     'retry_on_timeout': False
 }
 """
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": "../cache",
-    }
-}
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+#         "LOCATION": "../cache",
+#     }
+# }
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:8080", "http://127.0.0.1:8080"]
 CORS_ALLOW_ALL_ORIGINS = True
