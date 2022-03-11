@@ -2,7 +2,22 @@ import environ
 import os
 import os.path
 from pathlib import Path
+import django_heroku
 from mongoengine import connect
+import dj_database_url
+
+
+def get_default_database():
+
+    if env("ENV") == "production":
+        return dj_database_url.config(conn_max_age=600)
+    else:
+
+        return {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+
 
 # connect('zivero',host='mongodb://localhost:27017')
 # connect('products',host='mongodb://25.19.8.34:27017')
@@ -24,7 +39,8 @@ env = environ.Env(
 
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, ".test.env"))
+# environ.Env.read_env(os.path.join(BASE_DIR, ".test.env"))
+environ.Env.read_env()
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -63,6 +79,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "graphene_django",
     "graphql_auth",
@@ -112,8 +129,10 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 AUTH_USER_MODEL = "Users.User"
 
 ROOT_URLCONF = "Zivero.urls"
@@ -140,12 +159,9 @@ WSGI_APPLICATION = "Zivero.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+DATABASES = {"default": get_default_database()}
+
+
 """
 DATABASES = {
 
@@ -213,7 +229,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(SITE_ROOT, "static")
-
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 GRAPHENE = {
     "SCHEMA": "Zivero.schema.schema",
@@ -291,6 +307,6 @@ CART_SESSION_ID = "cart"
 
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
-
-
 STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
+
+django_heroku.settings(locals())
