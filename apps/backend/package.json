@@ -8,7 +8,7 @@
       "test": "poetry run python ./manage.py test",
       "lint": "poetry run flake8 . --exclude=migrations",
       "build": "poetry run python3 ./manage.py collectstatic --noinput",
-      "start": "poetry run yarn run build && yarn run dev",
+      "start": "poetry run yarn run build && yarn run dev"
     }
     
   }
