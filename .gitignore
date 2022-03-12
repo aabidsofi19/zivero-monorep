@@ -9,7 +9,8 @@ node_modules
 # testing
 coverage
 
-# next.js
+#output cache
+dist/*
 .next/
 out/
 build
