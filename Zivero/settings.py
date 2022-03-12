@@ -3,9 +3,11 @@ import os
 import os.path
 from pathlib import Path
 from mongoengine import connect
+import dj_database_url
 
 # connect('zivero',host='mongodb://localhost:27017')
 # connect('products',host='mongodb://25.19.8.34:27017')
+
 
 connect(
     "zivero",
@@ -28,13 +30,18 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 environ.Env.read_env()
 
 
+def get_default_db_config():
+    return dj_database_url.config(default=f"sqlite:////{BASE_DIR}/database.sqlite")
+
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'zivero.herokuapp.com']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zivero.herokuapp.com"]
 
 
 # sentry
@@ -140,38 +147,11 @@ TEMPLATES = [
 WSGI_APPLICATION = "Zivero.wsgi.application"
 
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-"""
-DATABASES = {
+DATABASES = {"default": get_default_db_config()}
 
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'znmydypz',
-
-        'USER': 'znmydypz',
-
-        'PASSWORD': 'UdGQEH58tRSrOLBtihRh-eVDvF8TnkrH',
-
-        'HOST': 'suleiman.db.elephantsql.com',
-
-        'PORT': '5432',
-
-    }
-
-}"""
-# mongodb
-# connect('products',host='mongodb://localhost:27017')
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = env("EMAIL_HOST")
