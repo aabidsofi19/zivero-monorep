@@ -9,7 +9,6 @@
       "lint": "poetry run flake8 . --exclude=migrations",
       "build": "poetry run python3 ./manage.py collectstatic --noinput",
       "start": "poetry run yarn run build && yarn run dev",
-      "install": "poetry run pip3 install -r requirements.txt"
     }
     
   }
