@@ -77,6 +77,7 @@ class AddToCartMutation(graphene.Mutation):
     # @login_required
     def mutate(root, info, productdetails):
 
+        print("request", info.context.META)
         user = info.context.user
         print("adding to cart", productdetails)
         pd = productdetails

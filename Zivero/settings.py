@@ -34,7 +34,6 @@ def get_default_db_config():
     return dj_database_url.config(default=f"sqlite:////{BASE_DIR}/database.sqlite")
 
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
@@ -110,8 +109,17 @@ SESSION_REDIS = {
 #     }
 # }
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:8080", "http://127.0.0.1:8080"]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "https://zivero-admin.netlify.app",
+    "https://zivero-store.netlify.app",
+]
+
+if env("ENV") == 'development' :
+
+    CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
