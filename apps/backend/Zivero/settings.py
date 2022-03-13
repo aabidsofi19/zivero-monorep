@@ -110,18 +110,17 @@ SESSION_REDIS = {
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    
     "http://localhost:8080",
     "http://127.0.0.1:8080",
     "https://zivero-admin.netlify.app",
     "https://zivero-store.netlify.app",
 ]
 
-if env("ENV") == 'development' :
+if env("ENV") == "development":
 
     CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
+SESSION_COOKIE_SAMESITE = None
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",

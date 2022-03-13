@@ -106,6 +106,7 @@ export const client = new ApolloClient({
   cache: new InMemoryCache({
     addTypename: true,
   }),
+  credentials: "include",
 });
 
 Vue.config.productionTip = false;
