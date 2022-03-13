@@ -112,7 +112,6 @@ const route = useRoute()
               'my-1 py-1 font-light text-sm',
             ]"
           >
-            <font-awesome-icon :icon="submenu.icon" />
             <span class="pl-9 font-normal"> {{ key_ }} </span>
           </router-link>
         </div>

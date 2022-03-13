@@ -2,8 +2,8 @@
 import { reactive, computed, watchEffect, watch, watchPostEffect } from 'vue'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import { GetOverviewStats } from 'graphql-client/admin/dashboard'
-import { VCard, VCardBody } from './AppCard.vue'
-
+import VCard from './AppCard.vue'
+import VCardBody from './BaseCardBody.vue'
 const { result, loading, error } = useQuery(GetOverviewStats)
 const unfulfilledOrdersCount = useResult(result, 0, data => data.unfulfilledOrders.totalItems)
 const totalSales = useResult(result, 0, data =>
@@ -42,7 +42,10 @@ watchEffect(() => {
 })
 </script>
 <template>
-  <div class="w-full" v-if="!loading">
+  <div v-if="loading">loading stats</div>
+
+  <div v-else-if="error">{{ error }}</div>
+  <div class="w-full" v-else>
     <div class="flex gap-6 justify-between">
       <v-card outlined rounded="xl" v-for="(value, key) in overviewData" :key="key" class="w-full">
         <v-card-body>

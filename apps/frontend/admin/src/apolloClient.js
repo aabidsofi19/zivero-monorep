@@ -3,7 +3,7 @@ import { authState, useRefreshToken } from './composables/useUser'
 import { ApolloLink, createHttpLink, ApolloClient, fromPromise, InMemoryCache, concat } from '@apollo/client/core'
 import { onError } from '@apollo/client/link/error'
 
-import {getBaseUrl} from 'utils' 
+import { getBaseUrl } from 'utils'
 // import store from './store'
 import { useRouter } from 'vue-router'
 
@@ -61,7 +61,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 })
 
 const link = createHttpLink({
-  uri: getBaseUrl(),
+  uri: 'https://zivero.herokuapp.com/graphql/',
 
   fetch,
   credentials: 'include',

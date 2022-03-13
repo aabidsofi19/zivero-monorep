@@ -19,7 +19,7 @@ const recentOrders = useResult(result, [], data => data.orders.edges)
 
 <template>
   <with-side-bar-layout>
-    <main class="space-y-3">
+    <main class="space-y-3" v-if="!loading && !error">
       <dashboard-overview-cards></dashboard-overview-cards>
       <div>
         <h2 class="text-2xl font-montserrat font-semibold py-3 text-gray-600">Earnings Summary</h2>

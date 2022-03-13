@@ -1,17 +1,10 @@
 <template>
-  <Component
-    :is="$props.tag"
+  <div
     class="bg-white"
-    :class="[
-      $props.outlined ? 'border' : 'border-none',
-      `shadow-${$props.elevation}`,
-
-      $props.tile ? 'rounded-none' : `rounded-${$props.rounded}`,
-    ]"
-    v-bind="$attrs"
+    :class="[outlined ? 'border' : 'border-none', `shadow-${elevation}`, tile ? 'rounded-none' : `rounded-${rounded}`]"
   >
-    <slot />
-  </Component>
+    <slot></slot>
+  </div>
 </template>
 
 <script>
@@ -23,7 +16,6 @@ export { BaseCardBodyVue as VCardBody, BaseCardHeadingVue as VCardHeading }
 
 export const VCard = {
   name: 'VCard',
-  inheritAttrs: false,
   props: {
     tag: {
       type: String,
