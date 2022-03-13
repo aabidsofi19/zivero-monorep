@@ -61,8 +61,8 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 })
 
 const link = createHttpLink({
-  uri: 'https://zivero.herokuapp.com/graphql/',
-
+  // uri: 'https://zivero.herokuapp.com/graphql/',
+  uri: getBaseUrl(),
   fetch,
   credentials: 'include',
   onError(err) {
