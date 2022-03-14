@@ -12,7 +12,7 @@ class ResultVariationType(graphene.ObjectType):
 
 class AutoCompleteResultType(graphene.ObjectType):
 
-    _id = graphene.String()
+    id = graphene.String()
     name = graphene.String()
     brand = graphene.String()
     category = graphene.String()
@@ -24,7 +24,8 @@ class AutoCompleteResultType(graphene.ObjectType):
 
 
 class SearchResultType(graphene.ObjectType):
-    _id = graphene.String()
+    id = graphene.ID()
+
     name = graphene.String()
     brand = graphene.String()
     category = graphene.String()

@@ -89,9 +89,21 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
         self.save()
 
     def remove(self, product_id, variation_id):
-        product = Product.objects.get(id=product_id)
 
-        variation = y
+        # filtered = filter(
+        #     lambda item: str(item.product.id) != product_id
+        #     and str(item.variation._id) != variation_id,
+        #     self.items,
+        # )
+
+        # self.items = list(filtered)
+
+        # self.save()
+        # # self.update(pull__items=
+        # # CartItem(product=product, variation=variation))
+
+        product = Product.objects.get(id=product_id)
+        variation = product.get_variation(variation_id)
         self.update(pull__items=CartItem(product=product, variation=variation))
 
     def clear_cart(self):

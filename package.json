@@ -1,14 +1,16 @@
-
 {
-    "name": "backend",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "poetry run python ./manage.py runserver",
-      "test": "poetry run python ./manage.py test",
-      "lint": "poetry run flake8 . --exclude=migrations",
-      "build": "poetry run python3 ./manage.py collectstatic --noinput",
-      "start": "poetry run yarn run build && yarn run dev"
-    }
-    
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "poetry run python ./manage.py runserver",
+    "test": "poetry run python ./manage.py test",
+    "lint": "poetry run flake8 . --exclude=migrations",
+    "build": "poetry run python3 ./manage.py collectstatic --noinput",
+    "start": "poetry run yarn run build && yarn run dev"
+  },
+  "dependencies": {
+    "global": "^4.4.0",
+    "prettier": "^2.5.1"
   }
+}

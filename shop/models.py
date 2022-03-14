@@ -192,16 +192,18 @@ class Product(Document):
             {"$limit": 5},
             {
                 "$project": {
-                    "id": 1,
+                    "status": 1,
+                    "id": "$_id",
+                    "_id": 0,
                     "name": 1,
                     "images": 1,
                     "price": 1,
                     "discount_percent": 1,
                     # "brand.name":1,
                     # "category.name":1,
-                    "variations": {
-                        "$first": "$variations",
-                    },
+                    # "variations": {
+                    #     "$first": "$variations",
+                    # },
                 }
             },
         ]
@@ -226,18 +228,20 @@ class Product(Document):
                         {"$limit": limit},
                         {
                             "$project": {
-                                "id": 1,
+                                "_id": 0,
+                                "id": "$_id",
                                 "name": 1,
                                 "brand": 1,
                                 "images": 1,
                                 "price": 1,
+                                "status": 1,
                                 "discount_percent": 1,
                                 "category.name": 1,
-                                "variations": {
-                                    "price": 1,
-                                    "discount_percent": 1,
-                                    "images": 1,
-                                },
+                                # "variations": {
+                                #     "price": 1,
+                                #     "discount_percent": 1,
+                                #     "images": 1,
+                                # },
                             }
                         },
                     ],
