@@ -2,7 +2,7 @@
   <v-slide-item>
     <div class="ma-2">
       <v-card color="grey lighten-2" class="my-3 pa-0" elevation="0" outlined>
-        <v-img :src="category.image" width="280px" height="280px"> </v-img>
+        <v-img :src="category.image" class="image"> </v-img>
 
         <div
           class="poppins white py-5 px-2 text-uppercase font-weight-bold text-subtitle"
@@ -30,5 +30,17 @@ export default {
   margin: auto;
   color: black;
   text-transform: capitalize;
+}
+
+.image {
+  width: 280px;
+  height: 280px;
+}
+
+@media screen and (max-width: 700px) {
+  .image {
+    width: 180px;
+    height: 180px;
+  }
 }
 </style>

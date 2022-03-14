@@ -2,7 +2,7 @@ import store from "../store";
 import router from "../router";
 export const refreshTokenFlow = async () => {
   if (!localStorage.getItem("Zivero_refresh_token")) {
-    return Error("No refresh token found ,Please Login Again");
+    throw Error("No refresh token found ,Please Login Again");
   }
   //console.log("refreshTokenFlow")
   var timeNow = Math.floor(Date.now() / 1000);

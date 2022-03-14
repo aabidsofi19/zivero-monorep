@@ -65,12 +65,22 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
           //console.log("refreshing ");
           return fromPromise(
             // TODO redirect to login on refresh error
-            refreshTokenFlow().catch(() => {
-              // Handle token refresh errors e.g clear stored tokens, redirect to login
-              //console.log("error while refresdhing", error);
-              router.push("/login");
-              return;
-            })
+            refreshTokenFlow()
+              .then((token) => {
+                if (!token) {
+                  localStorage.removeItem("Zivero_refresh_token");
+                  router.push("/login");
+                }
+              })
+
+              .catch(() => {
+                // Handle token refresh errors e.g clear stored tokens, redirect to login
+                //console.log("error while refresdhing", error);
+
+                localStorage.removeItem("Zivero_refresh_token");
+                router.push("/login");
+                return;
+              })
           )
             .filter((value) => Boolean(value))
             .flatMap((accessToken) => {

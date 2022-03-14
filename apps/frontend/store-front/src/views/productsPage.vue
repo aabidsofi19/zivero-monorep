@@ -110,7 +110,7 @@ export default {
       let p = this.$store.getters["products/productChunks"];
       return p;
     },
-    is_mobile() {
+    isMobile() {
       //console.log(screen.width);
       if (screen.width <= 700) {
         return true;

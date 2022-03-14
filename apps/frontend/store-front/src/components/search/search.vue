@@ -9,7 +9,10 @@
         <span class="search-input d-flex justify-center align-items-center">
           <v-text-field
             flat
+            autofocus
+            onblur="(t)=>t.focus()"
             solo
+            ref="search"
             label="Search"
             prepend-icon="mdi-magnify"
             @click:prepend-icon="searchProducts"
@@ -35,19 +38,8 @@
         >
           Suggestions for your search :
         </p>
-        <div
-          class="d-flex overflow-scroll justify-center flex-wrap align-items-center"
-        >
-          <productCard
-            v-for="product in autocompleteResults"
-            :key="product.Id"
-            class="product-card mx-3 my-2"
-            :price="product.price"
-            :name="product.name"
-            :id="product.Id"
-            :image="product.images[0]"
-            :discountPercent="product.discountPercent"
-          />
+        <div class="d-flex justify-center align-items-center">
+          <products-grid :productChunks="productChunks"></products-grid>
         </div>
       </v-sheet>
     </v-sheet>
@@ -55,12 +47,13 @@
 </template>
 
 <script>
+import productsGrid from "../products/productsGrid.vue";
+import { chunk } from "lodash";
 //import productCard from "./autocompleteResult.vue";
-import productCard from "../products/productCard.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   components: {
-    productCard,
+    productsGrid,
   },
 
   data: () => ({
@@ -70,6 +63,10 @@ export default {
   }),
   computed: {
     ...mapState("search", ["autocompleteResults", "isSearchOpen"]),
+
+    productChunks() {
+      return chunk(this.autocompleteResults, 4) ?? [];
+    },
   },
   methods: {
     ...mapActions("search", ["searchAutocomplete"]),
@@ -118,7 +115,7 @@ export default {
 }
 
 .product-card {
-  width: 40%;
+  width: 55%;
 }
 
 @media screen and (min-width: 700px) {

@@ -1,18 +1,11 @@
 <template>
   <div>
     <loader v-if="loading"></loader>
-    <v-container v-else class="d-flex flex-wrap justify-center">
-      <product-card
-        v-for="product in productSearchResults.results"
-        :key="product.Id"
-        class="product-card"
-        :name="product.name"
-        :id="product.Id"
-        :image="product.images[0]"
-        :price="product.price"
-        :discountPercent="product.discountPercent"
-      />
+
+    <v-container>
+      <products-grid :product-chunks="searchResullChunks"></products-grid>
     </v-container>
+
     <v-btn
       block
       color="red"
@@ -28,13 +21,17 @@
 </template>
 
 <script>
+import productsGrid from "../components/products/productsGrid.vue";
+import { chunk } from "lodash";
 import { mapState, mapActions } from "vuex";
-import productCard from "../components/products/productCard.vue";
 import loader from "../components/products/loader.vue";
 export default {
-  components: { productCard, loader },
+  components: { loader, productsGrid },
   computed: {
     ...mapState("search", ["productSearchResults"]),
+    searchResullChunks() {
+      return chunk(this.productSearchResults.results, 4);
+    },
     hasNextPage() {
       return (
         this.productSearchResults.page < this.productSearchResults.totalPages
@@ -73,6 +70,7 @@ export default {
 <style scoped>
 .product-card {
   width: 49%;
+  margin: 1%;
 }
 
 @media screen and (min-width: 700px) {

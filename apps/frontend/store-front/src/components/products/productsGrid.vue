@@ -13,7 +13,7 @@
         <productCard
           class="ma-1"
           :name="product.name"
-          :brandName="product.brand.name"
+          :brandName="product.brand ? product.brand.name : ''"
           :price="product.price"
           :image="product.images[0]"
           :id="product.id"

@@ -9,7 +9,7 @@
           class="product-image mb-1"
           contain
           :src="orderItemImage(product, variation)"
-          height="200px"
+          height="auto"
         >
         </v-img>
       </v-col>
@@ -18,7 +18,9 @@
           class="product-details d-flex flex justify-space-between align-space-around text-capitalize"
         >
           <div class="pl-4">
-            <div class="text-h6 font-weight-bold">{{ product.brand.name }}</div>
+            <div class="text-md-h6 text-sm-caption font-weight-bold">
+              {{ product.brand.name }}
+            </div>
             <div class="grey--text text-subtitle-1">{{ product.name }}</div>
 
             <div class="quantity py-4 mx-0 justify-start align-center">

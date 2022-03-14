@@ -4,7 +4,7 @@
   <v-app id="home-page" v-else>
     <offer />
     <banner
-      :imgSrc="'https://images.pexels.com/photos/1036856/pexels-photo-1036856.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'"
+      :imgSrc="require('../assets/pexels-artem-beliaikin-1036856.webp')"
     />
 
     <categories

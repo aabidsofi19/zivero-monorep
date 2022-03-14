@@ -118,6 +118,8 @@ const routes = [
     path: "/wishlist",
     name: "wishlist",
     component: wishlist,
+
+    meta: { requiresAuth: true },
   },
   {
     path: "/checkout/select-address",

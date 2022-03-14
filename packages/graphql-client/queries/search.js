@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 export const AutoCompleteResults = gql`
   query AutoCompleteResults($search: String!) {
     productAutocompleteResults(search: $search) {
-      Id
+      id
       name
       images
       discountPercent
@@ -19,7 +19,7 @@ export const SearchResults = gql`
       totalResults
       totalPages
       results {
-        Id
+        id
         name
         brand
         category

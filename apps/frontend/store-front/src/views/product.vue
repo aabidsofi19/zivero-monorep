@@ -191,6 +191,9 @@ export default {
   },
 
   async mounted() {
+    this.clearProduct();
+    this.clearSelectedVariants();
+    this.setSearchOpen(false);
     let id = this.$route.params.id;
     let { errors, loading } = await this.$store.dispatch(
       "products/getProduct",
@@ -244,6 +247,8 @@ export default {
     ]),
     ...mapActions("cart", ["addToCart"]),
     ...mapActions("wishlist", ["addToWishlist", "removeFromWishlist"]),
+
+    ...mapMutations("search", ["setSearchOpen"]),
 
     buttonSelected(name, value) {
       ////console.log(name + value)

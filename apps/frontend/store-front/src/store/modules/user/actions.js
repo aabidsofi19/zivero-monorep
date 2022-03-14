@@ -75,7 +75,7 @@ export default {
       mutation: REVOKE_TOKEN,
       variables: { refreshtoken: token },
     });
-    commit("app/SET_LOADING", loading, { root: true });
+    commit("app/SET_LOADING", false, { root: true });
     commit("LOGOUT_USER");
     return { loading, errors };
   },
