@@ -1,6 +1,7 @@
 import Vue from "vue";
+
 import Router from "vue-router";
-import { refreshtTokenFlow } from "../auth/index.js";
+import { refreshTokenFlow } from "../auth/index.js";
 import homePage from "@/components/homePage.vue";
 
 import cart from "../views/cart.vue";
@@ -157,7 +158,7 @@ router.beforeEach(async (to, from, next) => {
   let isUserLoggedIn = false;
 
   try {
-    const token = await refreshtTokenFlow();
+    const token = await refreshTokenFlow();
     isUserLoggedIn = token ? true : false;
   } catch {
     isUserLoggedIn = false;

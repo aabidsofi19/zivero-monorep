@@ -1,52 +1,73 @@
 <template>
-  <v-container class="login">
-    <p>Welcome Back</p>
+  <v-container class="py-4 px-3">
+    <p class="text-h4 font-weight-semiBold">Welcome Back</p>
+    <div v-if="errors.nonFieldErrors">
+      <p
+        v-for="(error, i) in errors.nonFieldErrors"
+        :key="i"
+        class="red--text pa-2 text-caption red lighten-5 rounded"
+      >
+        {{ error.code }} : {{ error.message }}
+      </p>
+    </div>
+    <v-form @submit.prevent>
+      <v-text-field
+        autocomplete
+        v-model="User.email"
+        placeholder="myname@domain.com"
+        label="Email"
+        :error-messages="emailErrors"
+        type="email"
+        outlined
+        color="#266150"
+        required
+      >
+      </v-text-field>
+      <v-text-field
+        autocomplete
+        required
+        :error-messages="passwordErrors"
+        v-model="User.password"
+        outlined
+        type="password"
+        color="#266150"
+        placeholder="*********"
+        label="password"
+      >
+      </v-text-field>
+      <v-btn
+        @click="login"
+        tile
+        type="submit"
+        :loading="signingIn"
+        color="primary"
+        width="100%"
+        elevation="0"
+        class="white--text"
+      >
+        Login
+      </v-btn>
+    </v-form>
 
-    <v-text-field
-      v-model="User.email"
-      placeholder="myname@domain.com"
-      label="Email"
-      outlined
-      color="#266150"
-      required
-    >
-    </v-text-field>
-    <v-text-field
-      v-model="User.password"
-      outlined
-      color="#266150"
-      placeholder="*********"
-      label="password"
-      required
-    >
-    </v-text-field>
-
-    <v-btn
-      @click="login"
-      tile
-      color="#266150"
-      width="100%"
-      class="white--text"
-      :elevation="loginElevation"
-    >
-      Login
-    </v-btn>
-    <div class="mt-5">
+    <div class="mt-5 text-center">
       <span>New User</span>
       <span class="ml-5">
         <v-btn
           @click="signup"
           tile
-          color="#000"
+          color="accent"
           width="40%"
+          elevation="0"
           class="white--text"
-          :elevation="loginElevation"
         >
           Sign Up
         </v-btn>
       </span>
     </div>
-    <p id="forgot_password" @click="$router.push('forgot-password')">
+    <p
+      @click="$router.push('forgot-password')"
+      class="text-center my-3 cursor-pointer secondary--text"
+    >
       Forgot Password
     </p>
   </v-container>
@@ -54,27 +75,70 @@
 
 <script>
 //import {LOGIN_EMAIL} from '../graphql/mutations/auth.js';
-
+import { validationMixin } from "vuelidate";
+import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "login",
+  mixins: [validationMixin],
   components: {},
   data() {
     return {
       success: false,
+      signingIn: false,
+      errors: [],
       User: {
         email: "super@gmail.com",
         password: "test123",
       },
     };
   },
-  computed: {},
+
+  validations: {
+    User: {
+      email: { required, email },
+      password: { required },
+    },
+  },
+  computed: {
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.User.email.$dirty) return errors;
+
+      !this.$v.User.email.email && errors.push("Must be valid e-mail");
+      !this.$v.User.email.required && errors.push("E-mail is required");
+
+      this.errors &&
+        this.errors.email &&
+        errors.push(this.errors.email.map((err) => err.message));
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.User.password.$dirty) return errors;
+      !this.$v.User.password.required && errors.push("password is missing");
+      return errors;
+    },
+  },
 
   methods: {
     async login() {
-      let success = await this.$store.dispatch(
+      this.$log.debug("$v", this.$v);
+      this.$v.User.$touch();
+
+      if (this.$v.User.$invalid) {
+        return;
+      }
+
+      this.signingIn = true;
+      let { success, errors } = await this.$store.dispatch(
         "user/logInWithEmail",
         this.User
       );
+      this.errors = errors;
+      this.success = success;
+      this.signingIn = false;
+      this.$log.debug("success", success, errors);
+
       let redirect_url = new URLSearchParams(window.location.search).get(
         "redirect"
       );
@@ -100,21 +164,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.login {
-  text-align: center;
-}
-.login p:nth-child(1) {
-  font-family: Cormorant Garamond, "serif";
-  font-weight: 400;
-  font-size: 40px;
-  color: #4f4846;
-}
-
-#forgot_password {
-  margin-top: 20px;
-  color: grey;
-  font-weight: bold;
-  font-size: 18px;
-}
-</style>

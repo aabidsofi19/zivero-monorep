@@ -7,11 +7,15 @@
         </div>
         <div class="pa-2">
           <v-text-field
+            required
+            autocomplete
             v-model="address.name"
             label="Name"
             outlined
           ></v-text-field>
           <v-text-field
+            required
+            autocomplete
             v-model="address.phoneNumber"
             label="Mobile No"
             outlined
@@ -24,26 +28,34 @@
         </div>
         <div class="pa-2">
           <v-text-field
+            required
+            autocomplete
             v-model="address.pincode"
             label="Pincode"
             outlined
           ></v-text-field>
           <v-text-field
+            required
+            type="number"
+            autocomplete
             v-model="address.apartmentNo"
             label="Apartment No"
             outlined
           ></v-text-field>
           <v-text-field
+            required
             v-model="address.town"
             label="locality/town"
             outlined
           ></v-text-field>
           <v-text-field
+            required
             v-model="address.city"
             label="city/district"
             outlined
           ></v-text-field>
           <v-text-field
+            required
             v-model="address.state"
             label="State"
             outlined

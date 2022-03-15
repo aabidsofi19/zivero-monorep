@@ -26,7 +26,7 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
     updated_at = DateTimeField()
     items = ListField(EmbeddedDocumentField(CartItem))
 
-    def remove_deleted_products(self):
+
         
 
     @classmethod

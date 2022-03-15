@@ -35,10 +35,9 @@ export default {
       };
 
       commit("loginUser", details);
-      return true;
-    } else {
-      return false;
     }
+
+    return data;
   },
   registerUser: async ({ commit }, authDetails) => {
     commit("app/SET_LOADING", true, { root: true });

@@ -7,10 +7,7 @@
     v-model="$store.state.app.is_navbar_open"
   >
     <v-list nav dense>
-      <v-list-item-group
-        v-model="group"
-        active-class="deep-purple--text text--accent-4"
-      >
+      <v-list-item-group active-class="deep-purple--text text--accent-4">
         <v-list-item>
           <v-list-item-icon>
             <v-icon class="nav-icon">mdi-home</v-icon>
@@ -56,7 +53,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  name: "navdrawer ",
+  name: "navDrawer",
   components: {},
   computed: {
     ...mapState("user", ["auth"]),
