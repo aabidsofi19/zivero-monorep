@@ -44,9 +44,8 @@ export default {
   methods: {
     ...mapActions("addresses", ["updateAddress"]),
     submit() {
-      //console.log("updating address")
       let address = this.$refs.addressForm.address;
-      //console.log(address)
+
       this.updateAddress({ addressId: address.id, updateValues: address });
       this.propModel = false;
     },

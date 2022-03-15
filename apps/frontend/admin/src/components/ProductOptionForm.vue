@@ -21,11 +21,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 watch(props.modelValue, (oldVal, newVal) => {
-  //console.log('watch', oldVal, newVal)
-
   if (oldVal.option !== newVal.option) {
-    //console.log('opdating')
-
     const value = { ...props.modelValue, variants: [] }
     emit('update:modelValue', value)
   }

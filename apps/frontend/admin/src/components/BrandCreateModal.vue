@@ -23,7 +23,7 @@ const save = () => {
     {
       update: (cache, { data: response }) => {
         const brand = response.createBrand.brand
-        //console.log('cat', brand)
+
         cache.updateQuery({ query: getBrands }, data => ({
           brands: [...data.brands, brand],
         }))

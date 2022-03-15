@@ -76,7 +76,6 @@ const activeSubmenu = computed(() => {
 })
 
 const { toggleDrawer, isDrawerOpen } = useNavdrawer()
-//console.log('isOpen', isDrawerOpen)
 
 const route = useRoute()
 </script>

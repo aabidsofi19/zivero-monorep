@@ -34,7 +34,7 @@ defineEmits(['close'])
 const saveCategory = () => {
   let input_copy = { ...input.value }
   input_copy.brands = input_copy.brands.map(name => brands.value.find(brand => brand.name == name).id)
-  //console.log(input_copy)
+
   categoryMutation(
     {
       input: input_copy,
@@ -42,7 +42,7 @@ const saveCategory = () => {
     {
       update: (cache, { data: response }) => {
         const category = response.createCategory.category
-        //console.log('cat', category)
+
         cache.updateQuery({ query: getCategories }, data => ({
           categories: [...data.categories, category],
         }))

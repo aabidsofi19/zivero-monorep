@@ -70,7 +70,6 @@ export default {
   setup(_, { emit }) {
     return {
       closeModal() {
-        //console.log('closing dialog')
         emit('update:modelValue', false)
       },
       openModal() {

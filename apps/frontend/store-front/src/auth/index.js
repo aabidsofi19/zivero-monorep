@@ -4,7 +4,7 @@ export const refreshTokenFlow = async () => {
   if (!localStorage.getItem("Zivero_refresh_token")) {
     throw Error("No refresh token found ,Please Login Again");
   }
-  //console.log("refreshTokenFlow")
+
   var timeNow = Math.floor(Date.now() / 1000);
   let isTokenExpired = timeNow < store.state.user.auth.tokenExpireAt;
   if (

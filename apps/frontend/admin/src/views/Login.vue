@@ -22,7 +22,6 @@ const login = () => {
 
 watchEffect(() => {
   if (login_success.value) {
-    console.log('redirecting', redirect.value)
     router.push(redirect.value)
   }
 })

@@ -12,9 +12,7 @@ export default isOpen => {
     return open.value
   })
   function toggleDrawer() {
-    //console.log('toggke', open.value)
     open.value = !open.value
-    //console.log('toggke', open.value)
   }
 
   return { isDrawerOpen, toggleDrawer, open }

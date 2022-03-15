@@ -123,9 +123,7 @@ export default {
   methods: {
     ...mapActions("checkout", ["fetchCheckoutSecret"]),
     ...mapActions("orders", ["fetchActiveOrder"]),
-    submit() {
-      //console.log("paying")
-    },
+    submit() {},
     includeStripe(URL, callback) {
       let documentTag = document,
         tag = "script",

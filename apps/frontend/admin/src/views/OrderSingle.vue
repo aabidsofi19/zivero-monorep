@@ -42,13 +42,13 @@ const saveUpdates = () => {
     id: order.value.id,
     fulfillmentStatus: updateData.value.fulfillmentStatus,
   }
-  //console.log('input', input)
+
   updateMutation({ ...input })
 }
 
 watchEffect(() => {
   const value = fulfillmentStatusOptions[fulfillmentStatus.value]
-  //console.log(value)
+
   if (value !== null || value !== undefined) {
     updateData.value = { ...updateData.value, fulfillmentStatus: value }
   }

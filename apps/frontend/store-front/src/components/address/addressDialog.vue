@@ -45,7 +45,7 @@ export default {
     ...mapActions("addresses", ["addAddress"]),
     submit() {
       let address = this.$refs.addressForm.address;
-      //console.log(address)
+
       this.addAddress(address);
       this.propModel = false;
     },

@@ -71,7 +71,6 @@ export default {
 
   methods: {
     async login() {
-      ////console.log(JSON.stringify(this.$store.state))
       let success = await this.$store.dispatch(
         "user/logInWithEmail",
         this.User
@@ -79,7 +78,7 @@ export default {
       let redirect_url = new URLSearchParams(window.location.search).get(
         "redirect"
       );
-      //console.log("success",success)
+
       if (success) {
         this.success = true;
         if (

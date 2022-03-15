@@ -14,7 +14,7 @@ export const authState = reactive({
 
 const getTokenExpirationDate = token => {
   const decoded = parseJwt(token)
-  // console.log('decoded', decoded)
+  //
   if (decoded.exp === undefined) return null
   const date = new Date(0)
   date.setUTCSeconds(decoded.exp)
@@ -39,7 +39,6 @@ export const useLogin = () => {
   const login_message = ref('')
   onDone(({ data }) => {
     if (data.tokenAuth.token) {
-      console.log('login success', data)
       authState.access_token = data.tokenAuth.token
       authState.refresh_token = data.tokenAuth.refreshToken
       authState.expires_at = getTokenExpirationDate(data.tokenAuth.token)
@@ -54,7 +53,6 @@ export const useLogin = () => {
   })
 
   const loginWithEmail = async ({ email, password }) => {
-    console.log('loginWithEmail', email, password)
     await mutate({
       email,
       password,
@@ -86,14 +84,10 @@ export const useUser = () => {
 }
 
 export const useLogout = () => {
-  console.log('useLogout')
   const { loading, error, mutate } = useMutation(REVOKE_TOKEN)
   const router = useRouter()
-  console.log('auth', authState)
 
   const logout = async () => {
-    console.log('logout')
-    console.log('auth', authState.refresh_token)
     await mutate({
       refreshtoken: authState.refresh_token,
     })

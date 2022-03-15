@@ -100,7 +100,6 @@ const actions = {
     };
     let payload = { filters, pageNb: 1 };
     await dispatch("products/getProducts", payload, { root: true });
-    //console.log("filter",state.filterInput)
 
     if (updateFilters == true) {
       dispatch("products/updateFilters", state.filterInput, { root: true });

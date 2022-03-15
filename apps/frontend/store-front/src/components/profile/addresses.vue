@@ -62,8 +62,6 @@ export default {
   },
   async mounted() {
     this.loading = await this.fetchAddresses();
-
-    //console.log("fetching cart data")
   },
 
   computed: {
@@ -79,7 +77,6 @@ export default {
 
     ...mapMutations("addresses", ["setAddressToUpdate"]),
     addAddress() {
-      //console.log("add address")
       this.dialog = true;
       // this.$router.push({name:'addAddress'})
     },
@@ -90,19 +87,14 @@ export default {
       try {
         window.u = updateDialog;
         updateDialog.$refs.addressForm.address = address;
-        //console.log(updateDialog.$refs.addressForm.address)
-      } catch (e) {
-        //console.log("")
-      }
+      } catch (e) {}
     },
 
     close(v) {
-      //console.log("v",v)
       this.dialog = v;
     },
 
     closeUpdate(v) {
-      //console.log("v",v)
       this.updateDialog = v;
     },
   },

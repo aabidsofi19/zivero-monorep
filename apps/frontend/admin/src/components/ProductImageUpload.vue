@@ -34,13 +34,10 @@ const uploadPreset = 'e4ftjcge' // replace with your own upload preset
 let uploadWidget
 
 const initUploadWidget = () => {
-  console.log('init widget', window.cloudinary)
   uploadWidget = window.cloudinary.createUploadWidget(
     { cloudName: cloudName, uploadPreset: uploadPreset },
     (error, result) => {
-      console.log(error, result)
       if (!error && result && result.event === 'success') {
-        //console.log('Done uploading..: ', result.info)
         const url = result.info.secure_url
         emit('update:modelValue', [...props.modelValue, url])
         uploadedImages.value.push(result.info)
@@ -51,7 +48,7 @@ const initUploadWidget = () => {
 
 onMounted(() => {
   initUploadWidget()
-  //console.log('mokunted')
+
   // includeScript('widget.cloudinary.com/v2.0/global/all.js', initUploadWidget)
 })
 
@@ -60,7 +57,6 @@ const openUploadModel = () => {
 }
 
 const deleteImage = image => {
-  //console.log('deleting image', image)
   const index = uploadedImages.value.findIndex(i => i.public_id === image.public_id)
   uploadedImages.value.splice(index, 1)
   emit(

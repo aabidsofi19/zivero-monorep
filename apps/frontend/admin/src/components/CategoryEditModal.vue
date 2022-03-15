@@ -49,7 +49,7 @@ defineEmits(['close'])
 const saveCategory = () => {
   let input_copy = Object.assign({}, input.value)
   input_copy.brands = input_copy.brands.map(name => brands.value.find(brand => brand.name == name).id)
-  //console.log(input_copy)
+
   categoryMutation({
     id: props.category.id,
     input: input_copy,

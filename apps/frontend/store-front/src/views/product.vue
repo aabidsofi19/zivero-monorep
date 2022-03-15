@@ -250,7 +250,6 @@ export default {
     ...mapMutations("search", ["setSearchOpen"]),
 
     buttonSelected(name, value) {
-      ////console.log(name + value)
       for (let i of this.selected) {
         if ((i.name == name) & (i.value == value)) {
           return true;
@@ -270,7 +269,6 @@ export default {
     },
 
     async add2Cart() {
-      ////console.log('p',this)
       this.addingToCart = true;
       let details = {
         productId: this.product.id,

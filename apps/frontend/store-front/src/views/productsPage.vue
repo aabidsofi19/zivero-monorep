@@ -144,15 +144,15 @@ export default {
   watch: {
     // products :{
     //   handler: function(val, ){
-    //     //console.log("products changed",)
-    //     //console.log(val.pageNo)
+    //
+    //
     //     if(val.pageNo == val.totalPages){
     //       this.loading = false
-    //       //console.log("final pages")
+    //
     //       return
     //     }
     //     this.loading = false
-    //     //console.log("observing",)
+    //
     //     this.observer.observe(this.$refs.loader)
     //   },
     //   deep: true

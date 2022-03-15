@@ -57,7 +57,7 @@ export default {
       });
     },
     // addGenderFilter(genderName){
-    //     //console.log("adding temp filter") ;
+    //        ;
     //     this.updateQueryFilters({
     //         genders:[genderName]
     //     })

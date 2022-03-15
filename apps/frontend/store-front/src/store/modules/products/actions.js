@@ -90,8 +90,6 @@ export default {
     });
 
     commit("updateFilters", result.data.updateFilters.updatedFilters);
-
-    ////console.log(result.data.updatedFilters)
   },
   async addTempFilter({ commit }, data) {
     commit("addTempFilters", data);

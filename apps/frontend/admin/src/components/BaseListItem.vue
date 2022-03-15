@@ -18,7 +18,6 @@ const props = defineProps({
 })
 
 const selectItem = () => {
-  //console.log('emitting')
   selectedValue.value = props.value
 }
 

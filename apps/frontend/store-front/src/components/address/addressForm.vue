@@ -92,9 +92,7 @@ export default {
   props: ["update"],
 
   mounted() {
-    //console.log("mounting form")
     if (this.update) {
-      //console.log("updating fields")
       let address = this.$store.state.addresses.addressToUpdate;
       this.address = address;
     }

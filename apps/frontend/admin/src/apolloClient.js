@@ -25,13 +25,11 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
         case 'You do not have permission to perform this action':
 
         case 'Signature has expired':
-          console.log('refreshing ', operation.operationName)
           return fromPromise(
             refreshToken().then(accessToken => {
-              console.log('token', accessToken)
               if (!accessToken) {
                 // Handle token refresh errors e.g clear stored tokens, redirect to login
-                console.log('error while refresdhing')
+
                 window.location.replace('/#/login')
               }
               return forward(operation)
@@ -49,7 +47,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
               })
 
               // retry the request, returning the new observable
-              console.log('forwarding', operation)
+
               return forward(operation)
             })
       }
@@ -62,9 +60,7 @@ const link = createHttpLink({
   uri: getBaseUrl(),
   fetch,
   credentials: 'include',
-  onError(err) {
-    //console.log(err)
-  },
+  onError(err) {},
 })
 
 export default new ApolloClient({

@@ -79,8 +79,6 @@ export default {
     paymentDetails,
   },
   async mounted() {
-    //console.log("fetching cart data")
-
     this.loading = await this.$store.dispatch("cart/fetchCart");
   },
   data() {

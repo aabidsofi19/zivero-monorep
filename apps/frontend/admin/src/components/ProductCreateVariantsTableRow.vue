@@ -65,7 +65,6 @@ const rules = {
 const { addValidator } = useVariantsValidator()
 const v$ = useVuelidate(rules, variationData)
 addValidator(v$)
-//console.log(v$)
 </script>
 
 <template>

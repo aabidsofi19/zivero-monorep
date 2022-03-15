@@ -141,7 +141,6 @@ export default {
     const orderId = ref('')
 
     const search = () => {
-      console.log('id', orderId.value)
       orders.search(orderId.value)
     }
 

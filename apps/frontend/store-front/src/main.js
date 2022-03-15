@@ -37,7 +37,7 @@ const getBaseUrl = () => {
 };
 
 Vue.use(CoolLightBox);
-// //console.log("happy coding")
+//
 
 Vue.use(VueLogger, options);
 Vue.use(VueApollo);
@@ -113,7 +113,6 @@ const link = new HttpLink({
   uri: getBaseUrl(),
   fetch,
   credentials: "include",
-  onError(err) {},
 });
 
 export const client = new ApolloClient({

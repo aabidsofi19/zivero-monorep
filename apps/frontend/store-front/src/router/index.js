@@ -153,7 +153,7 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   // Check if the user is logged i
-  // //console.log(JSON.stringify(store.getters))
+  //
   let isUserLoggedIn = false;
 
   try {

@@ -58,7 +58,6 @@ export default () => {
   }
 
   const resetFilters = () => {
-    //console.log('resetFilters')
     Object.keys(ordersFilter).forEach(key => {
       ordersFilter[key] = defaultFilters[key]
     })
@@ -69,7 +68,6 @@ export default () => {
   }
 
   const pageInfo = computed(() => {
-    //console.log(totalItems.value)
     const totalPages = Math.ceil(totalItems.value / ordersFilter.first)
     const currentPage = Math.floor((ordersFilter.offset + ordersFilter.first) / ordersFilter.first)
 

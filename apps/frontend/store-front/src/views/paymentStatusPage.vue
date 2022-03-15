@@ -117,7 +117,6 @@ export default {
     },
 
     async fetchPaymentStatus() {
-      //console.log("fetching payment status")
       let clientSecret = this.clientSecret;
       if (!clientSecret) {
         return;

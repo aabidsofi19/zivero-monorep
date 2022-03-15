@@ -41,7 +41,7 @@ const save = () => {
 
     // {
     //   update: (cache, { data: response }) => {
-    //     console.log(response)
+    //
     //     const variant = response.updateVariant.variant
     //     if (variant) {
     //       cache.updateQuery({ query: getVariants }, data => ({

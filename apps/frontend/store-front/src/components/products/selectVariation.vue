@@ -69,7 +69,7 @@ export default {
   props: ["productId", "open", "loading"],
 
   // async mounted() {
-  //     //console.log("mounted")
+  //
   //     let id = this.productId;
   //     let {errors,loading}=await this.$store.dispatch("products/getProduct", id);
   //     this.errors=errors;
@@ -97,7 +97,6 @@ export default {
     ...mapMutations("products", ["selectVariant"]),
     ...mapActions("cart", ["addToCart"]),
     buttonSelected(name, value) {
-      ////console.log(name + value)
       for (let i of this.selected) {
         if ((i.name == name) & (i.value == value)) {
           return true;
@@ -117,7 +116,6 @@ export default {
     },
 
     async add2Cart() {
-      ////console.log('p',this)
       this.addingToCart = true;
       let details = {
         productId: this.product.id,

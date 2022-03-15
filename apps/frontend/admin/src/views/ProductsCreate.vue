@@ -210,29 +210,25 @@ export default {
       this.v$.$validate()
       this.$refs.productOrganisation.v$.$validate()
       const variationsComponent = this.$refs.variationsField
-      //console.log('variations cmp', variationsComponent)
+
       if (variationsComponent !== undefined && variationsComponent !== null) {
         if (variationsComponent.validate() === false) {
           return false
         }
       }
-      //console.log(this.v$.$errors, 'org', this.$refs.productOrganisation.v$.$errors)
 
       return !this.v$.productData.$invalid && !this.$refs.productOrganisation.v$.$invalid
     },
 
     saveProduct() {
-      //console.log('saving', this.$refs.productOrganisation, this.$refs.variationsField)
-      //console.log('isvalid', this.validateForm())
       if (this.validateForm()) {
-        //console.log('saving true')
         const ProductInput = { ...this.productData, ...this.cleanedProductOrganisationData }
         this.createProduct(
           { ProductInput },
           {
             update: (cache, { data: { product } }) => {
               const data = cache.readQuery({ query: GET_PRODUCTS_QUERY })
-              //console.log('data', data)
+
               if (data && data.products) {
                 data.products.push(product)
                 cache.writeQuery({ query: GET_PRODUCTS_QUERY, data })

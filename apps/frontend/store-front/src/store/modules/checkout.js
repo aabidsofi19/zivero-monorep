@@ -12,7 +12,7 @@ const actions = {
       query: checkoutSecret,
       fetchPolicy: "no-cache",
     });
-    //console.log("result",result)
+
     let secret = (await result).data.checkoutSecret.checkoutSecret;
     commit("setCheckoutSecret", secret);
     return secret;

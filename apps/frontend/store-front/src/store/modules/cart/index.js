@@ -9,12 +9,10 @@ const state = () => ({
 
 const mutations = {
   addToCart(state, details) {
-    ////console.log('cart',details)
     state.cart = details;
   },
 
   updateCart(state, details) {
-    ////console.log('cart',details)
     state.cart = details;
   },
 };

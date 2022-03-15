@@ -36,7 +36,6 @@ export default {
   },
 
   async mounted() {
-    //console.log('wishlist mounted')
     await this.fetchWishlist();
     this.loading = false;
   },

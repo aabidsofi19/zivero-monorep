@@ -102,9 +102,8 @@ export default {
         "user/registerUser",
         this.User
       );
-      //console.log("errors",errors,success)
+
       if (success == true) {
-        //console.log("no errors")
         this.$router.push("/verification-link-sent?email=" + this.User.email);
       } else {
         this.errors = errors;

@@ -15,7 +15,6 @@ export default {
     // let payload=details.token.split(".")[0] // gets the base64 encode payload from token
     // payload= Buffer.from(payload,["base64"]).toString()  // converts it to string
     let payload = parseJwt(details.token);
-    //console.log("payload",payload)
 
     state.auth.token = details.token;
     state.auth.tokenExpireAt = payload.exp;

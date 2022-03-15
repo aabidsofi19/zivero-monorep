@@ -9,8 +9,6 @@ import VInput from './BaseInput.vue'
 import ProductOptionForm from './ProductOptionForm.vue'
 
 const listNotEmpty = value => {
-  //console.log('listNotEmpty', value.length)
-
   return value.length > 0
 }
 
@@ -30,7 +28,6 @@ const emit = defineEmits(['update:modelValue'])
 const selectedOptions = computed({
   get: () => props.modelValue,
   set: value => {
-    //console.log('setting selectedOptions', value)
     emit('update:modelValue', value)
   },
 })
@@ -92,7 +89,6 @@ const saveOption = async () => {
   const isInvalid = addValidator.value.$invalid
 
   if (!isInvalid) {
-    //console.log('onDone')
     selectedOptions.value[addOptionData.option] = addOptionData.variants
     addOptionData.option = Object.keys(cleanOptions.value)[0]
     addOptionData.variants = []

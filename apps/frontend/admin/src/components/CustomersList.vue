@@ -27,7 +27,7 @@
           />
         </div>
         <!-- <div class="flex items-center gap-3">
-          <sort-dropdown-menu items="['name']" @sort="//console.log('ss')"></sort-dropdown-menu>
+          <sort-dropdown-menu items="['name']" @sort="  "></sort-dropdown-menu>
           <button class="border border-gray-500 py-2 px-3 w-full text-sm" @click="toggleDrawer()">More Filters</button>
         </div> -->
       </div>

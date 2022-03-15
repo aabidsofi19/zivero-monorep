@@ -70,7 +70,6 @@ export default {
       return this.$route.query.email;
     },
     resendDisabled() {
-      //console.log(this.timerCount > 0)
       return this.timerCount > 0;
     },
   },
@@ -83,8 +82,6 @@ export default {
     async resendEmail() {
       this.timerCount = 110;
       this.resendActivationEmail(this.email);
-
-      //console.log("res resend",data)
     },
   },
 

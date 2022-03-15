@@ -21,7 +21,7 @@ export default {
 
   variations: (state) => {
     let product = state.product;
-    // //console.log(product)
+    //
     let filters = {};
     for (let v of product.variations) {
       for (let variant of v.variant) {
@@ -81,7 +81,6 @@ export default {
     return filters;
   },
   variationFilters(state) {
-    ////console.log(state.filters)
     let cleanedFilters = {};
     let variationFilters = state.filters.variationFilters;
     for (var filter of variationFilters) {

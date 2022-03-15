@@ -41,7 +41,7 @@ export default {
     async sendLink() {
       this.loading = true;
       let { success, errors } = await this.forgotPassword(this.email);
-      //console.log("forgot",success,errors)
+
       this.success = success;
       this.errors = errors;
       this.loading = false;

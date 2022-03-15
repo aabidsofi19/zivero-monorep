@@ -78,7 +78,7 @@ export default {
 
     async openDialog() {
       this.addToCartDialog = true;
-      //console.log("fetching product")
+
       let id = this.id;
       let { errors, loading } = await this.$store.dispatch(
         "products/getProduct",

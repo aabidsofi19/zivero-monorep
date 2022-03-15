@@ -53,19 +53,19 @@ const actions = {
   //         query:fetchDefaultAddress,
   //         fetchPolicy:"no-cache"
   //     })
-  //     //console.log("default",result)
+  //
   //     commit('setDefaultAddress',result.data.defaultAddress)
   // },
 
   async addAddress({ dispatch, commit }, address) {
-    // //console.log("adding",address)
+    //
     commit("app/SET_LOADING", true, { root: true });
     let result = await client.mutate({
       mutation: ADD_ADDRESS,
       variables: { address: { ...address } },
     });
 
-    // //console.log("add address",result)
+    //
     if (result.data.addAddress.address.id) {
       let { loading } = await dispatch("fetchAddresses");
       commit("app/SET_LOADING", loading, { root: true });

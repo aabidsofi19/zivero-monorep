@@ -27,7 +27,7 @@ const save = () => {
     {
       update: (cache, { data: response }) => {
         const variant = response.createVariant.variant
-        //console.log('cat', brand)
+
         cache.updateQuery({ query: getVariants }, data => ({
           variants: [...data.variants, variant],
         }))

@@ -44,7 +44,7 @@ import { mapActions } from "vuex";
 export default {
   async mounted() {
     let token = this.$route.params.token;
-    //console.log("token",token)
+
     let { success, errors } = await this.confirmEmail(token);
     this.success = success;
     this.errors = errors;
