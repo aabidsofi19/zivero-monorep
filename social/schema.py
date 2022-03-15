@@ -13,7 +13,7 @@ class SocialAuth(graphene.Mutation):
         provider=graphene.String()
     def mutate(self,info,code,provider,**kwargs):
         response=get_access_token(code,provider=provider)
-        #print(response)
+        
         access_token=response['access_token']
         user=auth(request=info.context,token=access_token,backend=provider)
 

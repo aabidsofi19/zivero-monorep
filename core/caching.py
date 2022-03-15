@@ -19,11 +19,11 @@ def graphql_cache(time_out=None):
             query=''.join(query.split())
             cached_result=cache.get(query)
             if cached_result:
-                #print('cached')
+                
                 return cached_result
             result=func(*args,**kwargs)
             if time_out:
-                #print('time_out')
+                
                 cache.set(query,result,time_out)
             else:
                 cache.set(query,result,30*40)

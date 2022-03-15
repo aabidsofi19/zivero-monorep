@@ -130,8 +130,6 @@ class Product(Document):
         # usually the input from graphene schema i.e FilterInput
         filter = {}
 
-        print(data)
-
         if data.status:
             filter["status"] = data["status"]
 
@@ -167,9 +165,9 @@ class Product(Document):
         return Product.objects(**filter).order_by(data.sort_by)
 
     def get_variation(self, id):
-        print("id", id)
+
         for variation in self.variations:
-            # print("variation",variation._id,id==variation._id)
+            #
             if str(variation._id) == str(id):
                 return variation
         else:

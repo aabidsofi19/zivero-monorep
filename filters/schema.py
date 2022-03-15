@@ -33,15 +33,15 @@ class FiltersQuery(graphene.ObjectType):
         categories = Category.objects.all()
         sub_categories = [s.name for s in SubCategory.objects.all()]
         variant_filters = [v for v in Variant.objects().distinct("name")]
-        # print(variant_filters)
+        #
 
         variation_filters = [
             {"filter": f, "values": variant_values(f)} for f in variant_filters
         ]
-        # print(variation_filters)
+        #
 
         product_brands = Brand.objects.all()
-        # print(product_brands)
+        #
         tags = [t for t in Product.objects().distinct("tags")]
         filter = {
             "categories": categories,
@@ -107,9 +107,9 @@ def cleaned_filter(filter):
 
 
 def update_filter(filter):
-    print("raw", filter)
+
     filter = cleaned_filter(filter)
-    print("cleaned filter", filter)
+
     if filter.get("gender"):
         in_genders = [filter.get("gender")]
     else:
@@ -119,7 +119,7 @@ def update_filter(filter):
     categories = None
     product_brands = None
     genders = None
-    print(in_brands, in_categories, in_genders)
+
     # category_names = None
     # if the user has already selected all filters thers no update .. we are skipping updates for variant filters
     if len(filter) >= 3:
@@ -128,9 +128,9 @@ def update_filter(filter):
 
     if in_genders and in_categories:
         # update_brands
-        print("c", in_categories)
+
         categories_ = Category.objects(id__in=in_categories, gender__in=in_genders)
-        print(categories_)
+
         product_brands = {
             brand for category in categories_ for brand in category.brands
         }
@@ -165,7 +165,7 @@ def update_filter(filter):
         # category_names=[category.name for category in categories_]
 
     data = {"categories": categories, "brands": product_brands, "genders": genders}
-    print(data)
+
     return data
 
 
@@ -176,7 +176,7 @@ class UpdateFilterMutation(graphene.Mutation):
         filter = FilterInput()
 
     def mutate(self, info, filter):
-        # print("filter updates", filter)
+        #
         filter_updates = update_filter(filter)
         return UpdateFilterMutation(updated_filters=filter_updates)
 

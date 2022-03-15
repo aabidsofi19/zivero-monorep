@@ -7,7 +7,7 @@ from django.http import JsonResponse
 @csrf_exempt
 def create_checkout_session(request):
     if request.method == "GET":
-        # print(request)
+        #
         domain_url = "http://localhost:8000/"
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
@@ -46,11 +46,11 @@ def create_checkout_session(request):
 #    # This view expects an access_token GET parameter, if it's needed,
 #    # request.backend and request.strategy will be loaded with the current
 #    # backend and strategy.
-#    #print(request)
-#    #print(backend)
+#
+#
 #    token = request.GET.get('access_token')
 #    user = request.backend.do_auth(token)
-#    #print(user)
+#
 #    if user:
 #       # login(request, user)
 #        return JsonResponse({'hi':'hi'})

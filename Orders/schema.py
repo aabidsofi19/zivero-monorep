@@ -119,7 +119,7 @@ class Query(graphene.ObjectType):
     def resolve_orders(self, info, **kwargs):
 
         if kwargs.get("id"):
-            print("id", kwargs)
+
             kwargs["id"] = object_id_from_global_id(kwargs["id"])
 
         user = info.context.user
@@ -159,7 +159,7 @@ class CreateOrderMutation(graphene.Mutation):
 
     @login_required
     def mutate(root, info, input):
-        # print("input",input)
+        #
         user = info.context.user
 
         if user.is_customer:
@@ -215,6 +215,7 @@ class UpdateOrderMutation(graphene.Mutation):
         order_id = graphene.String()
         fulfillment_status = graphene.String()
 
+    @superuser_required
     def mutate(self, info, order_id, fulfillment_status, **kwargs):
         id = object_id_from_global_id(order_id)
         order = Order.objects.get(pk=id)

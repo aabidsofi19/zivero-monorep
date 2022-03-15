@@ -16,7 +16,7 @@ def get_access_token(code_grant,provider):
     if provider=='facebook':
         code=code_grant
         payload_facebook['code']=code
-        #print(payload_facebook)
+        
         r=requests.get(uri_facebook,params=payload_facebook)
         return r.json()
 def auth(request,token,backend):

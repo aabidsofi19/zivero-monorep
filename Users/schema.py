@@ -98,10 +98,10 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     @login_required
     def resolve_customer(self, info, **kwargs):
         user = info.context.user
-        # print(user)
+        #
         if user.is_customer:
             customer = Customer.objects.get(user=user)
-            # print("customer", customer)
+            #
             return customer
         raise Exception("You are not registerd as customer")
 
@@ -110,13 +110,13 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
         user = info.context.user
         # if user.is_customer:
         customer = Customer.objects.get(user=user)
-        # print(customer)
+        #
         return customer.default_address
 
     @login_required
     def resolve_addresses(self, info, **kwargs):
         user = info.context.user
-        # print(user)
+        #
         customer = Customer.objects.get(user=user)
         return customer.Addresses.all()
 
@@ -146,12 +146,12 @@ class AddAddressMutation(graphene.Mutation):
         user = info.context.user
         is_primary = address.get("is_primary")
         del address["is_primary"]
-        # print("address",address)
-        # #print(user)
+        #
+        #
         customer = Customer.objects.get(user=user)
         address = Address(**address)
         address.save()
-        # print(address)
+        #
 
         if is_primary:
             customer.default_address = address
@@ -201,7 +201,7 @@ class UpdateAddressMutation(graphene.Mutation):
             address = customer.Addresses.get(id=address_id)
             address.update_fields(update_values)
             if update_values.is_primary:
-                # print("setting as primary")
+                #
                 customer.default_address = address
                 customer.Addresses.remove(int(address_id))
             if (
