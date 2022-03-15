@@ -4,7 +4,6 @@ from shop.types import ProductType, VariationType, BrandType
 from shop.models import Product, Variation
 import mongoengine as db
 from .types import AutoCompleteResultType, SearchResultsType
-from p
 
 
 class SearchQuery(graphene.ObjectType):
@@ -42,7 +41,7 @@ class SearchQuery(graphene.ObjectType):
         total_pages = total_results // limit
 
         if not user.is_superuser:
-            
+
             results = filter(lambda product: product["status"] == "active", results)
 
         return SearchResultsType(
