@@ -89,7 +89,7 @@ class Cart(AbstractCart):
         return self.cart
 
     def get_total_price(self):
-        # print(self.cart)
+        #
         return sum(
             int(item["price"]) * int(item["quantity"]) for item in self.cart.values()
         )
@@ -125,7 +125,6 @@ class Cart(AbstractCart):
 
             return
 
-        print("variation", variation)
         price = variation.price
 
         key = f"{product_id},{variation_id}"

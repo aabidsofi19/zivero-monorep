@@ -163,8 +163,7 @@ export default {
         variant.values.push(value);
         filters.push(variant);
       }
-      //console.log("cleanvariationfilter");
-      //console.log(filters);
+
       return filters;
     },
 
@@ -185,7 +184,7 @@ export default {
 
       set: function () {
         //this.toggleFilterDrawer();
-        ////console.log("set");
+        //
       },
     },
   },
@@ -194,7 +193,6 @@ export default {
     ...mapActions("products", ["updateFilters", "getProducts", "getFilters"]),
     ...mapMutations("products", ["updateQueryFilters"]),
     is_mobile() {
-      //console.log(screen.width);
       if (screen.width <= 700) {
         return true;
       } else {

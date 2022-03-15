@@ -56,7 +56,6 @@ export default {
         return this.address.id == this.selectedAddress.id;
       },
       set(value) {
-        //console.log("valle", value);
         if (value == true) {
           this.setSelectedAddress(this.address);
         } else {

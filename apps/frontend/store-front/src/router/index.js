@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-
+import { refreshtTokenFlow } from "../auth/index.js";
 import homePage from "@/components/homePage.vue";
 
 import cart from "../views/cart.vue";
@@ -151,10 +151,18 @@ const router = new Router({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // Check if the user is logged i
   // //console.log(JSON.stringify(store.getters))
-  const isUserLoggedIn = localStorage.getItem("Zivero_refresh_token");
+  let isUserLoggedIn = false;
+
+  try {
+    const token = await refreshtTokenFlow();
+    isUserLoggedIn = token ? true : false;
+  } catch {
+    isUserLoggedIn = false;
+  }
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isUserLoggedIn) {
       // store.dispatch('logOut')

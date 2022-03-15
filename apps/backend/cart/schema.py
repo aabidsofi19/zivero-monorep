@@ -38,17 +38,17 @@ class Query(graphene.ObjectType):
     # @login_required
     def resolve_cart(self, info, **kwargs):
         user = info.context.user
-        # print("session",info.context.session.id)
+        #
         if user.is_authenticated and user.is_customer:
             cart_ = PersistentCart.get_or_create(user.id)
-            # print("cart",cart_.to_json())
+            #
         else:
             cart_ = Cart(request=info.context)
 
         length = cart_.total_items()
         total_price = cart_.get_total_price()
         cart_products = cart_.products()
-        print("products", cart_products)
+
         return CartType(
             cartLength=length, totalPrice=total_price, products=cart_products
         )
@@ -77,9 +77,8 @@ class AddToCartMutation(graphene.Mutation):
     # @login_required
     def mutate(root, info, productdetails):
 
-        print("request", info.context.META)
         user = info.context.user
-        print("adding to cart", productdetails)
+
         pd = productdetails
         if user.is_authenticated and user.is_customer:
             cart = PersistentCart.get_or_create(user.id)
@@ -93,9 +92,9 @@ class AddToCartMutation(graphene.Mutation):
             variation_id=pd.variation_id,
         )
         cart.save()
-        # print(cart.products())
+        #
         cart = Query().resolve_cart(info)
-        print(cart)
+
         return AddToCartMutation(cart=cart)
         # CartType(cartLength=len(cart),totalPrice=cart.get_total_price()))
 
@@ -122,7 +121,7 @@ class UpdateCartMutation(graphene.Mutation):
         Input = UpdateCartInput()
 
     def mutate(root, info, Input):
-        print(Input)
+
         user = info.context.user
         if user.is_authenticated and user.is_customer:
             cart = PersistentCart.get_or_create(user.id)

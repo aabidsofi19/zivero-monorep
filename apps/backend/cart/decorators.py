@@ -2,31 +2,33 @@ from functools import wraps
 from .cart import Cart
 from .models import PersistentCart
 from graphql_jwt.shortcuts import get_user_by_token
+
+
 def migrate_cart_to_db(func):
     @wraps(func)
     def wrapper(cls, root, info, **kwargs):
-        # print(info.context.session.__dict__)
-        # print("user",info.context.user)
+        #
+        #
         session_cart = Cart(info.context)
         res = func(cls, root, info, **kwargs)
-        
-        if session_cart.total_items() <=0 :
+
+        if session_cart.total_items() <= 0:
             return res
 
         user = info.context.user
         if user.is_authenticated and user.is_customer:
             cart = PersistentCart.get_or_create(info.context.user.id)
             cart.add_from_session(session_cart)
-        return res 
+        return res
 
     return wrapper
-    
+
 
 def get_user(request):
-    
-    auth = request.META.get('HTTP_AUTHORIZATION')
-    if auth :
-        prefix,token = auth.split(" ")
+
+    auth = request.META.get("HTTP_AUTHORIZATION")
+    if auth:
+        prefix, token = auth.split(" ")
         if prefix == "JWT":
             user = get_user_by_token(token)
             return user
@@ -34,26 +36,24 @@ def get_user(request):
 
 
 def migrate_cart_to_session(func):
-    
     @wraps(func)
     def wrapper(cls, root, info, **kwargs):
-        print("in logfut ")
-        
+
         user = get_user(info.context)
-        print(user)
-        db_cart=None
+
+        db_cart = None
         if user.is_authenticated and user.is_customer:
             db_cart = PersistentCart.objects.get(user_id=user.id)
-        print(db_cart)
+
         res = func(cls, root, info, **kwargs)
 
-        if db_cart :
-            if db_cart.total_items() <=0 :
+        if db_cart:
+            if db_cart.total_items() <= 0:
                 return res
-            print("Migrating to session_cart")
+
             cart = Cart(info.context)
             cart.add_from_db(db_cart)
 
-        return res 
+        return res
 
     return wrapper

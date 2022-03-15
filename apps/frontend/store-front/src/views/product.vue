@@ -221,7 +221,6 @@ export default {
       "selectedVariation",
     ]),
     isDisabled() {
-      //console.log("vid", this.variationId);
       return this.variationId === null || this.addingToCart;
     },
     sanitizedDescription() {
@@ -284,7 +283,6 @@ export default {
       this.addingToCart = loading;
     },
     AddToWishlist() {
-      console.log("peoduction", this.product);
       if (this.wishlisted) {
         this.removeFromWishlist(this.product.id);
         this.wishlisted = false;

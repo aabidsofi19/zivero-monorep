@@ -54,7 +54,7 @@ def create_tsirt(colors_and_imgs,name):
     tshirt.save()
     
 # for i in range(100):
-#     #print(i)
+#     
 #     create_tsirt(colors_and_imgs={'red':red_img_url,'blue':blue_img_url},name=str(i))
 
 
@@ -72,10 +72,10 @@ def create_product(name, brand, category, colors_and_imgs, other_variants):
     for item in colors_and_imgs.items():
         color, img = item
         color = Variant.objects(name='color', value=color).first()
-        #print("color", color)
+        
         for variant, value in other_variants.items():
             variant = Variant.objects(name=variant, value=value).first()
-            #print("variant", variant)
+            
             variation = Variation(
                 variant=[color, variant],
                 images=[img],
@@ -107,7 +107,7 @@ create_tsirt(colors_and_imgs={'red':red_img_url,'blue':blue_img_url})
 """
 with open('imgs.json','r') as f:
     imgs=json.load(f)
-    #print('+++loaded {}imgs'.format(len(imgs)))
+    
 
 
 def create_variant():
@@ -130,13 +130,13 @@ def create_variation(img):
         v.images=[img]
         v.variant=Variant.objects(name=i)
         va.append(v)
-        #print('+++created a variation+++')
+        
     return va
 def create_product():
     names=['tshirt','round-neck','cott-tshirt']
     brands=['nike','puma','addidas','hrx']
     category=Category.objects(name='tshirt')
-    #print(category)
+    
     for img in imgs:
         p=Product()
         p.name=names[random.randint(0,2)]
@@ -146,7 +146,7 @@ def create_product():
         v=create_variation(img)
         p.Variations=v
         p.save()
-        #print('\n')
-        #print('created a product')
-       # #print(p.to_json())
+        
+        
+       # 
 """

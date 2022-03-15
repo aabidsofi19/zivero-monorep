@@ -45,7 +45,6 @@ export default {
     ...mapActions("filters", ["selectFilter"]),
 
     addCategoryFilter(category) {
-      //console.log("adding temp filter");
       let filter = {
         categories: [category.id],
       };

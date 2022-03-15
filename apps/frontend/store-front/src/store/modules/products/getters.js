@@ -5,7 +5,6 @@ export default {
   },
 
   productImages: () => (product) => {
-    //console.log("product", product);
     let productImages = new Set(product.images);
 
     for (let variation of product.variations) {
@@ -45,7 +44,6 @@ export default {
       let variant = variation.variant.map(clean);
 
       if (_.isEqual(variant, state.selected)) {
-        //console.log("yes");
         return variation;
       }
     }
@@ -62,7 +60,6 @@ export default {
       let variant = variation.variant.map(clean);
 
       if (_.isEqual(variant, state.selected)) {
-        //console.log("yes");
         return variation.Id;
       } else {
         // id= variation.Id
@@ -90,7 +87,7 @@ export default {
     for (var filter of variationFilters) {
       cleanedFilters[filter.filter] = filter.values;
     }
-    //console.log({ cleanedFilters });
+
     return cleanedFilters;
   },
 };

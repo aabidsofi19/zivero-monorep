@@ -31,7 +31,6 @@ export default {
   computed: {
     ...mapGetters("orders", ["totalOrderAmount"]),
     totalAmount() {
-      //console.log("order", this.order);
       return this.totalOrderAmount(this.order);
     },
     orderDate() {

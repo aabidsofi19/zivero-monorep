@@ -30,11 +30,11 @@ def create_checkout_session(request):
 
 def create_payment_intent(order_id):
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    print(stripe.api_key)
+
     order = Order.objects.get(id=order_id)
-    # print("order_id",order_id)
+    #
     total_price = int(order.total_amount * 100)
-    print("total_price in paisa", total_price)
+
     intent = stripe.PaymentIntent.create(
         amount=total_price,
         currency="inr",
@@ -43,5 +43,5 @@ def create_payment_intent(order_id):
     )
     order.payment_id = intent["id"]
     order.save()
-    # print("intent",intent)
+    #
     return intent

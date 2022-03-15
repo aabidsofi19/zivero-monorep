@@ -20,7 +20,6 @@ const mutations = {
 };
 const actions = {
   async addToCart({ commit }, details) {
-    //console.log(details);
     let { data, loading, errors } = await client.mutate({
       mutation: AddToCart,
       variables: {
@@ -29,7 +28,7 @@ const actions = {
         quantity: details.quantity,
       },
     });
-    //console.log(data, errors);
+
     let cart = data.AddToCart.cart;
 
     commit("addToCart", cart);
@@ -37,7 +36,6 @@ const actions = {
   },
 
   async updateCart({ commit }, details) {
-    //console.log(details);
     commit("app/SET_LOADING", true, { root: true });
     let result = await client.mutate({
       mutation: UPDATE_CART,
@@ -48,13 +46,12 @@ const actions = {
       },
     });
     commit("app/SET_LOADING", result.loading, { root: true });
-    //console.log(result);
+
     let cart = result.data.UpdateCart.cart;
     commit("updateCart", cart);
   },
 
   async fetchCart({ commit }) {
-    //console.log("fetching cart");
     let result = await client.query({
       query: getCart,
       fetchPolicy: "no-cache",

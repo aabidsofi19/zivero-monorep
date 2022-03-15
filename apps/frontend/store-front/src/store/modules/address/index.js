@@ -39,12 +39,11 @@ const mutations = {
 
 const actions = {
   async fetchAddresses({ commit }) {
-    //console.log("fetching");
     let { loading, data } = await client.query({
       query: fetchAddresses,
       fetchPolicy: "no-cache",
     });
-    //console.log("addresses", data);
+
     commit("setAddresses", data);
     return loading;
   },
@@ -79,8 +78,6 @@ const actions = {
     delete updateValues["id"];
     delete updateValues["__typename"];
 
-    //console.log("addressID", addressId);
-    //console.log("address", updateValues);
     let result = await client.mutate({
       mutation: UPDATE_ADDRESS,
       variables: { addressId: addressId, updateValues: { ...updateValues } },
@@ -93,14 +90,12 @@ const actions = {
   },
 
   async deleteAddress({ dispatch }, addressId) {
-    //console.log("id", addressId);
     let result = await client.mutate({
       mutation: DELETE_ADDRESS,
       variables: { addressId: addressId },
     });
-    //console.log("res", result);
+
     if (result.data.deleteAddress.success) {
-      //console.log("fetching");
       dispatch("fetchAddresses");
       // dispatch("fetchDefaultAddress")
     }

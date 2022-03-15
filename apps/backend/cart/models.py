@@ -27,15 +27,15 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
     items = ListField(EmbeddedDocumentField(CartItem))
 
     def remove_deleted_products(self):
-        print("deleting")
+        
 
     @classmethod
     def get_or_create(cls, user_id):
         try:
-            print("fetch cart")
+            
             cart = cls.objects.get(user_id=user_id)
 
-            print("cart", cart)
+            
         except DoesNotExist:
             cart = cls.objects.create(user_id=user_id)
         return cart
@@ -123,7 +123,7 @@ class PersistentCart(AbstractCart, Document, metaclass=FinalMeta):
     def add_from_session(self, session_cart):
         cart = session_cart.data()
         for key, value in cart.items():
-            # print(key,value)
+            # 
             product_id, variation_id = key.split(",")
             self.add(
                 product_id,

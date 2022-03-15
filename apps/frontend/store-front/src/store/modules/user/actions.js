@@ -21,7 +21,7 @@ export default {
         password: authDetails.password,
       },
     });
-    //console.log(JSON.stringify(result));
+
     let data = result.data.tokenAuth;
     let refreshToken = data.refreshToken;
 
@@ -81,9 +81,8 @@ export default {
   },
 
   async userdetails({ commit }) {
-    //console.log("fetching userdetails");
     let res = await client.query({ query: GET_CUSTOMER });
-    //console.log(res);
+
     commit("SET_USER", res.data.customer);
   },
 
@@ -113,7 +112,6 @@ export default {
       variables: { token: code },
     });
     let data = result.data.verifyAccount;
-    //console.log(data);
 
     if (data.success) {
       // commit('SET_VERIFIED',true)
@@ -135,7 +133,7 @@ export default {
       mutation: FORGOT_PASSWORD,
       variables: { email },
     });
-    //console.log("data", data);
+
     return data.sendPasswordResetEmail;
   },
 
@@ -144,7 +142,7 @@ export default {
       mutation: RESET_PASSWORD,
       variables: { token, newPassword1, newPassword2 },
     });
-    //console.log("reset", data);
+
     return data.passwordReset;
   },
 };

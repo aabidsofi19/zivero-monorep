@@ -11,11 +11,10 @@ import { fetchCategories } from "graphql-client/queries/filter";
 export default {
   async getProducts({ commit }, { filters, pageNb }) {
     let result;
-    //console.log("fetching products");
+
     if (pageNb === undefined) {
       pageNb = 1;
     }
-    //console.log({ filters }, pageNb);
 
     result = await client.query({
       query: GET_PRODUCTS_QUERY,
@@ -33,8 +32,7 @@ export default {
 
   async getMoreProducts({ state, commit }) {
     let result;
-    //console.log("adding more ", state.queryFilters);
-    //console.log("fetching more products");
+
     result = await client.query({
       query: GET_PRODUCTS_QUERY,
       variables: {
@@ -42,7 +40,7 @@ export default {
         page: state.products.pageNo + 1,
       },
     });
-    //console.log("fetched", result);
+
     if (result) {
       commit("addMoreProducts", result.data.Products);
     }
@@ -68,7 +66,6 @@ export default {
       fetchPolicy: "no-cache",
     });
 
-    //console.log(result.data);
     if (result.data) {
       commit("addFilters", result.data.filters);
     }
@@ -80,22 +77,20 @@ export default {
       fetchPolicy: "no-cache",
     });
 
-    //console.log("getcategories", result.data);
     if (result.data) {
       commit("addCategories", result.data.categories);
     }
   },
 
   async updateFilters({ commit }, data) {
-    //console.log("updating Filters", data);
     //need data to pass for variables in form data should contain gender , category or brand property
     let result = await client.mutate({
       mutation: UPDATE_FILTERS,
       variables: { ...data },
     });
-    //console.log("updatedFilters");
+
     commit("updateFilters", result.data.updateFilters.updatedFilters);
-    //console.log(result.data);
+
     ////console.log(result.data.updatedFilters)
   },
   async addTempFilter({ commit }, data) {

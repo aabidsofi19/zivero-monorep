@@ -17,6 +17,18 @@ import store from "@/store";
 import VueSanitize from "vue-sanitize";
 import CoolLightBox from "vue-cool-lightbox";
 import "vue-cool-lightbox/dist/vue-cool-lightbox.min.css";
+import VueLogger from "vuejs-logger";
+const isProduction = process.env.NODE_ENV === "production";
+
+const options = {
+  isEnabled: true,
+  logLevel: isProduction ? "error" : "debug",
+  stringifyArguments: false,
+  showLogLevel: true,
+  showMethodName: true,
+  separator: "|",
+  showConsoleColors: true,
+};
 
 const getBaseUrl = () => {
   return process.env.NODE_ENV === "development"
@@ -27,16 +39,16 @@ const getBaseUrl = () => {
 Vue.use(CoolLightBox);
 // //console.log("happy coding")
 
+Vue.use(VueLogger, options);
 Vue.use(VueApollo);
 Vue.use(VueSanitize);
 
 //auth middle ware
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
-  //console.log("auth middleware");
-  //console.log(store.state.user);
+
   var token = store.state.user.auth.token;
-  //console.log("JWT", token);
+
   operation.setContext({
     headers: {
       Authorization: token ? `JWT ${token}` : null,
@@ -53,16 +65,12 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 // })
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
-  //console.log("hey eror in request gql");
   if (graphQLErrors) {
-    //console.log("gql-errors", graphQLErrors);
     for (let err of graphQLErrors) {
-      //console.log(err.message, err.extensions);
       switch (err.message) {
         case "You do not have permission to perform this action":
         case "You are not registerd as customer":
         case "Signature has expired":
-          //console.log("refreshing ");
           return fromPromise(
             // TODO redirect to login on refresh error
             refreshTokenFlow()
@@ -75,7 +83,6 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 
               .catch(() => {
                 // Handle token refresh errors e.g clear stored tokens, redirect to login
-                //console.log("error while refresdhing", error);
 
                 localStorage.removeItem("Zivero_refresh_token");
                 router.push("/login");
@@ -94,7 +101,7 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
               });
 
               // retry the request, returning the new observable
-              //console.log("forwarding");
+
               return forward(operation);
             });
       }
@@ -106,9 +113,7 @@ const link = new HttpLink({
   uri: getBaseUrl(),
   fetch,
   credentials: "include",
-  onError(err) {
-    console.log(err);
-  },
+  onError(err) {},
 });
 
 export const client = new ApolloClient({

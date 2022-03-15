@@ -21,9 +21,7 @@ const actions = {
         fetchPolicy: "no-cache",
       });
       commit("setWishlist", data.wishlist);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   },
 
   async addToWishlist({ dispatch }, productId) {
@@ -33,9 +31,7 @@ const actions = {
         variables: { productId },
       });
       await dispatch("fetchWishlist");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   },
 
   async removeFromWishlist({ dispatch }, productId) {
@@ -45,9 +41,7 @@ const actions = {
         variables: { productId },
       });
       await dispatch("fetchWishlist");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   },
 };
 

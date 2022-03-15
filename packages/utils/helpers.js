@@ -1,5 +1,4 @@
 export const getBaseUrl = () => {
-  console.log("env is ", process.env.NODE_ENV);
   return process.env.NODE_ENV === "development"
     ? "http://localhost:8000/graphql/"
     : "https://zivero.herokuapp.com/graphql/";
@@ -38,7 +37,6 @@ export const parseJwt = (token) => {
 
     return JSON.parse(jsonPayload);
   } catch (e) {
-    console.log("parse jwt error", e);
     return null;
   }
 };

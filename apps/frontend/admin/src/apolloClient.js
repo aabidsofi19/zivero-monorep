@@ -18,12 +18,9 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 })
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
-  //console.log("hey eror in request gql");
   const { refreshToken, success } = useRefreshToken()
   if (graphQLErrors) {
-    //console.log("gql-errors", graphQLErrors);
     for (let err of graphQLErrors) {
-      //console.log(err.message, err.extensions);
       switch (err.message) {
         case 'You do not have permission to perform this action':
 

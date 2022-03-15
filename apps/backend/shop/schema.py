@@ -21,12 +21,12 @@ class Query(ObjectType):
 
     def resolve_product(self, info, id, **kwargs):
         product = Product.objects(id=id).first()
-        # print(product)
+        #
         return product
 
     def resolve_Products(self, info, filter, pageNb=1, **kwargs):
-        # print("fetching products")
-        # print("pagenb :- ",pageNb)
+        #
+        #
 
         if not info.context.user.is_superuser:
             filter.status = "active"
@@ -36,7 +36,7 @@ class Query(ObjectType):
         if filter:
             products_set = Product().filterby(filter)
             Products = products_set[offset : (offset + limit)]
-            # print(products_set.count())
+            #
         else:
             products_set = Product.objects()
             Products = products_set[offset : (offset + limit)]
@@ -51,7 +51,7 @@ class Query(ObjectType):
 
     def resolve_categories(self, info, **kwargs):
         categories = Category.objects.all()
-        # print(categories)
+        #
         return categories
 
     def resolve_variants(self, info, **kwargs):
@@ -251,7 +251,7 @@ class createProduct(graphene.Mutation):
     def mutate(root, info, pd):
 
         product = Product(**pd)
-        # print(pd)
+        #
 
         product.save()
 
@@ -294,7 +294,6 @@ class updateProduct(graphene.Mutation):
     def mutate(root, info, id, pd):
         product = Product.objects(id=id).first()
         clean_input = clean_product_update_input(pd)
-        print(clean_input)
 
         product.update(**clean_input)
         product.reload()

@@ -120,7 +120,7 @@ def create_variants(name, values):
         try:
             Variant(name=name, value=v).save()
         except Exception as e:
-            print("variant already exists", e)
+            
 
 
 def create_categories(categories: List[Category]):
@@ -130,7 +130,7 @@ def create_categories(categories: List[Category]):
                 name=c.name, image=c.image, genders=c.genders, brands=c.brands
             ).save()
         except Exception as e:
-            print("Category Already Exists", e)
+            
 
 
 def create(category, name, gender):
@@ -153,7 +153,7 @@ def create(category, name, gender):
                 )
                 variations.append(variation)
         brand = random.choice(brands)
-        print(brand)
+        
         tshirt = ProductData(
             name=name,
             gender=gender,
@@ -163,7 +163,7 @@ def create(category, name, gender):
             description="best in class",
         )
         create_product_with_all_variations(tshirt)
-        print("created")
+        
 
 
 colors = ["red", "blue", "pink", "tan", "brown"]
@@ -241,7 +241,7 @@ def create_product(category, name, gender, images, brand, discount, price):
             )
             variations.append(variation)
     brand = brand
-    print(brand)
+    
     tshirt = ProductData(
         name=name,
         gender=gender,
@@ -251,7 +251,7 @@ def create_product(category, name, gender, images, brand, discount, price):
         description="best in class",
     )
     create_product_with_all_variations(tshirt)
-    print("created")
+    
 
 
 for i in range(2000):

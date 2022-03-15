@@ -75,18 +75,16 @@ export default {
     this.productsLoading = true;
     let query = this.$route.query.filter;
     let filter = {};
-    //console.log(query);
+
     if (query != undefined) {
       filter = JSON.parse(query);
     }
 
-    //console.log(filter);
     this.setFilters(filter);
     await this.filterProducts(true);
     this.productsLoading = false;
   },
   destroyed() {
-    //console.log("destroyed");
     this.resetFilters();
     this.clearProductsPage();
   },
@@ -111,7 +109,6 @@ export default {
       return p;
     },
     isMobile() {
-      //console.log(screen.width);
       if (screen.width <= 700) {
         return true;
       } else {
@@ -131,7 +128,6 @@ export default {
     ...mapMutations("filters", ["resetFilters", "setFilters"]),
     handleObserver(entries, observer) {
       if (entries[0].isIntersecting) {
-        //console.log("loading more products", observer);
         this.loading = true;
         observer.unobserve(this.$refs.loader);
         this.getMoreProducts();

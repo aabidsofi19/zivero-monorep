@@ -27,7 +27,7 @@ export default {
   //   ...mapGetters("products", ["cleanedFilters", "variationFilters"]),
 
   //   is_mobile() {
-  //     //console.log(screen.width);
+  //
   //     if (screen.width <= 700) {
   //       return true;
   //     } else {
@@ -47,7 +47,7 @@ export default {
 
   //     set: function () {
   //       //this.toggleFilterDrawer();
-  //       ////console.log("set");
+  //       //
   //     },
   //   },
   // },

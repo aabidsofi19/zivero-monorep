@@ -14,7 +14,7 @@ class User(AbstractUser):
     # @property
     # def status(self):
     #     status = UserStatus.objects.get(user=self)
-    #     print(status)
+    #
     #     return status
 
 

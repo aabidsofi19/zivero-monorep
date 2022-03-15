@@ -80,7 +80,6 @@ export default {
   },
   async mounted() {
     //console.log("fetching cart data")
-    await refreshTokenFlow();
 
     this.loading = await this.$store.dispatch("cart/fetchCart");
   },
