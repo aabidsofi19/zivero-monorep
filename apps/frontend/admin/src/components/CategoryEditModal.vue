@@ -60,7 +60,7 @@ const saveCategory = () => {
 <template>
   <base-button-modal button-text="edit" title="edit categorry">
     <div class="py-3 space-y-3">
-      {{ input }}
+      {{ updatingCategoryError }}
       <category-form v-model="input"></category-form>
       <base-button @click="saveCategory" class="w-full" :loading="updatingCategory" :disabled="updatingCategory"
         >Save</base-button

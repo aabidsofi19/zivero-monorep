@@ -65,7 +65,6 @@ import checkoutProgress from "../components/checkout/checkoutProgress.vue";
 import cartEmpty from "../components/cart/cartEmpty.vue";
 import loading from "../components/cart/loading.vue";
 import paymentDetails from "../components/checkout/paymentDetails.vue";
-import { refreshTokenFlow } from "../auth";
 import { mapState } from "vuex";
 export default {
   name: "cart",

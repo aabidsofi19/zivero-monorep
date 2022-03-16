@@ -34,6 +34,7 @@ const Delete = () => {
 
 <template>
   <base-dialog v-model="modelValue" title="Delete category">
+    {{ error }}
     <p>Are you sure you want to delete category {{ category.name }}</p>
     <p>You cant undo this action</p>
 

@@ -26,9 +26,9 @@ const Delete = () => {
           cache.updateQuery({ query: getVariants }, data => ({
             variants: data.variants.filter(varaint_ => varaint_.id !== variant.id),
           }))
-        }
 
-        emit('update:modelValue', false)
+          emit('update:modelValue', false)
+        }
       },
     },
   )
@@ -37,6 +37,7 @@ const Delete = () => {
 
 <template>
   <base-dialog v-model="modelValue" title="Delete Variant">
+    {{ error }}
     <p>Are you sure you want to delete Variant {{ variant.name }} : {{ variant.value }}</p>
     <p>You cant undo this action</p>
 

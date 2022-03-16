@@ -91,11 +91,13 @@
         ></product-organization>
       </div>
     </div>
-
+    {{ deleteError }}
+    {{ updateError }}
     <div class="flex justify-between items-center border-t mt-3 py-4">
       <div class="flex gap-2">
         <v-button danger @click="deleteProduct" :loading="deleting"> Delete Product </v-button>
-        <v-button secondary @click="deleteProduct"> Archive </v-button>
+        <!--   <v-button secondary @click="deleteProduct"> Archive </v-button>
+        -->
       </div>
 
       <v-button @click="saveProduct" :loading="updating"> Save </v-button>

@@ -36,6 +36,7 @@ const save = () => {
 <template>
   <base-button @click="isOpen = true"> Create Brand </base-button>
   <base-dialog title="create brand" v-model="isOpen">
+    {{ creatingBrandError }}
     <brand-form v-model="input"></brand-form>
     <base-button @click="save" :loading="creatingBrand"> Save </base-button>
   </base-dialog>

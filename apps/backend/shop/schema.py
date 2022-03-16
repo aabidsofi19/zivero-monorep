@@ -21,13 +21,9 @@ class Query(ObjectType):
 
     def resolve_product(self, info, id, **kwargs):
         product = Product.objects(id=id).first()
-        #
         return product
 
     def resolve_Products(self, info, filter, pageNb=1, **kwargs):
-        #
-        #
-
         if not info.context.user.is_superuser:
             filter.status = "active"
 
@@ -36,7 +32,6 @@ class Query(ObjectType):
         if filter:
             products_set = Product().filterby(filter)
             Products = products_set[offset : (offset + limit)]
-            #
         else:
             products_set = Product.objects()
             Products = products_set[offset : (offset + limit)]
@@ -51,7 +46,6 @@ class Query(ObjectType):
 
     def resolve_categories(self, info, **kwargs):
         categories = Category.objects.all()
-        #
         return categories
 
     def resolve_variants(self, info, **kwargs):
@@ -82,7 +76,6 @@ class ProductInput(graphene.InputObjectType):
     variations = graphene.List(VariationInput)
     tags = graphene.List(graphene.String)
     images = graphene.List(graphene.String)
-    # available = graphene.Boolean()
     status = graphene.String()
     price = graphene.Int()
     quantity = graphene.Int()
@@ -251,8 +244,6 @@ class createProduct(graphene.Mutation):
     def mutate(root, info, pd):
 
         product = Product(**pd)
-        #
-
         product.save()
 
         return createProduct(product=product)
@@ -310,8 +301,10 @@ class deleteProduct(graphene.Mutation):
     def mutate(root, info, id):
 
         orders_for_product = OrderItem.objects.filter(product_id=id)
+
         if orders_for_product:
             raise Exception("Orders for this product exist")
+
         product = Product.objects(id=id).first()
         product.delete()
         return deleteProduct(product=product)

@@ -42,6 +42,7 @@ const save = () => {
 <template>
   <base-button @click="isOpen = true"> Add Variant </base-button>
   <base-dialog title="create variant" v-model="isOpen">
+    {{ error }}
     <variant-form v-model="input"></variant-form>
     <base-button @click="save" :loading="creatingVariant"> Save </base-button>
   </base-dialog>

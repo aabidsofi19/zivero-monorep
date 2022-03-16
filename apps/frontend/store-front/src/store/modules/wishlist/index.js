@@ -15,33 +15,32 @@ const state = () => ({
 
 const actions = {
   async fetchWishlist({ commit }) {
-    try {
-      const { data } = await client.query({
-        query: FetchWishlist,
-        fetchPolicy: "no-cache",
-      });
-      commit("setWishlist", data.wishlist);
-    } catch (error) {}
+    const { data, error, loading } = await client.query({
+      query: FetchWishlist,
+      fetchPolicy: "no-cache",
+    });
+    commit("setWishlist", data.wishlist);
+    return { data, error, loading };
   },
 
   async addToWishlist({ dispatch }, productId) {
-    try {
+    
       await client.mutate({
         mutation: AddToWishlist,
         variables: { productId },
       });
       await dispatch("fetchWishlist");
-    } catch (error) {}
+    
   },
 
   async removeFromWishlist({ dispatch }, productId) {
-    try {
+    
       await client.mutate({
         mutation: RemoveFromWishlist,
         variables: { productId },
       });
       await dispatch("fetchWishlist");
-    } catch (error) {}
+    
   },
 };
 

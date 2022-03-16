@@ -133,10 +133,10 @@ export default {
       this.setAddressToUpdate(address);
       this.updateDialog = true;
       let updateDialog = this.$refs.updateAddressDialog;
-      try {
-        window.u = updateDialog;
-        updateDialog.$refs.addressForm.address = address;
-      } catch (e) {}
+      const addressForm = updateDialog.$refs.addressForm;
+      if (addressForm) {
+        addressForm.address = address;
+      }
     },
 
     close(v) {

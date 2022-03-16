@@ -8,6 +8,7 @@
         <span class="px-3 font-bold"> Add A Product</span>
       </div>
     </div>
+    {{ creatingProductError }}
     <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       <div class="col-span-2 h-auto pb-20 space-y-5">
         <v-card outlined>
@@ -92,7 +93,7 @@
       </div>
     </div>
 
-    <v-button @click="saveProduct"> Save Product </v-button>
+    <v-button @click="saveProduct" :loading="creatingProduct"> Save Product </v-button>
   </div>
 </template>
 <script>
@@ -150,7 +151,7 @@ export default {
       return Options
     })
 
-    const { mutate: createProduct } = useMutation(CREATE_PRODUCT)
+    const { mutate: createProduct, loading: creatingProduct, error: productCreateError } = useMutation(CREATE_PRODUCT)
     const v$ = useVuelidate()
 
     return {
@@ -158,6 +159,8 @@ export default {
       productOrganisationOptions,
       variantOptions,
       createProduct,
+      creatingProduct,
+      productCreateError,
       v$,
     }
   },
