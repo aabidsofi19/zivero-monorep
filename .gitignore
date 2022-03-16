@@ -33,3 +33,9 @@ yarn-error.log*
 
 # turbo
 .turbo
+
+cache/*
+
+*.sqlite
+*.sqlite3
+
