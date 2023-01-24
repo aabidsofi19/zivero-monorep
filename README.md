@@ -2,6 +2,7 @@
 
 This is the official Mono repo for the Zivero Ecommerce Engine
 Zivero is an e-commerce project built using a monorepo structure, with a backend powered by Python, Django, and GraphQL API, and utilizing MongoDB and PostgreSQL as its databases. The frontend consists of a Vue3 app called "admin" and a Vue2 + Vuetify app called "store-front".
+
 ## What's inside?
 
 This mono repo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager.
@@ -9,12 +10,11 @@ and uses turborepo for monorepo mangement .
 
 It includes the following packages/apps:
 
-
 ### Prerequisites
 
 - Python 3.x
 - Node.js and yarn v18.3.0
-- MongoDB v6  and PostgreSQL
+- MongoDB v6 and PostgreSQL
 
 ### Apps and Packages
 
@@ -24,21 +24,18 @@ It includes the following packages/apps:
 - `graphql-client`: graphql sdl and documents to interact with the backend
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 
-
 ### Installation
 
 - Clone the repository: `git clone https://github.com/aabidsofi19/zivero.git`
 - Install the Python dependencies: `poetry install `
-- Install the Node.js dependencies: `yarn install` from the workspace root 
+- Install the Node.js dependencies: `yarn install` from the workspace root
 - Create a `.env` file in the root directory and set the necessary environment variables for your database and other configurations.
 - Run the migrations: `poetry run python manage.py migrate`
 
-
-### Development Server 
+### Development Server
 
 - Start the mongodb server with `mongod`
-- Start the development servers: `yarn dev` 
-
+- Start the development servers: `yarn dev`
 
 ### Utilities
 
@@ -51,3 +48,9 @@ This turborepo has some additional tools already setup for you:
 - [black](https://pypi.org/project/black/) for python codel formating
 - [mypy](http://mypy-lang.org/) fro static type checking
 
+### User Ids
+
+| Username  | Password        | Email             |
+| --------- | --------------- | ----------------- |
+| customer  | bestusername!!1 | customer@mail.com |
+| superuser | test123         | super@gmail.com   |
