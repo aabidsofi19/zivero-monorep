@@ -54,3 +54,7 @@ This turborepo has some additional tools already setup for you:
 | --------- | --------------- | ----------------- |
 | customer  | bestusername!!1 | customer@mail.com |
 | superuser | test123         | super@gmail.com   |
+
+## License
+
+This project is licensed under the GPL License - see the LICENSE file for details.
