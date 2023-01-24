@@ -5,16 +5,6 @@ from pathlib import Path
 from mongoengine import connect
 import dj_database_url
 
-# connect('zivero',host='mongodb://localhost:27017')
-# connect('products',host='mongodb://25.19.8.34:27017')
-
-
-connect(
-    "zivero",
-    host="mongodb+srv://test-user:M7AbnQx3MQLZErZ@cluster0.n9vpu.mongodb.net/zivero?retryWrites=true&w=majority",
-)
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
@@ -34,6 +24,12 @@ def get_default_db_config():
     return dj_database_url.config(default=f"sqlite:////{BASE_DIR}/database.sqlite")
 
 
+connect(
+    "zivero",
+    host=env("MONGODB_URL"),
+)
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
@@ -41,29 +37,6 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zivero.herokuapp.com"]
-
-
-# sentry
-
-# import sentry_sdk
-# from sentry_sdk.integrations.django import DjangoIntegration
-# from sentry_sdk.integrations.redis import RedisIntegration
-# sentry_sdk.init(
-# dsn="https://411eefffeb484b99a8a7b37e028bb030@o497769.ingest.sentry.io/5578850",
-# integrations=[DjangoIntegration(),
-# RedisIntegration()
-# ],
-
-# # Set traces_sample_rate to 1.0 to capture 100%
-# # of transactions for performance monitoring.
-# # We recommend adjusting this value in production,
-# traces_sample_rate=1.0,
-
-# # If you wish to associate users to errors (assuming you are using
-# # django.contrib.auth) you may enable sending PII data.
-# send_default_pii=True
-# )
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -84,30 +57,10 @@ INSTALLED_APPS = [
     "search.apps.SearchConfig",
     "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
     "checkout.apps.CheckoutConfig",
-    # "social",
-    # "social_django",
 ]
 
 MONGOADMIN_OVERRIDE_ADMIN = True
-"""
-SESSION_ENGINE = 'redis_sessions.session'
-SESSION_REDIS = {
-    'host': 'redis-19920.c14.us-east-1-2.ec2.cloud.redislabs.com',
-    'port': '19920',
-    'db': 0,
-    'password': 'laIQX28R9zsfFpLpPjIPdOtJdFtD393D',
-    'prefix': 'session',
-    'socket_timeout': 1,
-    'retry_on_timeout': False
-}
-"""
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-#         "LOCATION": "../cache",
-#     }
-# }
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
@@ -219,34 +172,11 @@ GRAPHENE = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    # remove this
-    # add thisi
-    #  'social.backends.facebook.FacebookOAuth2',
-    # 'social.backends.google.GoogleOAuth2',
-    # 'social.backends.twitter.TwitterOAuth',
-    # "social_core.backends.linkedin.LinkedinOAuth2",
-    # "social_core.backends.instagram.InstagramOAuth2",
-    # "social_core.backends.facebook.FacebookOAuth2",
     "django.contrib.auth.backends.ModelBackend",
     "graphql_jwt.backends.JSONWebTokenBackend",
     "graphql_auth.backends.GraphQLAuthBackend",
 ]
 
-# social_auth
-SOCIAL_AUTH_FACEBOOK_KEY = env("SOCIAL_AUTH_FACEBOOK_KEY")  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = env("SOCIAL_AUTH_FACEBOOK_SECRET")  # App Secret
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ["email", "user_link"]  # add this
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {  # add this
-    "fields": "id, name, email, picture.type(large), link"
-}
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [  # add this
-    ("name", "name"),
-    ("email", "email"),
-    ("picture", "picture"),
-    ("link", "profile_url"),
-]
-# REGISTER_MUTATION_FIELDS_OPTIONAL = ['is_customer','customer']
 
 GRAPHQL_AUTH = {
     # ...

@@ -1,5 +1,6 @@
 <template>
   <div id="carousal">
+    
     <v-carousel
       v-model="model"
       :continuous="false"
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+
 export default {
   name: "welcome",
   components: {},

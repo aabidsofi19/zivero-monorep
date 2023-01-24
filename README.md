@@ -1,13 +1,20 @@
 # Zivero
 
 This is the official Mono repo for the Zivero Ecommerce Engine
-
+Zivero is an e-commerce project built using a monorepo structure, with a backend powered by Python, Django, and GraphQL API, and utilizing MongoDB and PostgreSQL as its databases. The frontend consists of a Vue3 app called "admin" and a Vue2 + Vuetify app called "store-front".
 ## What's inside?
 
 This mono repo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager.
 and uses turborepo for monorepo mangement .
 
 It includes the following packages/apps:
+
+
+### Prerequisites
+
+- Python 3.x
+- Node.js and yarn v18.3.0
+- MongoDB v6  and PostgreSQL
 
 ### Apps and Packages
 
@@ -16,6 +23,22 @@ It includes the following packages/apps:
 - `admin` : a Vue3 and vite app
 - `graphql-client`: graphql sdl and documents to interact with the backend
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+
+
+### Installation
+
+- Clone the repository: `git clone https://github.com/aabidsofi19/zivero.git`
+- Install the Python dependencies: `poetry install `
+- Install the Node.js dependencies: `yarn install` from the workspace root 
+- Create a `.env` file in the root directory and set the necessary environment variables for your database and other configurations.
+- Run the migrations: `poetry run python manage.py migrate`
+
+
+### Development Server 
+
+- Start the mongodb server with `mongod`
+- Start the development servers: `yarn dev` 
+
 
 ### Utilities
 
@@ -28,54 +51,3 @@ This turborepo has some additional tools already setup for you:
 - [black](https://pypi.org/project/black/) for python codel formating
 - [mypy](http://mypy-lang.org/) fro static type checking
 
-## Setup
-
-This repository is used in the `npx create-turbo` command, and selected when choosing which package manager you wish to use with your monorepo (Yarn).
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-yarn run dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching (Beta) you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Pipelines](https://turborepo.org/docs/features/pipelines)
-- [Caching](https://turborepo.org/docs/features/caching)
-- [Remote Caching (Beta)](https://turborepo.org/docs/features/remote-caching)
-- [Scoped Tasks](https://turborepo.org/docs/features/scopes)
-- [Configuration Options](https://turborepo.org/docs/reference/configuration)
-- [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)

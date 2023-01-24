@@ -1,12 +1,15 @@
-#from quotes_unsplash import get_img_url
+# from quotes_unsplash import get_img_url
 from shop.models import *
 import random
-import json 
+import json
 from mongoengine import *
-import  
+
 # connect('products',host='mongodb://localhost:27017')
 # connect('products',host='mongodb://25.19.8.34:27017')
-connect('zivero', host='mongodb+srv://test-user:M7AbnQx3MQLZErZ@cluster0.n9vpu.mongodb.net/zivero?retryWrites=true&w=majority')
+connect(
+    "zivero",
+    host="mongodb+srv://test-user:M7AbnQx3MQLZErZ@cluster0.n9vpu.mongodb.net/zivero?retryWrites=true&w=majority",
+)
 
 blue_img_url = "https://cdn.shopify.com/s/files/1/0161/0482/products/ayegear_tshirt_5_pockets_multipocket_travel_scottevest_navy_2048x.jpg?v=1538484272"
 
@@ -16,7 +19,11 @@ red_img_url = "https://cdn.shopify.com/s/files/1/0161/0482/products/ayegear_tshi
 # sizes = ['xs', 's', 'm', 'l', 'xl']
 
 # boys_categorry=Category(name='tshirt',gender='BOYS').save()
-boys_categorry = Category(name='kurtas',gender='GIRLS',image="https://cdn.shopify.com/s/files/1/0266/6276/4597/products/100001_300875000_025_2_1024x1024.jpg?v=1637961683").save()
+boys_categorry = Category(
+    name="kurtas",
+    gender="GIRLS",
+    image="https://cdn.shopify.com/s/files/1/0266/6276/4597/products/100001_300875000_025_2_1024x1024.jpg?v=1637961683",
+).save()
 # # create two  variants viz  color : red color: blue and sizes l , xl , m
 
 # for color in colors:
@@ -28,33 +35,35 @@ boys_categorry = Category(name='kurtas',gender='GIRLS',image="https://cdn.shopif
 
 # create  tshirts on bases of  color and all sizes
 
-def create_tsirt(colors_and_imgs,name):
+
+def create_tsirt(colors_and_imgs, name):
     # colors_and_imgs :- a dict mapping color to its img { "red" : "//dummy url" , "blue" : '//dummy url}
     tshirt = Product(
-        name='kurta'+name,
-        brand='nike',
-        description='pure cotton stylish tshirt for summer',
+        name="kurta" + name,
+        brand="nike",
+        description="pure cotton stylish tshirt for summer",
         category=boys_categorry,
     )
     tshirt_variations = []
     for item in colors_and_imgs.items():
         color, img = item
-        color = Variant.objects(name='color', value=color).first()
-        for size in Variant.objects(name='size'):
+        color = Variant.objects(name="color", value=color).first()
+        for size in Variant.objects(name="size"):
             variation = Variation(
                 variant=[color, size],
                 images=[img],
                 available=True,
                 quantity=100,
                 price=280,
-                discount_percent=10
+                discount_percent=10,
             )
             tshirt_variations.append(variation)
     tshirt.variations = tshirt_variations
     tshirt.save()
-    
+
+
 # for i in range(100):
-#     
+#
 #     create_tsirt(colors_and_imgs={'red':red_img_url,'blue':blue_img_url},name=str(i))
 
 
@@ -65,24 +74,24 @@ def create_product(name, brand, category, colors_and_imgs, other_variants):
     product = Product(
         name=name,
         brand=brand,
-        description='pure cotton stylish tshirt for summer',
+        description="pure cotton stylish tshirt for summer",
         category=category,
     )
     product_variations = []
     for item in colors_and_imgs.items():
         color, img = item
-        color = Variant.objects(name='color', value=color).first()
-        
+        color = Variant.objects(name="color", value=color).first()
+
         for variant, value in other_variants.items():
             variant = Variant.objects(name=variant, value=value).first()
-            
+
             variation = Variation(
                 variant=[color, variant],
                 images=[img],
                 available=True,
                 quantity=100,
                 price=200,
-                discount_percent=10
+                discount_percent=10,
             )
             product_variations.append(variation)
 
@@ -101,8 +110,7 @@ def create_product(name, brand, category, colors_and_imgs, other_variants):
     return product
 
 
-
-create_tsirt(colors_and_imgs={'red':red_img_url,'blue':blue_img_url})
+create_tsirt(colors_and_imgs={"red": red_img_url, "blue": blue_img_url})
 
 """
 with open('imgs.json','r') as f:
