@@ -36,7 +36,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "zivero.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1",  "zivero.onrender.com"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -65,8 +65,8 @@ MONGOADMIN_OVERRIDE_ADMIN = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
-    "https://zivero-admin.netlify.app",
-    "https://zivero-store.netlify.app",
+    "https://zivero-admin.onrender.com",
+    "https://ziver-store.onrender.com",
 ]
 
 if env("ENV") == "development":
