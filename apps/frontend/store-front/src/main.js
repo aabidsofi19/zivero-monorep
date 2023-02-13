@@ -33,7 +33,7 @@ const options = {
 const getBaseUrl = () => {
   return process.env.NODE_ENV === "development"
     ? "http://localhost:8000/graphql/"
-    : "https://zivero.herokuapp.com/graphql/";
+    : "https://zivero.onrender.com/graphql/";
 };
 
 Vue.use(CoolLightBox);
@@ -80,14 +80,13 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
                   router.push("/login");
                 }
               })
-
               .catch(() => {
                 // Handle token refresh errors e.g clear stored tokens, redirect to login
 
                 localStorage.removeItem("Zivero_refresh_token");
                 router.push("/login");
                 return;
-              })
+              }),
           )
             .filter((value) => Boolean(value))
             .flatMap((accessToken) => {
